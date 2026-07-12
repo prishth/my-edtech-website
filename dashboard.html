@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard — Prishth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+  :root {
+    --navy: #1B3A5C; --steel: #2E6DA4; --light-bg: #F4F7FB;
+    --border: #DDE6F0; --text-primary: #1B2D42; --text-secondary: #4A607A;
+    --text-muted: #7A96B0; --white: #FFFFFF; --flag: #E8F0F8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--light-bg); color: var(--text-primary); min-height: 100vh; }
+  nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 8px rgba(27,58,92,0.06); position: sticky; top: 0; z-index: 100; }
+  .nav-logo { text-decoration: none; font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+  .nav-right { display: flex; align-items: center; gap: 14px; }
+  .user-name { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+  .btn-logout { font-size: 13px; color: var(--steel); background: none; border: 1.5px solid var(--border); padding: 7px 16px; border-radius: 6px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+  .btn-logout:hover { background: var(--light-bg); border-color: var(--steel); }
+  .dashboard { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  .welcome-banner { background: linear-gradient(135deg, var(--navy) 0%, var(--steel) 100%); border-radius: 14px; padding: 32px 36px; margin-bottom: 32px; color: var(--white); }
+  .welcome-banner h1 { font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .welcome-banner p { font-size: 14px; color: rgba(255,255,255,0.75); }
+  .section-title { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 16px; }
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .dash-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 24px 20px; text-align: center; cursor: pointer; transition: box-shadow 0.2s, transform 0.2s; text-decoration: none; display: block; }
+  .dash-card:hover { box-shadow: 0 6px 20px rgba(27,58,92,0.10); transform: translateY(-3px); }
+  .dash-card-icon { font-size: 28px; margin-bottom: 12px; }
+  .dash-card h3 { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .dash-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  .coming-soon { display: inline-block; font-size: 10px; background: var(--flag); color: var(--steel); padding: 2px 8px; border-radius: 50px; margin-top: 8px; font-weight: 500; }
+  @media (max-width: 600px) { nav { padding: 0 16px; } .dashboard { padding: 24px 16px; } .welcome-banner { padding: 24px 20px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Prishth</a>
+  <div class="nav-right">
+    <span class="user-name" id="userName">Loading...</span>
+    <button class="btn-logout" onclick="handleLogout()">Log Out</button>
+  </div>
+</nav>
+
+<div class="dashboard">
+  <div class="welcome-banner">
+    <h1>Welcome back, <span id="welcomeName">Student</span>! &#128075;</h1>
+    <p>Your exam preparation journey continues here. Pick up where you left off.</p>
+  </div>
+
+  <div class="section-title">What would you like to do today?</div>
+  <div class="cards-grid">
+    <a href="#" class="dash-card">
+      <div class="dash-card-icon">&#128196;</div>
+      <h3>Download PYQs</h3>
+      <p>Previous year questions for CAT, XAT, CLAT and more</p>
+      <span class="coming-soon">Coming soon</span>
+    </a>
+    <a href="#" class="dash-card">
+      <div class="dash-card-icon">&#128221;</div>
+      <h3>Take a Mock Test</h3>
+      <p>Full-length timed tests with auto-scoring</p>
+      <span class="coming-soon">Coming soon</span>
+    </a>
+    <a href="#" class="dash-card">
+      <div class="dash-card-icon">&#128202;</div>
+      <h3>My Results</h3>
+      <p>View your test scores and performance analysis</p>
+      <span class="coming-soon">Coming soon</span>
+    </a>
+    <a href="#" class="dash-card">
+      <div class="dash-card-icon">&#128240;</div>
+      <h3>Read Blogs</h3>
+      <p>Strategy guides, tips and exam notifications</p>
+      <span class="coming-soon">Coming soon</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const db = window.supabase.createClient('https://aqrxmcmmdazyslznilbl.supabase.co', 'sb_publishable_wRKj-veZ1_Ro-HSH8kXCFg_ifvjUD8L');
+
+async function loadUser() {
+  const { data: { session } } = await db.auth.getSession();
+  if (!session) {
+    window.location.href = 'login.html';
+    return;
+  }
+  const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+  document.getElementById('userName').textContent = name;
+  document.getElementById('welcomeName').textContent = name.split(' ')[0];
+}
+
+async function handleLogout() {
+  await db.auth.signOut();
+  window.location.href = 'index.html';
+}
+
+loadUser();
+</script>
+</body>
+</html>
