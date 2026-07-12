@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sign Up — Prishth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+
+  :root {
+    --navy: #1B3A5C;
+    --steel: #2E6DA4;
+    --light-bg: #F4F7FB;
+    --border: #DDE6F0;
+    --text-primary: #1B2D42;
+    --text-secondary: #4A607A;
+    --text-muted: #7A96B0;
+    --white: #FFFFFF;
+    --flag: #E8F0F8;
+    --error: #DC2626;
+    --success: #16A34A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--light-bg); color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column; }
+  .page-nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 8px rgba(27,58,92,0.06); }
+  .nav-logo { text-decoration: none; display: flex; align-items: center; }
+  .nav-logo img { height: 40px; width: auto; }
+  .nav-back { font-size: 13px; color: var(--steel); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+  .nav-back:hover { text-decoration: underline; }
+  .auth-wrapper { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+  .auth-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 4px 24px rgba(27,58,92,0.08); }
+  .auth-card h1 { font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .auth-card p.subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 28px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
+  .form-group input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text-primary); background: var(--white); outline: none; transition: border-color 0.2s; }
+  .form-group input:focus { border-color: var(--steel); }
+  .btn-primary { width: 100%; background: var(--steel); color: var(--white); font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600; padding: 13px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.2s; margin-top: 4px; }
+  .btn-primary:hover { background: var(--navy); }
+  .btn-primary:disabled { background: var(--text-muted); cursor: not-allowed; }
+  .auth-footer { text-align: center; margin-top: 22px; font-size: 13px; color: var(--text-secondary); }
+  .auth-footer a { color: var(--steel); text-decoration: none; font-weight: 500; }
+  .auth-footer a:hover { text-decoration: underline; }
+  .alert { padding: 12px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 18px; display: none; }
+  .alert.error { background: #FEF2F2; border: 1px solid #FECACA; color: var(--error); }
+  .alert.success { background: #F0FDF4; border: 1px solid #BBF7D0; color: var(--success); }
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+  .divider span { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+</style>
+</head>
+<body>
+<nav class="page-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-logo.png" alt="Prishth" onerror="this.style.display='none'; this.nextSibling.style.display='block'"/>
+    <span style="display:none; font-family:'Sora',sans-serif; font-size:20px; font-weight:700; color:#1B3A5C;">Prishth</span>
+  </a>
+  <a href="index.html" class="nav-back">&#8592; Back to home</a>
+</nav>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <h1>Create your account</h1>
+    <p class="subtitle">Free forever. Access PYQs, mock tests, and analysis.</p>
+
+    <div class="alert error" id="errorMsg"></div>
+    <div class="alert success" id="successMsg"></div>
+
+    <div class="form-group">
+      <label for="fullname">Full name</label>
+      <input type="text" id="fullname" placeholder="Your full name" autocomplete="name"/>
+    </div>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Min. 6 characters" autocomplete="new-password"/>
+    </div>
+
+    <button class="btn-primary" id="signupBtn" onclick="handleSignup()">Create Free Account</button>
+
+    <div class="divider"><span>or</span></div>
+    <div class="auth-footer">
+      Already have an account? <a href="login.html">Log in</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const db = window.supabase.createClient('https://aqrxmcmmdazyslznilbl.supabase.co', 'sb_publishable_wRKj-veZ1_Ro-HSH8kXCFg_ifvjUD8L');
+
+async function handleSignup() {
+  const fullname = document.getElementById('fullname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const btn = document.getElementById('signupBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const successMsg = document.getElementById('successMsg');
+
+  errorMsg.style.display = 'none';
+  successMsg.style.display = 'none';
+
+  if (!fullname || !email || !password) {
+    errorMsg.textContent = 'Please fill in all fields.';
+    errorMsg.style.display = 'block';
+    return;
+  }
+  if (password.length < 6) {
+    errorMsg.textContent = 'Password must be at least 6 characters.';
+    errorMsg.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Creating account...';
+
+  const { data, error } = await db.auth.signUp({
+    email,
+    password,
+    options: { data: { full_name: fullname } }
+  });
+
+  if (error) {
+    errorMsg.textContent = error.message;
+    errorMsg.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Create Free Account';
+    return;
+  }
+
+  successMsg.textContent = 'Account created! Please check your email to verify your account, then log in.';
+  successMsg.style.display = 'block';
+  btn.textContent = 'Account Created!';
+
+  setTimeout(() => { window.location.href = 'login.html'; }, 3000);
+}
+
+document.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSignup(); });
+</script>
+</body>
+</html>
