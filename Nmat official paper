@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NMAT Official Sample Papers — Free PDF Download, Year Wise (No Sign-Up) | Prishth</title>
+<meta name="description" content="Download official NMAT by GMAC sample papers in PDF format, year wise. Free, no sign-up needed. Practise with papers that mirror the real adaptive NMAT exam format and section timings.">
+<meta name="keywords" content="NMAT official paper, NMAT sample paper PDF, NMAT practice paper, NMAT by GMAC practice exam, NMAT question paper download, NMAT mock test, NMAT adaptive test, NMIMS, Prishth">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Prishth Technosoft Pvt Ltd">
+<link rel="canonical" href="https://prishth.in/nmat-official-paper.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Prishth">
+<meta property="og:title" content="NMAT Official Sample Papers — Free PDF Download, Year Wise (No Sign-Up) | Prishth">
+<meta property="og:description" content="Download official NMAT by GMAC sample papers in PDF format, year wise. Free, no sign-up needed. Practise with papers that mirror the real adaptive NMAT exam format and section timings.">
+<meta property="og:url" content="https://prishth.in/nmat-official-paper.html">
+<meta property="og:image" content="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B3A5C; --steel:#2E6DA4; --bg:#F4F7FB; --border:#DDE6F0;
+  --white:#FFFFFF; --gold:#E5A52A; --ink:#16283C; --muted:#5C6F84;
+  --navy-soft:rgba(27,58,92,.06); --shadow:0 1px 3px rgba(27,58,92,.08);
+  --shadow-lg:0 8px 28px rgba(27,58,92,.10);
+  --radius:12px; --maxw:1180px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--ink);background:var(--white);line-height:1.68;font-size:16.5px;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.f-display{font-family:'Sora',system-ui,sans-serif;letter-spacing:-.02em;line-height:1.25}
+a{color:var(--steel);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+/* ---------- header ---------- */
+.site-header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border)}
+.hdr{display:flex;align-items:center;gap:18px;height:66px}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;
+  font-weight:700;color:var(--navy);font-size:19px}
+.brand:hover{text-decoration:none}
+.brand img{height:30px;width:auto}
+.nav{display:flex;gap:22px;margin-left:14px;flex:1}
+.nav a{color:var(--navy);font-weight:500;font-size:15px}
+.auth{display:flex;gap:10px;align-items:center}
+.btn{display:inline-block;font-weight:600;font-size:14.5px;padding:9px 18px;
+  border-radius:8px;border:1px solid transparent;transition:.15s;cursor:pointer;
+  font-family:'DM Sans',sans-serif}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-ghost{color:var(--navy);border-color:var(--border);background:var(--white)}
+.btn-solid{background:var(--navy);color:#fff}
+.btn-solid:hover{background:#14304d}
+.btn-gold{background:var(--gold);color:#3d2b06}
+.nav-toggle{display:none;background:none;border:1px solid var(--border);
+  border-radius:8px;padding:7px 11px;font-size:17px;color:var(--navy)}
+
+/* ---------- breadcrumb ---------- */
+.crumb{background:var(--bg);border-bottom:1px solid var(--border);
+  font-size:13.5px;color:var(--muted);padding:11px 0}
+.crumb a{color:var(--muted)}
+.crumb span{color:var(--navy);font-weight:600}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,#24507c 55%,var(--steel) 100%);
+  color:#fff;padding:46px 0 40px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:340px;height:340px;
+  border-radius:50%;background:rgba(255,255,255,.05)}
+.eyebrow{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  color:#fff;font-size:12.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+  padding:5px 13px;border-radius:999px;margin-bottom:16px}
+.hero h1{font-size:clamp(26px,4.4vw,42px);font-weight:700;margin-bottom:14px;max-width:20ch}
+.hero .lead{font-size:17px;color:#DCE7F3;max-width:62ch}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px;position:relative;z-index:2}
+.stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--radius);padding:15px 16px}
+.stat b{display:block;font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#fff}
+.stat span{font-size:12.5px;color:#C6D8EA;letter-spacing:.02em}
+
+/* ---------- layout ---------- */
+.shell{display:grid;grid-template-columns:minmax(0,1fr) 314px;gap:38px;
+  padding:38px 0 56px;align-items:start}
+.sec{margin-bottom:34px;scroll-margin-top:80px}
+.sec > h2{font-size:23px;color:var(--navy);font-weight:700;margin-bottom:8px;
+  padding-bottom:9px;border-bottom:2px solid var(--border);display:flex;
+  align-items:center;gap:9px;flex-wrap:wrap}
+.sec > h2 .ic{font-size:19px;line-height:1}
+.sec h3{font-size:18px;color:var(--navy);margin:22px 0 8px;font-weight:600}
+.sec p{margin:11px 0;color:#2B3E52}
+.sec ul,.sec ol{margin:11px 0 11px 22px}
+.sec li{margin:6px 0;color:#2B3E52}
+.sec strong{color:var(--navy);font-weight:600}
+.lede{font-size:17.5px;color:#243B52}
+.muted-note{font-size:14px;color:var(--muted);font-style:italic;margin-top:10px}
+
+/* ---------- tables ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);
+  margin:16px 0;box-shadow:var(--shadow);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:520px;background:#fff}
+thead th{background:var(--navy);color:#fff;text-align:left;font-family:'Sora',sans-serif;
+  font-weight:600;font-size:14px;padding:12px 14px;letter-spacing:.01em;
+  border-right:1px solid rgba(255,255,255,.13)}
+thead th:last-child{border-right:0}
+tbody td{padding:11px 14px;border-top:1px solid var(--border);
+  border-right:1px solid var(--border);vertical-align:top;color:#2B3E52}
+tbody td:last-child{border-right:0}
+tbody tr:nth-child(even){background:#FAFCFE}
+tbody tr:hover{background:#F1F6FC}
+tbody td:first-child{font-weight:600;color:var(--navy)}
+table.plain tbody td:first-child{font-weight:500;color:#2B3E52}
+.scroll-hint{display:none;font-size:12.5px;color:var(--muted);margin:-8px 0 14px}
+
+/* ---------- callouts ---------- */
+.callout{border:1px solid var(--border);border-left:4px solid var(--steel);
+  background:var(--bg);border-radius:10px;padding:16px 18px;margin:18px 0}
+.callout.gold{border-left-color:var(--gold);background:#FFFBF2;border-color:#F2E3C2}
+.callout h3{margin-top:0;font-size:16.5px}
+.callout p:first-child{margin-top:0}
+.callout p:last-child{margin-bottom:0}
+.worked{background:var(--navy);color:#EAF2FA;border-radius:var(--radius);
+  padding:20px 22px;margin:20px 0;border:0}
+.worked h3{color:#fff;margin:0 0 10px;font-size:17px}
+.worked p{color:#CFE0F0;margin:8px 0}
+.worked .calc{font-family:'Sora',sans-serif;font-size:17px;color:var(--gold);
+  font-weight:600;display:block;margin:12px 0;letter-spacing:.01em}
+.worked strong{color:#fff}
+
+/* ---------- pyq banner ---------- */
+.pyq{display:flex;align-items:center;justify-content:space-between;gap:18px;
+  background:linear-gradient(100deg,#EAF2FB,#F7FAFE);border:1px solid var(--border);
+  border-left:4px solid var(--gold);border-radius:var(--radius);padding:18px 20px;margin:22px 0}
+.pyq p{margin:0;font-weight:600;color:var(--navy);font-size:15.5px}
+.pyq small{display:block;font-weight:400;color:var(--muted);font-size:13.5px;margin-top:3px}
+
+/* ---------- figure ---------- */
+figure{margin:22px 0;border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+figure img{width:100%}
+figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(--bg);
+  border-top:1px solid var(--border)}
+.banner-strip{margin:24px 0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+
+/* ---------- download rows ---------- */
+.dl-btn{display:inline-flex;align-items:center;gap:6px;background:var(--steel);color:#fff;
+  font-weight:600;font-size:13.5px;padding:7px 14px;border-radius:7px;white-space:nowrap}
+.dl-btn:hover{background:var(--navy);text-decoration:none;color:#fff}
+.dl-soon{display:inline-block;background:#EEF3F9;color:var(--muted);font-weight:600;
+  font-size:13px;padding:7px 13px;border-radius:7px;border:1px dashed var(--border)}
+
+/* ---------- pill grid ---------- */
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.pills span{background:var(--bg);border:1px solid var(--border);border-radius:999px;
+  padding:6px 13px;font-size:13.5px;color:#2B3E52}
+
+/* ---------- eligibility list ---------- */
+.elig{list-style:none;margin:14px 0 0;padding:0}
+.elig li{background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  padding:13px 16px;margin-bottom:9px;color:#2B3E52}
+.elig li b{display:block;color:var(--navy);font-family:'Sora',sans-serif;
+  font-size:14.5px;margin-bottom:2px}
+
+/* ---------- steps ---------- */
+.steps{list-style:none;counter-reset:s;margin:16px 0 0;padding:0}
+.steps li{counter-increment:s;position:relative;padding:0 0 14px 44px;margin:0}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;
+  width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;
+  font-family:'Sora',sans-serif;font-size:12.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center}
+
+/* ---------- faq ---------- */
+.faq details{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;
+  background:#fff;overflow:hidden}
+.faq details[open]{box-shadow:var(--shadow)}
+.faq summary{cursor:pointer;padding:14px 44px 14px 17px;font-weight:600;color:var(--navy);
+  font-family:'Sora',sans-serif;font-size:15.5px;list-style:none;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:17px;top:12px;font-size:21px;
+  color:var(--steel);font-weight:400;transition:.2s}
+.faq details[open] summary::after{content:"−"}
+.faq details[open] summary{background:var(--bg);border-bottom:1px solid var(--border)}
+.faq .ans{padding:14px 17px;color:#2B3E52}
+.faq .ans p{margin:0 0 9px}
+.faq .ans p:last-child{margin-bottom:0}
+
+/* ---------- sidebar ---------- */
+.side{position:sticky;top:82px;display:flex;flex-direction:column;gap:16px}
+.card{border:1px solid var(--border);border-radius:var(--radius);background:#fff;
+  padding:18px;box-shadow:var(--shadow)}
+.card h4{font-size:15.5px;color:var(--navy);margin-bottom:10px;font-weight:600}
+.card.dark{background:linear-gradient(160deg,var(--navy),var(--steel));border:0;color:#fff}
+.card.dark h4{color:#fff}
+.card.dark p{font-size:14px;color:#D3E2F1;margin-bottom:13px}
+.card.dark .btn{width:100%;text-align:center}
+.qlinks{display:flex;flex-direction:column;gap:8px}
+.qlinks a{background:var(--bg);border:1px solid var(--border);border-radius:8px;
+  padding:10px 13px;font-size:14px;font-weight:500;color:var(--navy)}
+.qlinks a:hover{background:#E9F1FA;text-decoration:none}
+.org{font-size:14px;color:#2B3E52}
+.org b{display:block;font-family:'Sora',sans-serif;color:var(--navy);margin-bottom:4px}
+.updated{font-size:12.5px;color:var(--muted);border-top:1px solid var(--border);
+  padding-top:10px;margin-top:4px}
+
+/* ---------- footer ---------- */
+.site-footer{background:var(--navy);color:#C9DAEA;padding:40px 0 22px;margin-top:20px}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px}
+.site-footer h5{font-family:'Sora',sans-serif;color:#fff;font-size:14.5px;margin-bottom:11px}
+.site-footer a{color:#C9DAEA;font-size:14px;display:block;margin-bottom:7px}
+.site-footer a:hover{color:#fff}
+.site-footer p{font-size:14px;margin-bottom:9px}
+.fbot{border-top:1px solid rgba(255,255,255,.14);margin-top:26px;padding-top:16px;
+  font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ---------- responsive ---------- */
+@media(max-width:960px){
+  .shell{grid-template-columns:1fr;gap:26px}
+  .side{position:static}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:720px){
+  body{font-size:16px}
+  .nav{display:none}
+  .nav-toggle{display:block}
+  .nav.open{display:flex;position:absolute;top:66px;left:0;right:0;background:#fff;
+    flex-direction:column;padding:14px 20px;border-bottom:1px solid var(--border);
+    box-shadow:var(--shadow-lg);gap:14px;margin:0}
+  .hdr{gap:10px}
+  .auth .btn-ghost{display:none}
+  .hero{padding:34px 0 32px}
+  .pyq{flex-direction:column;align-items:flex-start}
+  .pyq .btn{width:100%;text-align:center}
+  .scroll-hint{display:block}
+  .fgrid{grid-template-columns:1fr}
+  .sec > h2{font-size:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="https://prishth.in/index.html"><img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-logo.png" alt="Prishth" width="30" height="30">Prishth</a>
+    <nav class="nav" id="nav">
+      <a href="https://prishth.in/index.html">Home</a>
+      <a href="https://prishth.in/pyqs.html">PYQs</a>
+      <a href="https://prishth.in/test-series.html">Test Series</a>
+      <a href="https://prishth.in/index.html#exams">Exams</a>
+    </nav>
+    <div class="auth">
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" id="navBtn">☰</button>
+      <a class="btn btn-ghost" href="https://prishth.in/login.html">Log In</a>
+      <a class="btn btn-solid" href="https://prishth.in/signup.html">Sign Up Free</a>
+    </div>
+  </div>
+</header>
+<div class="crumb"><div class="wrap">
+  <a href="https://prishth.in/index.html">Home</a> &rsaquo;
+  <a href="https://prishth.in/pyqs.html">Previous Year Papers</a> &rsaquo;
+  <span>NMAT Official Sample Papers</span>
+</div></div>
+<section class="hero"><div class="wrap">
+  <span class="eyebrow">Free PDF Downloads</span>
+  <h1>NMAT Official Sample Papers</h1>
+  <p class="lead">Official GMAC practice papers, year wise, free to download in PDF format. No sign-up, no login, no email required.</p>
+  <div class="stats"><div class="stat"><b>Official</b><span>GMAC Source</span></div><div class="stat"><b>3</b><span>Papers Available</span></div><div class="stat"><b>Free</b><span>No Sign-Up</span></div><div class="stat"><b>PDF</b><span>Format</span></div></div>
+</div></section><div class="wrap"><div class="shell"><main>
+<section class="sec">
+  <p class="lede">NMAT by GMAC is the entrance exam for admission to some of the top management colleges
+  in India and abroad. The official sample papers are the closest thing you get to the real exam before
+  exam day.</p>
+
+  <p>These papers mirror the structure and the adaptive character of the actual NMAT, which makes them the
+  right place to build a section-by-section strategy for Language Skills, Quantitative Skills and Logical
+  Reasoning.</p>
+
+  <p>Every paper on this page is free, and no signup is required.</p>
+
+  <div class="banner-strip">
+    <img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-courses-banner.webp" width="1094" height="156" loading="lazy"
+         alt="Prishth online courses — class registration is open. Enrol now.">
+  </div>
+</section>
+
+<section class="sec" id="what">
+  <h2><span class="ic">📋</span>What Is the NMAT Exam?</h2>
+  <p>NMAT by GMAC is a computerised adaptive test that measures competency in three core areas:</p>
+  <div class="pills"><span>Language Skills</span><span>Quantitative Skills</span><span>Logical Reasoning</span></div>
+  <p>Each section is timed individually, and the test adapts to your performance, serving questions based
+  on the accuracy of your previous answers. That adaptive behaviour is what makes NMAT challenging &mdash;
+  the difficulty level is customised to you, so two candidates never sit the same paper.</p>
+</section>
+
+<section class="sec" id="structure">
+  <h2><span class="ic">📊</span>NMAT Exam Structure</h2>
+  <p>NMAT carries 108 questions and candidates get 120 minutes in total.</p>
+  <div class="table-wrap"><table><thead><tr><th>Section</th><th>Number of Questions</th><th>Time Allotted</th></tr></thead><tbody><tr><td>Language Skills</td><td>36 questions</td><td>28 minutes</td></tr><tr><td>Quantitative Skills</td><td>36 questions</td><td>52 minutes</td></tr><tr><td>Logical Reasoning</td><td>36 questions</td><td>40 minutes</td></tr><tr><td><b>Total</b></td><td><b>108 questions</b></td><td><b>120 minutes</b></td></tr></tbody></table></div><p class="scroll-hint">Swipe the table sideways to see all columns &rarr;</p>
+  <p class="muted-note">Each section must be completed within its designated time. You cannot revisit a
+  section or change answers once you have moved on.</p>
+</section>
+
+<section class="sec" id="papers">
+  <h2><span class="ic">📄</span>NMAT Official Sample Papers — Year Wise</h2>
+  <p>Prishth has compiled the official GMAC practice papers below. All PDFs are free and need no signup.</p>
+  <div class="table-wrap"><table class="plain"><thead><tr><th>Paper</th><th>Source</th><th>Download</th></tr></thead><tbody><tr><td>NMAT Official Sample Paper 2024</td><td>GMAC official practice exam</td><td><a class="dl-btn" href="https://prishth.in/pyqs.html">Download PDF</a></td></tr><tr><td>NMAT Official Sample Paper 2022</td><td>GMAC official practice exam</td><td><a class="dl-btn" href="https://prishth.in/pyqs.html">Download PDF</a></td></tr><tr><td>NMAT Official Sample Paper 2019</td><td>GMAC official practice exam</td><td><a class="dl-btn" href="https://prishth.in/pyqs.html">Download PDF</a></td></tr></tbody></table></div><p class="scroll-hint">Swipe the table sideways to see all columns &rarr;</p>
+  <div class="callout gold">
+    <p><strong>Uploads in progress.</strong> Papers are being migrated to the Prishth library. Download
+    buttons currently open the main PYQ page, where every paper appears the moment it goes live.</p>
+  </div>
+</section>
+
+<section class="sec" id="features">
+  <h2><span class="ic">🎯</span>Why the Official Papers Are Worth Your Time</h2>
+  <ul class="elig">
+    <li><b>Real exam format</b>The practice papers follow the exact NMAT structure, including section-wise
+    time limits and the adaptive character of the test.</li>
+    <li><b>Full range of question types</b>From multiple-choice questions in Language Skills to
+    multi-step problem-solving in Quantitative Skills.</li>
+    <li><b>Score prediction</b>Practising with official papers gives you a realistic sense of where you
+    stand, so you can set a target score that is actually achievable.</li>
+    <li><b>Decision-making under pressure</b>Because NMAT is adaptive and sectionally timed, practice
+    directly trains the skill of deciding fast and moving on.</li>
+  </ul>
+</section>
+
+<section class="sec" id="conclusion">
+  <h2><span class="ic">✅</span>How to Use These Papers</h2>
+  <p>Attempt each paper in one sitting with a hard timer on every section, exactly as the real exam runs.
+  Do not pause between sections and do not go back. The point is to rehearse the constraint, not just the
+  content.</p>
+  <p>Afterwards, review every question you guessed as well as every question you got wrong. On an exam
+  with no negative marking, the guesses tell you as much about your preparation as the errors do.</p>
+  
+<div class="pyq">
+  <p>Want the full NMAT breakdown?<small>Pattern, adaptive format, complete syllabus, eligibility and fees.</small></p>
+  <a class="btn btn-gold" href="https://prishth.in/nmat.html">Read NMAT Guide →</a>
+</div>
+</section>
+<section class="sec faq"><h2><span class="ic">❓</span>Frequently Asked Questions — NMAT Official Papers</h2><details><summary>Are these NMAT practice papers free?</summary><div class="ans"><p>Yes. You can download every NMAT practice paper on this page in PDF form for free, with no signup.</p></div></details><details><summary>Do the NMAT practice papers simulate the actual exam?</summary><div class="ans"><p>Yes. These papers are designed to closely mirror the actual NMAT, including question types and the adaptive format of the test.</p></div></details><details><summary>Can I download practice papers for previous years?</summary><div class="ans"><p>Yes. Papers are listed year wise and can be downloaded from the table above.</p></div></details><details><summary>How do these papers help improve my score?</summary><div class="ans"><p>Practising with official papers builds familiarity with the exam format, improves your speed and sharpens accuracy &mdash; all of which feed directly into a better score.</p></div></details><details><summary>Is there a limit to how many times I can take NMAT?</summary><div class="ans"><p>You can take NMAT up to three times within a testing cycle. Participating schools consider your best score.</p></div></details><details><summary>When is the NMAT 2026 exam?</summary><div class="ans"><p>The NMAT 2026 exam window runs from November to December 2026. Registration opens on 1 August 2026.</p></div></details><details><summary>Are calculators allowed during the NMAT exam?</summary><div class="ans"><p>No. Calculators are not permitted. All calculations must be done manually, so practise without one.</p></div></details></section></main>
+<aside class="side">
+  <div class="card dark">
+    <h4>NMAT 2026 Full Exam Guide</h4>
+    <p>Pattern, adaptive format, complete syllabus, eligibility, fees and cutoffs in one place.</p>
+    <a class="btn btn-gold" href="https://prishth.in/nmat.html">Read the Guide →</a>
+  </div>
+  <div class="card">
+    <h4>Quick Links</h4>
+    <div class="qlinks"><a href="https://prishth.in/nmat.html">📘 NMAT 2026 Exam Guide</a><a href="https://prishth.in/test-series.html">📝 NMAT Mock Test Series</a><a href="https://prishth.in/xat-previous-year-paper.html">📄 XAT Previous Year Papers</a><a href="https://prishth.in/pyqs.html">🎓 All PYQs</a></div>
+  </div>
+  <div class="card">
+    <h4>Conducted By</h4>
+    <p class="org"><b>Graduate Management Admission Council (GMAC)</b>Official website: nmat.org.in</p>
+    <p class="updated">Last updated: 24 July 2026</p>
+  </div>
+</aside></div></div><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NMAT Official Sample Papers — Free PDF Download, Year Wise (No Sign-Up) | Prishth", "description": "Download official NMAT by GMAC sample papers in PDF format, year wise. Free, no sign-up needed. Practise with papers that mirror the real adaptive NMAT exam format and section timings.", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://prishth.in/nmat-official-paper.html"}, "articleSection": "MBA Entrance Exams", "author": {"@type": "Organization", "name": "Prishth Technosoft Pvt Ltd", "url": "https://prishth.in"}, "publisher": {"@type": "Organization", "name": "Prishth Technosoft Pvt Ltd", "url": "https://prishth.in", "logo": {"@type": "ImageObject", "url": "https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-logo.png"}}, "datePublished": "2026-07-24", "dateModified": "2026-07-24", "inLanguage": "en-IN"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://prishth.in/index.html"}, {"@type": "ListItem", "position": 2, "name": "Previous Year Papers", "item": "https://prishth.in/pyqs.html"}, {"@type": "ListItem", "position": 3, "name": "NMAT Official Sample Papers", "item": "https://prishth.in/nmat-official-paper.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Are these NMAT practice papers free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You can download every NMAT practice paper on this page in PDF form for free, with no signup."}}, {"@type": "Question", "name": "Do the NMAT practice papers simulate the actual exam?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. These papers are designed to closely mirror the actual NMAT, including question types and the adaptive format of the test."}}, {"@type": "Question", "name": "Can I download practice papers for previous years?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Papers are listed year wise and can be downloaded from the table above."}}, {"@type": "Question", "name": "How do these papers help improve my score?", "acceptedAnswer": {"@type": "Answer", "text": "Practising with official papers builds familiarity with the exam format, improves your speed and sharpens accuracy — all of which feed directly into a better score."}}, {"@type": "Question", "name": "Is there a limit to how many times I can take NMAT?", "acceptedAnswer": {"@type": "Answer", "text": "You can take NMAT up to three times within a testing cycle. Participating schools consider your best score."}}, {"@type": "Question", "name": "When is the NMAT 2026 exam?", "acceptedAnswer": {"@type": "Answer", "text": "The NMAT 2026 exam window runs from November to December 2026. Registration opens on 1 August 2026."}}, {"@type": "Question", "name": "Are calculators allowed during the NMAT exam?", "acceptedAnswer": {"@type": "Answer", "text": "No. Calculators are not permitted. All calculations must be done manually, so practise without one."}}]}</script>
+<footer class="site-footer"><div class="wrap">
+  <div class="fgrid">
+    <div>
+      <h5>Prishth Technosoft</h5>
+      <p>Educating &middot; Enlightening &middot; Empowering</p>
+      <p>India's platform for management, law, SSC, banking and railway exam preparation
+         &mdash; for students and coaching institutes alike.</p>
+      <a href="mailto:ravikant.choubey@prishth.in">ravikant.choubey@prishth.in</a>
+      <a href="tel:+919625237947">+91 96252 37947</a>
+    </div>
+    <div>
+      <h5>MBA Entrance</h5>
+      <a href="https://prishth.in/cat.html">CAT</a>
+      <a href="https://prishth.in/xat.html">XAT</a>
+      <a href="https://prishth.in/nmat.html">NMAT</a>
+      <a href="https://prishth.in/mah-mba-cet.html">MAH MBA CET</a>
+    </div>
+    <div>
+      <h5>Question Papers</h5>
+      <a href="https://prishth.in/xat-previous-year-paper.html">XAT Previous Papers</a>
+      <a href="https://prishth.in/nmat-official-paper.html">NMAT Sample Papers</a>
+      <a href="https://prishth.in/pyqs.html">All PYQs</a>
+      <a href="https://prishth.in/test-series.html">Test Series</a>
+    </div>
+    <div>
+      <h5>Company</h5>
+      <a href="https://prishth.in/index.html">Home</a>
+      <a href="https://www.instagram.com/prishth.in/" rel="noopener">Instagram</a>
+      <a href="https://in.linkedin.com/company/prishth-technosoft" rel="noopener">LinkedIn</a>
+      <a href="mailto:ravikant.choubey@prishth.in">Contact</a>
+    </div>
+  </div>
+  <div class="fbot">
+    <span>&copy; 2026 Prishth Technosoft Pvt Ltd. All rights reserved.</span>
+    <span>Made in India</span>
+  </div>
+</div></footer>
+<script>
+(function(){
+  var b=document.getElementById('navBtn'),n=document.getElementById('nav');
+  if(b&&n){b.addEventListener('click',function(){
+    var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);b.textContent=o?'✕':'☰';
+  });}
+})();
+</script>
+</body></html>
