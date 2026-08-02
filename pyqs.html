@@ -59,7 +59,15 @@
   .pyq-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
   .pyq-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; transition: box-shadow 0.2s, transform 0.2s; }
   .pyq-card:hover { box-shadow: 0 4px 20px rgba(27,58,92,0.10); transform: translateY(-2px); }
-  .pyq-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--flag); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+   .pyq-icon { width: 52px; height: 52px; border-radius: 11px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; background: var(--navy); position: relative; overflow: hidden; box-shadow: inset 0 -3px 0 rgba(0,0,0,.18); }
+  .pyq-icon .tile-exam { font-family:'Sora',sans-serif; font-weight:700; font-size:14px; line-height:1; color:#fff; letter-spacing:.02em; }
+  .pyq-icon .tile-tag { font-family:'DM Sans',sans-serif; font-weight:600; font-size:8px; letter-spacing:.14em; color: var(--gold); margin-top:3px; }
+  .pyq-icon::before { content:""; position:absolute; top:-10px; right:-10px; width:26px; height:26px; border-radius:50%; background: rgba(255,255,255,.10); }
+  .tile-cat  { background: linear-gradient(150deg,#1B3A5C,#2E6DA4); }
+  .tile-xat  { background: linear-gradient(150deg,#3A1E5C,#6E4AA4); }
+  .tile-nmat { background: linear-gradient(150deg,#1E5C4A,#2EA47C); }
+  .tile-xat .tile-tag { color:#E5A52A; }
+  .tile-nmat .tile-tag { color:#E5D02A; }
   .pyq-info { flex: 1; min-width: 0; }
   .pyq-title { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
   .pyq-meta { font-size: 12px; color: var(--text-muted); }
@@ -134,7 +142,10 @@
     </div>
     <div class="pyq-grid">
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-cat">
+          <span class="tile-exam">CAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">CAT 2025 — Slot 1</div>
           <div class="pyq-meta">Official paper • PDF</div>
@@ -145,7 +156,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-cat">
+          <span class="tile-exam">CAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">CAT 2023 — Slot 1</div>
           <div class="pyq-meta">Official paper • PDF</div>
@@ -156,7 +170,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-cat">
+          <span class="tile-exam">CAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">CAT 2022 — Slot 1</div>
           <div class="pyq-meta">Official paper • PDF</div>
@@ -167,7 +184,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-cat">
+          <span class="tile-exam">CAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">CAT 2022 — Slot 3</div>
           <div class="pyq-meta">Official paper • PDF</div>
@@ -178,7 +198,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-cat">
+          <span class="tile-exam">CAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">CAT 2021 — Full Paper</div>
           <div class="pyq-meta">Official paper • PDF</div>
@@ -189,7 +212,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-cat">
+          <span class="tile-exam">CAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">CAT 2020 — Full Paper</div>
           <div class="pyq-meta">Official paper • PDF</div>
@@ -210,7 +236,10 @@
     </div>
     <div class="pyq-grid">
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2026</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -221,7 +250,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2025</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -232,7 +264,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2024</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -243,7 +278,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2023</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -254,7 +292,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2022</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -265,7 +306,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2021</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -276,7 +320,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2020</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -287,7 +334,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2019</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -298,7 +348,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2018</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -309,7 +362,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2017</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -320,7 +376,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2016</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -331,7 +390,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2015</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -342,7 +404,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2014</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -353,7 +418,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2013</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -364,7 +432,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2012</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -375,7 +446,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-xat">
+          <span class="tile-exam">XAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">XAT 2011</div>
           <div class="pyq-meta">Official question paper • PDF</div>
@@ -396,7 +470,10 @@
     </div>
     <div class="pyq-grid">
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-nmat">
+          <span class="tile-exam">NMAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">NMAT Official Sample Paper 2024</div>
           <div class="pyq-meta">GMAC official • PDF</div>
@@ -407,7 +484,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-nmat">
+          <span class="tile-exam">NMAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">NMAT Official Sample Paper 2021</div>
           <div class="pyq-meta">GMAC official • PDF</div>
@@ -418,7 +498,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-nmat">
+          <span class="tile-exam">NMAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">NMAT Official Sample Paper 2020</div>
           <div class="pyq-meta">GMAC official • PDF</div>
@@ -429,7 +512,10 @@
         </a>
       </div>
       <div class="pyq-card">
-        <div class="pyq-icon">📄</div>
+        <div class="pyq-icon tile-nmat">
+          <span class="tile-exam">NMAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
         <div class="pyq-info">
           <div class="pyq-title">NMAT Official Sample Paper 2017</div>
           <div class="pyq-meta">GMAC official • PDF</div>
