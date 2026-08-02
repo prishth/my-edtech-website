@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Previous Year Questions (PYQs) — Prishth</title>
+<title>Previous Year Question Papers — CAT, XAT, NMAT & More (Free PDF) | Prishth</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
     --navy: #1B3A5C;
@@ -17,14 +18,17 @@
     --text-muted: #7A96B0;
     --white: #FFFFFF;
     --flag: #E8F0F8;
+    --gold: #E5A52A;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body { font-family: 'DM Sans', sans-serif; background: var(--light-bg); color: var(--text-primary); min-height: 100vh; }
 
   /* NAV */
   nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 8px rgba(27,58,92,0.06); position: sticky; top: 0; z-index: 100; }
-  .nav-logo { text-decoration: none; display: flex; align-items: center; }
-  .nav-logo img { height: 40px; width: auto; }
+  .nav-logo { text-decoration: none; display: flex; align-items: center; gap: 8px; }
+  .nav-logo img { height: 34px; width: auto; }
+  .nav-logo .wordmark { font-family:'Sora',sans-serif; font-size:19px; font-weight:700; color:#1B3A5C; }
   .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
   .nav-links a { text-decoration: none; color: var(--text-primary); font-size: 14px; font-weight: 500; padding: 8px 14px; border-radius: 6px; transition: background 0.2s, color 0.2s; }
   .nav-links a:hover, .nav-links a.active { background: var(--flag); color: var(--steel); }
@@ -37,38 +41,38 @@
   /* PAGE HERO */
   .page-hero { background: linear-gradient(135deg, var(--navy) 0%, var(--steel) 100%); padding: 48px 40px; }
   .page-hero h1 { font-family: 'Sora', sans-serif; font-size: 30px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
-  .page-hero p { font-size: 15px; color: rgba(255,255,255,0.75); max-width: 560px; }
+  .page-hero p { font-size: 15px; color: rgba(255,255,255,0.78); max-width: 620px; }
 
-  /* MAIN CONTENT */
   .content { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
 
-  /* EXAM FILTER TABS */
-  .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+  /* FILTER TABS */
+  .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; position: sticky; top: 64px; background: var(--light-bg); padding: 12px 0; z-index: 50; }
   .tab { font-size: 13px; font-weight: 500; padding: 7px 18px; border-radius: 50px; border: 1.5px solid var(--border); background: var(--white); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; text-decoration: none; }
   .tab:hover, .tab.active { background: var(--steel); color: var(--white); border-color: var(--steel); }
 
-  /* EXAM SECTION */
-  .exam-section { margin-bottom: 40px; }
-  .exam-section-title { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .exam-section { margin-bottom: 44px; scroll-margin-top: 130px; }
+  .exam-section-title { font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .exam-section-title span { font-size: 11px; font-weight: 500; background: var(--flag); color: var(--steel); padding: 3px 10px; border-radius: 50px; }
+  .exam-section-title a.guide-link { font-size: 12px; font-weight: 600; color: var(--steel); text-decoration: none; margin-left: auto; }
+  .exam-section-title a.guide-link:hover { text-decoration: underline; }
 
-  /* PYQ CARDS */
-  .pyq-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-  .pyq-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: box-shadow 0.2s, transform 0.2s; }
+  .pyq-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+  .pyq-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; transition: box-shadow 0.2s, transform 0.2s; }
   .pyq-card:hover { box-shadow: 0 4px 20px rgba(27,58,92,0.10); transform: translateY(-2px); }
   .pyq-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--flag); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-  .pyq-info { flex: 1; }
+  .pyq-info { flex: 1; min-width: 0; }
   .pyq-title { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
   .pyq-meta { font-size: 12px; color: var(--text-muted); }
   .btn-download { display: inline-flex; align-items: center; gap: 6px; background: var(--steel); color: var(--white); font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 7px; text-decoration: none; white-space: nowrap; transition: background 0.2s; flex-shrink: 0; }
   .btn-download:hover { background: var(--navy); }
   .btn-download svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-  /* MORE COMING SOON */
-  .coming-soon-card { background: var(--white); border: 1.5px dashed var(--border); border-radius: 12px; padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px; }
+  .coming-soon-card { background: var(--white); border: 1.5px dashed var(--border); border-radius: 12px; padding: 24px 20px; text-align: center; color: var(--text-muted); font-size: 13px; display:flex; flex-direction:column; justify-content:center; }
   .coming-soon-card span { display: block; font-size: 20px; margin-bottom: 6px; }
 
-  /* RESPONSIVE */
+  footer { background: var(--navy); color: #C9DAEA; padding: 32px 40px; margin-top: 20px; font-size: 13px; }
+  footer a { color: #C9DAEA; }
+
   @media (max-width: 768px) {
     nav { padding: 0 16px; }
     .nav-links { display: none; }
@@ -76,26 +80,28 @@
     .page-hero h1 { font-size: 22px; }
     .content { padding: 24px 16px; }
     .pyq-grid { grid-template-columns: 1fr; }
+    .filter-tabs { top: 64px; }
   }
 </style>
-
-<link rel="canonical" href="https://prishth.in/pyqs.html">
-<meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="description" content="Download previous year question papers for CAT, XAT, NMAT, CLAT, SSC CGL, SBI PO and more. Free PDFs, no sign-up required. Official papers with solutions from Prishth.">
+<link rel="canonical" href="https://prishth.in/pyqs.html"/>
+<meta name="robots" content="index, follow, max-image-preview:large"/>
+<meta name="description" content="Download free previous year question papers for CAT, XAT and NMAT official sample papers in PDF. No sign-up, no login. Official papers hosted by Prishth."/>
+<meta name="keywords" content="previous year question papers, CAT PYQ, XAT previous year paper, NMAT sample paper, free PDF download, MBA entrance papers, Prishth PYQ"/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"Previous Year Question Papers","url":"https://prishth.in/pyqs.html","description":"Free CAT, XAT and NMAT previous year and official sample papers in PDF.","publisher":{"@type":"Organization","name":"Prishth Technosoft Pvt Ltd","url":"https://prishth.in","logo":{"@type":"ImageObject","url":"https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-logo.png"}}}
+</script>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-logo.png" alt="Prishth" onerror="this.style.display='none'; this.nextSibling.style.display='block'"/>
-    <span style="display:none; font-family:'Sora',sans-serif; font-size:20px; font-weight:700; color:#1B3A5C;">Prishth</span>
+    <img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-logo.png" alt="Prishth" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'"/>
+    <span class="wordmark" style="display:none;">Prishth</span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="pyqs.html" class="active">PYQs</a></li>
-    <li><a href="#">Test Series</a></li>
-    <li><a href="#">Blog</a></li>
+    <li><a href="index.html#exams">Exams</a></li>
   </ul>
   <div class="nav-cta">
     <a href="login.html" class="btn-login">Log In</a>
@@ -103,72 +109,344 @@
   </div>
 </nav>
 
-<!-- PAGE HERO -->
 <div class="page-hero">
-  <h1>Previous Year Questions</h1>
-  <p>Free PYQs for CAT, XAT, CLAT, SSC, Banking and more — download instantly, no login needed.</p>
+  <h1>Previous Year Question Papers</h1>
+  <p>Free PYQs and official sample papers — CAT, XAT and NMAT ready now, with CLAT, SSC, Banking and Railway on the way. Download instantly, no login needed.</p>
 </div>
 
-<!-- CONTENT -->
 <div class="content">
 
-  <!-- FILTER TABS -->
   <div class="filter-tabs">
     <a href="#cat" class="tab active">CAT</a>
     <a href="#xat" class="tab">XAT</a>
+    <a href="#nmat" class="tab">NMAT</a>
     <a href="#clat" class="tab">CLAT</a>
     <a href="#ssc" class="tab">SSC</a>
     <a href="#banking" class="tab">Banking</a>
     <a href="#railway" class="tab">Railway</a>
   </div>
 
-  <!-- CAT SECTION -->
   <div class="exam-section" id="cat">
     <div class="exam-section-title">
       CAT — Common Admission Test
       <span>MBA Entrance</span>
+      <a href="cat.html" class="guide-link">View CAT exam guide →</a>
     </div>
     <div class="pyq-grid">
-
       <div class="pyq-card">
         <div class="pyq-icon">📄</div>
         <div class="pyq-info">
           <div class="pyq-title">CAT 2025 — Slot 1</div>
-          <div class="pyq-meta">Full paper with solutions • PDF</div>
+          <div class="pyq-meta">Official paper • PDF</div>
         </div>
-        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CAT-2025-Slot-01.pdf" download class="btn-download" target="_blank">
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CAT-2025-Slot-01.pdf" download class="btn-download" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download
         </a>
       </div>
-
-      <div class="coming-soon-card">
-        <span>📂</span>
-        More CAT PYQs coming soon
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">CAT 2023 — Slot 1</div>
+          <div class="pyq-meta">Official paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CAT-2023-Slot-1-Prishth.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
       </div>
-
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">CAT 2022 — Slot 1</div>
+          <div class="pyq-meta">Official paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CAT-2022-Slot-1-Prishth.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">CAT 2022 — Slot 3</div>
+          <div class="pyq-meta">Official paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CAT-2022-Slot-3-Prishth.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">CAT 2021 — Full Paper</div>
+          <div class="pyq-meta">Official paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CAT-2021-Prishth.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">CAT 2020 — Full Paper</div>
+          <div class="pyq-meta">Official paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CAT-2020-Prishth.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
     </div>
   </div>
 
-  <!-- XAT SECTION -->
   <div class="exam-section" id="xat">
     <div class="exam-section-title">
       XAT — Xavier Aptitude Test
       <span>MBA Entrance</span>
+      <a href="xat-previous-year-paper.html" class="guide-link">XAT papers page →</a>
     </div>
     <div class="pyq-grid">
-      <div class="coming-soon-card">
-        <span>📂</span>
-        XAT PYQs coming soon
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2026</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2026.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2025</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2025.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2024</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2024.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2023</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2023.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2022</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2022.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2021</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2021.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2020</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2020.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2019</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2019.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2018</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2018.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2017</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2017.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2016</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2016.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2015</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2015.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2014</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2014.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2013</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2013.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2012</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2012.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">XAT 2011</div>
+          <div class="pyq-meta">Official question paper • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/XAT-2011.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
       </div>
     </div>
   </div>
 
-  <!-- CLAT SECTION -->
+  <div class="exam-section" id="nmat">
+    <div class="exam-section-title">
+      NMAT by GMAC — Official Sample Papers
+      <span>MBA Entrance</span>
+      <a href="nmat-official-paper.html" class="guide-link">NMAT papers page →</a>
+    </div>
+    <div class="pyq-grid">
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">NMAT Official Sample Paper 2024</div>
+          <div class="pyq-meta">GMAC official • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/NMAT-Official-Sample-Paper-2024.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">NMAT Official Sample Paper 2021</div>
+          <div class="pyq-meta">GMAC official • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/NMAT-Official-Sample-Paper-2021.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">NMAT Official Sample Paper 2020</div>
+          <div class="pyq-meta">GMAC official • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/NMAT-Official-Sample-Paper-2020.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon">📄</div>
+        <div class="pyq-info">
+          <div class="pyq-title">NMAT Official Sample Paper 2017</div>
+          <div class="pyq-meta">GMAC official • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/NMAT-Official-Sample-Paper-2017.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+    </div>
+  </div>
+
   <div class="exam-section" id="clat">
     <div class="exam-section-title">
       CLAT — Common Law Admission Test
       <span>Law Entrance</span>
+      <a href="clat.html" class="guide-link">View CLAT exam guide →</a>
     </div>
     <div class="pyq-grid">
       <div class="coming-soon-card">
@@ -178,11 +456,11 @@
     </div>
   </div>
 
-  <!-- SSC SECTION -->
   <div class="exam-section" id="ssc">
     <div class="exam-section-title">
       SSC Exams
       <span>Government</span>
+      <a href="ssc-cgl.html" class="guide-link">View SSC CGL guide →</a>
     </div>
     <div class="pyq-grid">
       <div class="coming-soon-card">
@@ -192,11 +470,11 @@
     </div>
   </div>
 
-  <!-- BANKING SECTION -->
   <div class="exam-section" id="banking">
     <div class="exam-section-title">
       Banking Exams
       <span>Government</span>
+      <a href="sbi-po.html" class="guide-link">View SBI PO guide →</a>
     </div>
     <div class="pyq-grid">
       <div class="coming-soon-card">
@@ -206,11 +484,11 @@
     </div>
   </div>
 
-  <!-- RAILWAY SECTION -->
   <div class="exam-section" id="railway">
     <div class="exam-section-title">
       Railway Exams
       <span>Government</span>
+      <a href="rrb-ntpc.html" class="guide-link">View RRB NTPC guide →</a>
     </div>
     <div class="pyq-grid">
       <div class="coming-soon-card">
@@ -221,6 +499,25 @@
   </div>
 
 </div>
+
+<footer>
+  <p>&copy; 2026 Prishth Technosoft Pvt Ltd · All papers are free to download for exam preparation · <a href="index.html">Home</a></p>
+</footer>
+
+<script>
+  // highlight active tab on scroll
+  var sections = document.querySelectorAll('.exam-section');
+  var tabs = document.querySelectorAll('.tab');
+  window.addEventListener('scroll', function() {
+    var cur = '';
+    sections.forEach(function(s) {
+      if (window.scrollY >= s.offsetTop - 140) cur = s.id;
+    });
+    tabs.forEach(function(t) {
+      t.classList.toggle('active', t.getAttribute('href') === '#' + cur);
+    });
+  });
+</script>
 
 </body>
 </html>
