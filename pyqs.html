@@ -33,6 +33,7 @@
   .nav-links a { text-decoration: none; color: var(--text-primary); font-size: 14px; font-weight: 500; padding: 8px 14px; border-radius: 6px; transition: background 0.2s, color 0.2s; }
   .nav-links a:hover, .nav-links a.active { background: var(--flag); color: var(--steel); }
   .nav-cta { display: flex; align-items: center; gap: 10px; }
+  .nav-burger { display: none; background: none; border: 1.5px solid var(--border); border-radius: 8px; font-size: 18px; line-height: 1; padding: 6px 11px; color: var(--navy); cursor: pointer; }
   .btn-login { text-decoration: none; color: var(--steel); font-size: 14px; font-weight: 500; padding: 8px 18px; border: 1.5px solid var(--steel); border-radius: 6px; transition: background 0.2s, color 0.2s; }
   .btn-login:hover { background: var(--steel); color: var(--white); }
   .btn-signup { text-decoration: none; color: var(--white); font-size: 14px; font-weight: 500; padding: 8px 20px; background: var(--steel); border-radius: 6px; transition: background 0.2s; }
@@ -66,6 +67,8 @@
   .tile-cat  { background: linear-gradient(150deg,#1B3A5C,#2E6DA4); }
   .tile-xat  { background: linear-gradient(150deg,#3A1E5C,#6E4AA4); }
   .tile-nmat { background: linear-gradient(150deg,#1E5C4A,#2EA47C); }
+  .tile-clat { background: linear-gradient(150deg,#5C1E24,#A43A44); }
+  .tile-clat .tile-tag { color:#F0C05A; }
   .tile-xat .tile-tag { color:#E5A52A; }
   .tile-nmat .tile-tag { color:#E5D02A; }
   .pyq-info { flex: 1; min-width: 0; }
@@ -84,6 +87,10 @@
   @media (max-width: 768px) {
     nav { padding: 0 16px; }
     .nav-links { display: none; }
+    .nav-burger { display: inline-block; }
+    .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); box-shadow: 0 8px 24px rgba(27,58,92,.12); padding: 12px 20px; gap: 4px; z-index: 90; }
+    .nav-links.open li { width: 100%; }
+    .nav-links.open a { display: block; padding: 12px 8px; }
     .page-hero { padding: 36px 20px; }
     .page-hero h1 { font-size: 22px; }
     .content { padding: 24px 16px; }
@@ -111,6 +118,7 @@
     <li><a href="pyqs.html" class="active">PYQs</a></li>
     <li><a href="index.html#exams">Exams</a></li>
   </ul>
+  <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">☰</button>
   <div class="nav-cta">
     <a href="login.html" class="btn-login">Log In</a>
     <a href="signup.html" class="btn-signup">Sign Up Free</a>
@@ -119,7 +127,7 @@
 
 <div class="page-hero">
   <h1>Previous Year Question Papers</h1>
-  <p>Free PYQs and official sample papers — CAT, XAT and NMAT ready now, with CLAT, SSC, Banking and Railway on the way. Download instantly, no login needed.</p>
+  <p>Free PYQs and official sample papers — CAT, XAT, NMAT and CLAT ready now, with SSC, Banking and Railway on the way. Download instantly, no login needed.</p>
 </div>
 
 <div class="content">
@@ -560,12 +568,120 @@
     <div class="exam-section-title">
       CLAT — Common Law Admission Test
       <span>Law Entrance</span>
-      <a href="clat.html" class="guide-link">View CLAT exam guide →</a>
+      <a href="clat-previous-year-paper.html" class="guide-link">CLAT papers page →</a>
     </div>
     <div class="pyq-grid">
-      <div class="coming-soon-card">
-        <span>📂</span>
-        CLAT PYQs coming soon
+      <div class="pyq-card">
+        <div class="pyq-icon tile-clat">
+          <span class="tile-exam">CLAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
+        <div class="pyq-info">
+          <div class="pyq-title">CLAT 2026</div>
+          <div class="pyq-meta">Official paper + answer key • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2026.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon tile-clat">
+          <span class="tile-exam">CLAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
+        <div class="pyq-info">
+          <div class="pyq-title">CLAT 2025</div>
+          <div class="pyq-meta">Official paper + answer key • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2025.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon tile-clat">
+          <span class="tile-exam">CLAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
+        <div class="pyq-info">
+          <div class="pyq-title">CLAT 2024</div>
+          <div class="pyq-meta">Official paper + answer key • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2024.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon tile-clat">
+          <span class="tile-exam">CLAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
+        <div class="pyq-info">
+          <div class="pyq-title">CLAT 2023</div>
+          <div class="pyq-meta">Official paper + answer key • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2023.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon tile-clat">
+          <span class="tile-exam">CLAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
+        <div class="pyq-info">
+          <div class="pyq-title">CLAT 2022</div>
+          <div class="pyq-meta">Official paper + answer key • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2022.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon tile-clat">
+          <span class="tile-exam">CLAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
+        <div class="pyq-info">
+          <div class="pyq-title">CLAT 2021</div>
+          <div class="pyq-meta">Official paper + answer key • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2021.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon tile-clat">
+          <span class="tile-exam">CLAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
+        <div class="pyq-info">
+          <div class="pyq-title">CLAT 2020</div>
+          <div class="pyq-meta">Official paper + answer key • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2020.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="pyq-card">
+        <div class="pyq-icon tile-clat">
+          <span class="tile-exam">CLAT</span>
+          <span class="tile-tag">PYQ</span>
+        </div>
+        <div class="pyq-info">
+          <div class="pyq-title">CLAT 2019</div>
+          <div class="pyq-meta">Official paper + answer key • PDF</div>
+        </div>
+        <a href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2019.pdf" download class="btn-download" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
       </div>
     </div>
   </div>
@@ -633,5 +749,21 @@
   });
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+    var b=document.getElementById('navBurger');
+    var n=document.querySelector('.nav-links');
+    if(b&&n){
+      b.addEventListener('click',function(){
+        var o=n.classList.toggle('open');
+        b.setAttribute('aria-expanded',o);
+        b.textContent=o?'✕':'☰';
+      });
+      n.addEventListener('click',function(e){
+        if(e.target.tagName==='A'){n.classList.remove('open');b.textContent='☰';}
+      });
+    }
+  });
+</script>
 </body>
 </html>
