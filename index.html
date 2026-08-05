@@ -75,6 +75,13 @@
   .hero-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
   .hero-btn-secondary { background: transparent; color: var(--white); font-size: 14px; font-weight: 500; padding: 13px 28px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.4); text-decoration: none; transition: background 0.2s; }
   .hero-btn-secondary:hover { background: rgba(255,255,255,0.1); }
+  .hero-services { display: flex; gap: 16px; margin-top: 48px; padding-top: 8px; flex-wrap: wrap; justify-content: center; }
+  .hsvc { flex: 1; min-width: 175px; max-width: 240px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18); border-radius: 14px; padding: 22px 20px; text-align: left; text-decoration: none; transition: all 0.2s; display: block; }
+  .hsvc:hover { background: rgba(255,255,255,0.16); transform: translateY(-4px); border-color: rgba(229,165,42,0.5); }
+  .hsvc-ic { font-size: 28px; display: block; margin-bottom: 12px; }
+  .hsvc-t { font-family: 'Sora', sans-serif; font-weight: 700; color: #fff; font-size: 17px; display: block; margin-bottom: 4px; }
+  .hsvc-d { font-family: 'DM Sans', sans-serif; color: #C6D8EA; font-size: 13px; display: block; line-height: 1.5; }
+  @media (max-width: 760px) { .hero-services { gap: 12px; } .hsvc { min-width: 140px; padding: 18px 16px; } .hsvc-t { font-size: 15px; } }
   .hero-stats { display: flex; align-items: center; justify-content: center; gap: 48px; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.12); flex-wrap: wrap; }
   .stat-item { text-align: center; }
   .stat-num { font-family: 'Sora', sans-serif; font-size: 28px; font-weight: 700; color: var(--white); display: block; }
@@ -297,12 +304,28 @@
     <a href="pyqs.html" class="hero-btn-primary">Start Preparing Free &rarr;</a>
     <a href="#exams" class="hero-btn-secondary">Browse All Exams</a>
   </div>
-  <div class="hero-stats">
-    <div class="stat-item"><span class="stat-num">30+</span><div class="stat-label">Exams Covered</div></div>
-    <div class="stat-item"><span class="stat-num">1000+</span><div class="stat-label">PYQs Available</div></div>
-    <div class="stat-item"><span class="stat-num">30+</span><div class="stat-label">B2B Clients</div></div>
-    <div class="stat-item"><span class="stat-num">Free</span><div class="stat-label">To Get Started</div></div>
-  </div>
+  <div class="hero-services">
+      <a href="pyqs.html" class="hsvc">
+        <span class="hsvc-ic">&#128196;</span>
+        <span class="hsvc-t">Free PYQs</span>
+        <span class="hsvc-d">Real papers, no login needed</span>
+      </a>
+      <a href="index.html#exams" class="hsvc">
+        <span class="hsvc-ic">&#128218;</span>
+        <span class="hsvc-t">Exam Guides</span>
+        <span class="hsvc-d">26+ exams explained in depth</span>
+      </a>
+      <a href="pyqs.html" class="hsvc">
+        <span class="hsvc-ic">&#128221;</span>
+        <span class="hsvc-t">Mock Tests</span>
+        <span class="hsvc-d">Practice under real conditions</span>
+      </a>
+      <a href="mailto:ravikant.choubey@prishth.in?subject=Content%20Partnership" class="hsvc">
+        <span class="hsvc-ic">&#127979;</span>
+        <span class="hsvc-t">For Institutes</span>
+        <span class="hsvc-d">Content partnership &amp; outsourcing</span>
+      </a>
+    </div>
 </section>
 
 <!-- EXAM CATEGORIES -->
