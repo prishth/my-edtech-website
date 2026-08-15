@@ -248,18 +248,38 @@ figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(
 }
 </style>
 <style>
-.doc-content h2{font-size:22px;color:var(--navy);margin:32px 0 12px;font-family:'Sora',sans-serif;font-weight:700;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.dl-banner{display:block;margin:26px 0;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(27,58,92,.12)}
+.dl-banner img{width:100%;display:block}
+.doc-content h2{font-size:22px;color:var(--navy);margin:34px 0 14px;font-family:'Sora',sans-serif;font-weight:700;padding:11px 0 11px 18px;border-left:5px solid var(--gold);background:linear-gradient(90deg,#FBF4E6,transparent);border-radius:0 8px 8px 0}
+.doc-content h2:nth-of-type(3n+1){border-left-color:#2E6DA4;background:linear-gradient(90deg,#EAF2FB,transparent)}
+.doc-content h2:nth-of-type(3n+2){border-left-color:#2EA47C;background:linear-gradient(90deg,#E8F6F0,transparent)}
 .doc-content p{font-size:16px;line-height:1.75;color:#2B3E52;margin:12px 0}
-.doc-content strong{color:var(--navy);font-weight:600}
-.doc-content ol.doc-ol{margin:14px 0;padding-left:0;counter-reset:item;list-style:none}
-.doc-content ol.doc-ol>li{position:relative;padding:9px 0 9px 44px;line-height:1.65;color:#2B3E52;counter-increment:item;border-bottom:1px solid #EEF2F7}
-.doc-content ol.doc-ol>li::before{content:counter(item);position:absolute;left:0;top:8px;width:28px;height:28px;background:var(--navy);color:#fff;border-radius:8px;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center}
-.doc-content ul.doc-list{margin:14px 0;list-style:none;padding:0}
-.doc-content ul.doc-list>li{position:relative;padding:7px 0 7px 28px;color:#2B3E52;line-height:1.65}
-.doc-content ul.doc-list>li::before{content:"";position:absolute;left:6px;top:15px;width:8px;height:8px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.doc-content strong{color:var(--navy);font-weight:700;background:linear-gradient(transparent 62%,#FBE4B8 62%);padding:0 1px}
+.doc-content ol.doc-ol{margin:16px 0;padding-left:0;counter-reset:item;list-style:none}
+.doc-content ol.doc-ol>li{position:relative;padding:10px 0 10px 46px;line-height:1.65;color:#2B3E52;counter-increment:item;border-bottom:1px solid #EEF2F7}
+.doc-content ol.doc-ol>li::before{content:counter(item);position:absolute;left:0;top:8px;width:30px;height:30px;background:var(--steel);color:#fff;border-radius:9px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(46,109,164,.3)}
+.doc-content ol.doc-ol>li:nth-child(3n+2)::before{background:#2EA47C;box-shadow:0 2px 5px rgba(46,164,124,.3)}
+.doc-content ol.doc-ol>li:nth-child(3n)::before{background:var(--gold);box-shadow:0 2px 5px rgba(229,165,42,.3)}
+.doc-content ul.doc-list{margin:16px 0;list-style:none;padding:0}
+.doc-content ul.doc-list>li{position:relative;padding:8px 0 8px 30px;color:#2B3E52;line-height:1.65}
+.doc-content ul.doc-list>li::before{content:"";position:absolute;left:6px;top:15px;width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.doc-content ul.doc-list>li:nth-child(3n+2)::before{background:#2EA47C}
+.doc-content ul.doc-list>li:nth-child(3n)::before{background:var(--steel)}
 .lead-img{margin:0 0 22px;border-radius:14px;overflow:hidden;border:1px solid var(--border)}
 .lead-img img{width:100%;display:block}
 .doc-content table{width:100%}
+.doc-content details.faq-item{border:1px solid var(--border);border-radius:10px;margin:11px 0;overflow:hidden;background:#fff}
+.doc-content details.faq-item summary{padding:15px 18px;font-weight:600;color:var(--navy);cursor:pointer;font-family:'Sora',sans-serif;font-size:15.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;background:#F4F7FB}
+.doc-content details.faq-item summary::-webkit-details-marker{display:none}
+.doc-content details.faq-item summary::after{content:"+";font-size:24px;color:var(--steel);font-weight:400;flex-shrink:0}
+.doc-content details.faq-item[open] summary::after{content:"\2212"}
+.doc-content details.faq-item[open] summary{background:linear-gradient(90deg,#EAF2FB,#F4F7FB);border-bottom:1px solid var(--border)}
+.doc-content details.faq-item .faq-a{padding:15px 18px;color:#2B3E52;line-height:1.72}
+.dl-inline{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:13px 24px;border-radius:9px;text-decoration:none;margin:6px 0;box-shadow:0 2px 8px rgba(229,165,42,.35)}
+.dl-inline:hover{background:#d4941f}
+.doc-content .soon{display:inline-block;background:#F0F2F5;color:#8894A5;font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:6px}
+.doc-content table.plain td .dl-btn,.doc-content .dl-btn{display:inline-flex;align-items:center;background:#2EA47C;color:#fff;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:7px;text-decoration:none;white-space:nowrap}
+.doc-content .dl-btn:hover{background:#25896690}
 </style>
 </head>
 <body>
@@ -291,12 +311,12 @@ figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(
   <div class="stats"><div class="stat"><b>2019-2026</b><span>Years</span></div><div class="stat"><b>8+</b><span>Papers</span></div><div class="stat"><b>Free</b><span>No Sign-Up</span></div><div class="stat"><b>PDF</b><span>With Answers</span></div></div>
 </div></section><div class="wrap"><div class="shell"><main><section class="sec"></section>
 <section class="sec doc-content"><p>CLAT is organized by the Consortium of National Law Universities, comprising representative universities. Several affiliate universities and organizations also use the CLAT exam for admissions and recruitment respectively. All admissions to the 5-year integrated L.L.B. and L.L.M. programmes that commence in the Academic Year 2027 - 2028 shall be through the CLAT 2027. <strong>Browse Below the important links for CLAT PYQs &amp; Information for Exam.</strong></p>
-<p>The Common Law Admission Test (CLAT) is one of the most competitive entrance exams in India for admission to prestigious National Law Universities (NLUs). To crack this challenging exam, aspirants often turn to CLAT previous year question papers for preparation. In this comprehensive guide, we explore why these papers are indispensable, where to find them, and how to use them effectively to achieve top ranks.</p>
-<p>CLAT previous year question papers are more than just practice materials – they're your window into understanding the exam's nature and requirements. By systematically using these resources and following a structured preparation approach, you can significantly improve your chances of success in CLAT. You can download the Previous Year Paper of CLAT 2026, CLAT 2025, CLAT 2024, CLAT 2023, CLAT 2022, CLAT 2021, CLAT 2020 &amp; Previous Year Paper of 2019 in PDF Format Below. <strong>Understanding the CLAT Exam</strong></p>
+<p>The Common Law Admission Test (CLAT) is one of the most competitive entrance exams in India for admission to prestigious National Law Universities (NLUs). To crack this challenging exam, aspirants often turn to CLAT previous year question papers for preparation. In this comprehensive guide, we explore why these papers are indispensable, where to find them, and how to use them effectively to achieve top ranks.</p><a href="https://prishth.in/pyqs.html" class="dl-banner"><img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-download-banner.webp" alt="Download Previous Year Papers, Practice Mocks, Syllabus and More at Prishth" loading="lazy"></a>
+<p>CLAT previous year question papers are more than just practice materials, they're your window into understanding the exam's nature and requirements. By systematically using these resources and following a structured preparation approach, you can significantly improve your chances of success in CLAT. You can download the Previous Year Paper of CLAT 2026, CLAT 2025, CLAT 2024, CLAT 2023, CLAT 2022, CLAT 2021, CLAT 2020 &amp; Previous Year Paper of 2019 in PDF Format Below. <strong>Understanding the CLAT Exam</strong></p>
 <p>Before diving into preparation, it’s crucial to understand the structure of the exam. Here’s a detailed overview: <strong>CLAT Exam Pattern (Undergraduate CLAT 2024):</strong></p>
 <p><strong>Total Questions:</strong> 120</p>
 <p><strong>Duration:</strong> 2 hours</p>
-<p><strong>Sections:</strong></p>
+<h2>Sections:</h2>
 <ol class="doc-ol"><li>English Language</li><li>Current Affairs, including General Knowledge</li><li>Legal Reasoning</li><li>Logical Reasoning</li><li>Quantitative Techniques</li></ol>
 <p><strong>Marking Scheme:</strong> +1 for a correct answer; -0.25 for an incorrect answer.</p>
 <p><strong>In the CLAT Exam 2026 there will be only overall time limits, there are no sectional time limits.</strong> Section	Questions	Syllabus</p>
@@ -309,7 +329,7 @@ figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(
 <div class="table-wrap"><table class="plain"><thead><tr><th>Paper</th><th>PDF</th></tr></thead><tbody><tr><td>CLAT 2026 Question Paper</td><td><a class="dl-btn" href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2026.pdf" target="_blank" rel="noopener" download>Download PDF</a></td></tr><tr><td>CLAT 2025 Question Paper</td><td><a class="dl-btn" href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2025.pdf" target="_blank" rel="noopener" download>Download PDF</a></td></tr><tr><td>CLAT 2024 Question Paper</td><td><a class="dl-btn" href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2024.pdf" target="_blank" rel="noopener" download>Download PDF</a></td></tr><tr><td>CLAT 2023 Question Paper</td><td><a class="dl-btn" href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2023.pdf" target="_blank" rel="noopener" download>Download PDF</a></td></tr><tr><td>CLAT 2022 Question Paper</td><td><a class="dl-btn" href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2022.pdf" target="_blank" rel="noopener" download>Download PDF</a></td></tr><tr><td>CLAT 2021 Question Paper</td><td><a class="dl-btn" href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2021.pdf" target="_blank" rel="noopener" download>Download PDF</a></td></tr><tr><td>CLAT 2020 Question Paper</td><td><a class="dl-btn" href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2020.pdf" target="_blank" rel="noopener" download>Download PDF</a></td></tr><tr><td>CLAT 2019 Question Paper</td><td><a class="dl-btn" href="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/PYQs/CLAT-2019.pdf" target="_blank" rel="noopener" download>Download PDF</a></td></tr></tbody></table></div>
 <p><strong>Why Solving Previous Year CLAT Papers is Crucial</strong> Studying CLAT previous year question papers offers invaluable insights into the exam’s structure, difficulty level, and the types of questions asked. Here’s why they should be part of every aspirant’s preparation strategy:</p>
 <ol class="doc-ol"><li><strong>Identify Repeated Patterns:</strong>  Analyzing CLAT previous year question papers helps identify patterns, such as frequently tested topics and evolving question styles.</li><li><strong>Improve Accuracy:</strong>  Regular practice sharpens your ability to answer correctly under pressure, reducing negative marking.</li><li><strong>Simulate Exam Environment:</strong> Stay updated with the CLAT current exam structure and marking scheme by solving recent papers.</li><li><strong>Track Progress:</strong>  By solving papers from earlier years, you can evaluate your improvement over time.</li></ol>
-<p><strong>How to Use CLAT Previous Year Question Papers Effectively</strong></p>
+<h2>How to Use CLAT Previous Year Question Papers Effectively</h2>
 <p>Having access to <strong>CLAT previous year question papers</strong> is one thing but to effectively use it is a different thing. Here’s how to use <strong>CLAT previous paper</strong> to boost your preparation:</p>
 <ol class="doc-ol"><li><strong>Start Early:</strong> Begin solving CLAT question papers at least 6-8 months before the exam to familiarize yourself with the format.</li><li><strong>Simulate Exam Conditions:</strong> Practice in a quiet environment with a timer to replicate actual exam conditions and improve time management skills.</li><li><strong>Analyze Solutions:</strong> After solving a paper, thoroughly review your answers. Understand your mistakes and revise related topics.</li><li><strong>Focus on Trends:</strong> Identify recurring topics and question patterns. For instance, CLAT often emphasizes reading comprehension and current legal developments.</li><li><strong>Combine with Mock Tests:</strong> Supplement previous year papers with mock tests for a well-rounded preparation strategy.</li></ol>
 <h2>Conclusion</h2>

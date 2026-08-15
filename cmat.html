@@ -248,18 +248,38 @@ figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(
 }
 </style>
 <style>
-.doc-content h2{font-size:22px;color:var(--navy);margin:32px 0 12px;font-family:'Sora',sans-serif;font-weight:700;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.dl-banner{display:block;margin:26px 0;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(27,58,92,.12)}
+.dl-banner img{width:100%;display:block}
+.doc-content h2{font-size:22px;color:var(--navy);margin:34px 0 14px;font-family:'Sora',sans-serif;font-weight:700;padding:11px 0 11px 18px;border-left:5px solid var(--gold);background:linear-gradient(90deg,#FBF4E6,transparent);border-radius:0 8px 8px 0}
+.doc-content h2:nth-of-type(3n+1){border-left-color:#2E6DA4;background:linear-gradient(90deg,#EAF2FB,transparent)}
+.doc-content h2:nth-of-type(3n+2){border-left-color:#2EA47C;background:linear-gradient(90deg,#E8F6F0,transparent)}
 .doc-content p{font-size:16px;line-height:1.75;color:#2B3E52;margin:12px 0}
-.doc-content strong{color:var(--navy);font-weight:600}
-.doc-content ol.doc-ol{margin:14px 0;padding-left:0;counter-reset:item;list-style:none}
-.doc-content ol.doc-ol>li{position:relative;padding:9px 0 9px 44px;line-height:1.65;color:#2B3E52;counter-increment:item;border-bottom:1px solid #EEF2F7}
-.doc-content ol.doc-ol>li::before{content:counter(item);position:absolute;left:0;top:8px;width:28px;height:28px;background:var(--navy);color:#fff;border-radius:8px;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center}
-.doc-content ul.doc-list{margin:14px 0;list-style:none;padding:0}
-.doc-content ul.doc-list>li{position:relative;padding:7px 0 7px 28px;color:#2B3E52;line-height:1.65}
-.doc-content ul.doc-list>li::before{content:"";position:absolute;left:6px;top:15px;width:8px;height:8px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.doc-content strong{color:var(--navy);font-weight:700;background:linear-gradient(transparent 62%,#FBE4B8 62%);padding:0 1px}
+.doc-content ol.doc-ol{margin:16px 0;padding-left:0;counter-reset:item;list-style:none}
+.doc-content ol.doc-ol>li{position:relative;padding:10px 0 10px 46px;line-height:1.65;color:#2B3E52;counter-increment:item;border-bottom:1px solid #EEF2F7}
+.doc-content ol.doc-ol>li::before{content:counter(item);position:absolute;left:0;top:8px;width:30px;height:30px;background:var(--steel);color:#fff;border-radius:9px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(46,109,164,.3)}
+.doc-content ol.doc-ol>li:nth-child(3n+2)::before{background:#2EA47C;box-shadow:0 2px 5px rgba(46,164,124,.3)}
+.doc-content ol.doc-ol>li:nth-child(3n)::before{background:var(--gold);box-shadow:0 2px 5px rgba(229,165,42,.3)}
+.doc-content ul.doc-list{margin:16px 0;list-style:none;padding:0}
+.doc-content ul.doc-list>li{position:relative;padding:8px 0 8px 30px;color:#2B3E52;line-height:1.65}
+.doc-content ul.doc-list>li::before{content:"";position:absolute;left:6px;top:15px;width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.doc-content ul.doc-list>li:nth-child(3n+2)::before{background:#2EA47C}
+.doc-content ul.doc-list>li:nth-child(3n)::before{background:var(--steel)}
 .lead-img{margin:0 0 22px;border-radius:14px;overflow:hidden;border:1px solid var(--border)}
 .lead-img img{width:100%;display:block}
 .doc-content table{width:100%}
+.doc-content details.faq-item{border:1px solid var(--border);border-radius:10px;margin:11px 0;overflow:hidden;background:#fff}
+.doc-content details.faq-item summary{padding:15px 18px;font-weight:600;color:var(--navy);cursor:pointer;font-family:'Sora',sans-serif;font-size:15.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;background:#F4F7FB}
+.doc-content details.faq-item summary::-webkit-details-marker{display:none}
+.doc-content details.faq-item summary::after{content:"+";font-size:24px;color:var(--steel);font-weight:400;flex-shrink:0}
+.doc-content details.faq-item[open] summary::after{content:"\2212"}
+.doc-content details.faq-item[open] summary{background:linear-gradient(90deg,#EAF2FB,#F4F7FB);border-bottom:1px solid var(--border)}
+.doc-content details.faq-item .faq-a{padding:15px 18px;color:#2B3E52;line-height:1.72}
+.dl-inline{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:13px 24px;border-radius:9px;text-decoration:none;margin:6px 0;box-shadow:0 2px 8px rgba(229,165,42,.35)}
+.dl-inline:hover{background:#d4941f}
+.doc-content .soon{display:inline-block;background:#F0F2F5;color:#8894A5;font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:6px}
+.doc-content table.plain td .dl-btn,.doc-content .dl-btn{display:inline-flex;align-items:center;background:#2EA47C;color:#fff;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:7px;text-decoration:none;white-space:nowrap}
+.doc-content .dl-btn:hover{background:#25896690}
 </style>
 </head>
 <body>
@@ -286,20 +306,20 @@ figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(
 </div></div>
 <section class="hero"><div class="wrap">
   <span class="eyebrow">MBA Entrance Exam</span>
-  <h1>CMAT 2027 — Common Management Admission Test</h1>
+  <h1>CMAT 2027: Common Management Admission Test</h1>
   <p class="lead">Complete CMAT 2027 guide: exam date, registration, eligibility, pattern, full syllabus, fees and application, by NTA.</p>
   <div class="stats"><div class="stat"><b>100</b><span>Questions</span></div><div class="stat"><b>400</b><span>Marks</span></div><div class="stat"><b>3 hrs</b><span>Duration</span></div><div class="stat"><b>5</b><span>Sections</span></div></div>
 </div></section><div class="wrap"><div class="shell"><main><section class="sec"></section>
 <section class="sec doc-content"><p><strong> </strong><strong>CMAT 2027: Exam Date, Registration, Eligibility, Pattern, Syllabus, Fees, Application Process &amp; More </strong><strong> </strong>The Common Management Admission Test (CMAT) is a national level entrance examination conducted by the National Testing Agency (NTA) for admission to management programmes in India. The examination is used by participating management institutes to shortlist candidates for programmes such as MBA, PGDM and other management courses. If you are planning to appear for CMAT 2027, understanding the examination well in advance can make the preparation process much easier. CMAT 2027 will be conducted by NTA as three hour entrance examination in Computer Based Test (CBT) mode to evaluate the candidates’ ability across various segments like Quantitative Technique, Logical Reasoning, Language Comprehension and General Awareness, for admission to the Management Courses in the Academic Session 2027 -28.</p>
-<p><strong>CMAT 2027: Quick Overview </strong></p>
-<p>The following table summarises the CMAT framework based on the latest official notification available.</p>
+<h2>CMAT 2027: Quick Overview</h2>
+<p>The following table summarises the CMAT framework based on the latest official notification available.</p><a href="https://prishth.in/pyqs.html" class="dl-banner"><img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-download-banner.webp" alt="Download Previous Year Papers, Practice Mocks, Syllabus and More at Prishth" loading="lazy"></a>
 <div class="table-wrap"><table><thead><tr><th>Particular</th><th>CMAT 2027 Details</th></tr></thead><tbody><tr><td>Exam Name</td><td>Common Management Admission Test (CMAT)</td></tr><tr><td>Conducting Body</td><td>National Testing Agency (NTA)</td></tr><tr><td>Exam Level</td><td>National Level</td></tr><tr><td>Purpose</td><td>Admission to management programmes</td></tr><tr><td>Mode of Exam</td><td>Computer Based Test (CBT)</td></tr><tr><td>Question Paper Language</td><td>English</td></tr><tr><td>Duration</td><td>3 hours / 180 minutes</td></tr><tr><td>Total Questions</td><td>100</td></tr><tr><td>Total Marks</td><td>400</td></tr><tr><td>Sections</td><td>5</td></tr><tr><td>Questions per Section</td><td>20</td></tr><tr><td>Marks per Question</td><td>4</td></tr><tr><td>Negative Marking</td><td>-1 for every incorrect answer*</td></tr><tr><td>Age Limit</td><td>No age restriction*</td></tr><tr><td>Official Website</td><td>cmat.nta.nic.in</td></tr></tbody></table></div>
 <p><strong>What is CMAT? </strong><strong> </strong>The Common Management Admission Test (CMAT) is a national level entrance examination for admission to management programmes in India.</p>
 <p>The examination was conducted by the All India Council for Technical Education (AICTE) until 2018. From 2019 onwards, NTA has been responsible for conducting CMAT. According to the official bulletin, CMAT scores are accepted by AICTE-approved institutions, university departments, constituent colleges and affiliated colleges that participate in the examination.</p>
 <p>However, there is an important distinction that CMAT aspirants should understand:</p>
 <p><strong>NTA conducts CMAT, but it does not conduct the admission process for individual colleges.</strong></p>
 <p><strong>Candidates have to apply separately to the institutions in which they wish to seek admission.</strong> Each participating institution may have its own CMAT cutoff and selection process. Depending on the institute, the admission process may include components such as a Group Discussion (GD) and Personal Interview (PI). <strong> </strong><strong>CMAT 2027 Eligibility Criteria</strong><strong> Based on the official CMAT notification, the eligibility requirements were straightforward.</strong></p>
-<p><strong>A candidate:</strong></p>
+<h2>A candidate:</h2>
 <ol class="doc-ol"><li>Must hold a Bachelor's degree in any discipline.</li><li>Candidates appearing in the final year of their Bachelor's degree could also apply, provided their result was declared before commencement of admission for the relevant academic session.</li><li>Must be a citizen of India.</li><li>There was no age restriction for appearing in CMAT 2027.</li></ol>
 <h2>CMAT 2027 Tentative Schedule</h2>
 <p><strong>CMAT 2027 Tentative Schedule </strong>These dates are tentative and based on the previous examination cycle. Candidates should refer to the official CMAT 2027 notification for the confirmed schedule.</p>
@@ -308,37 +328,37 @@ figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(
 <p><strong> CMAT 2027 Exam Pattern </strong><strong> The CMAT 2027 examination will comprise of 100 questions carrying a maximum of 400 marks. There were five sections, with 20 questions in each section:</strong></p>
 <div class="table-wrap"><table><thead><tr><th>Section</th><th>Questions</th><th>Maximum Marks</th></tr></thead><tbody><tr><td>Quantitative Techniques &amp; Data Interpretation</td><td>20</td><td>80</td></tr><tr><td>Logical Reasoning</td><td>20</td><td>80</td></tr><tr><td>Language Comprehension</td><td>20</td><td>80</td></tr><tr><td>General Awareness</td><td>20</td><td>80</td></tr><tr><td>Innovation &amp; Entrepreneurship</td><td>20</td><td>80</td></tr><tr><td>Total</td><td>100</td><td>400</td></tr></tbody></table></div><p class="scroll-hint">Swipe the table sideways to see all columns &rarr;</p>
 <p><strong>Note: T</strong>he question paper was in English only.</p>
-<p><strong>CMAT Marking Scheme</strong></p>
-<p><strong>The marking scheme specified in the CMAT 2026 bulletin was:</strong></p>
+<h2>CMAT Marking Scheme</h2>
+<h2>The marking scheme specified in the CMAT 2026 bulletin was:</h2>
 <ol class="doc-ol"><li>+4 marks for every correct answer</li><li>-1 mark for every incorrect answer</li><li>0 marks for an unattempted question</li></ol>
 <p>Thus, the maximum raw score was 400 marks.</p>
 <p><strong>Is there negative marking in CMAT?</strong></p>
 <p>Yes. Under the CMAT 2027 marking scheme, one mark is deducted for every incorrect answer. <strong> </strong><strong>CMAT 2027 Syllabus</strong></p>
-<p><strong>The official CMAT 2027 examination is divided into five broad areas:</strong></p>
+<h2>The official CMAT 2027 examination is divided into five broad areas:</h2>
 <div class="table-wrap"><table><thead><tr><th>Section</th><th>Important Topics</th></tr></thead><tbody><tr><td>Quantitative Techniques &amp; Data Interpretation</td><td>Arithmetic, Algebra, Number System, Geometry, Mensuration, Percentages, Profit &amp; Loss, Ratio &amp; Proportion, Averages, Time &amp; Work, Time, Speed &amp; Distance, Simple &amp; Compound Interest, Permutation &amp; Combination, Probability, Data Interpretation, Tables, Charts and Graphs</td></tr><tr><td>Logical Reasoning</td><td>Logical Puzzles, Arrangements, Series, Coding-Decoding, Blood Relations, Direction Sense, Analogy, Classification, Syllogisms, Statements &amp; Conclusions, Statements &amp; Assumptions, Venn Diagrams, Ranking and Ordering</td></tr><tr><td>Language Comprehension</td><td>Reading Comprehension, Vocabulary, Synonyms, Antonyms, Grammar, Sentence Correction, Fill in the Blanks, Para Jumbles, Sentence Completion, Idioms &amp; Phrases, Usage-based Questions</td></tr><tr><td>General Awareness</td><td>Current Affairs, Business &amp; Economy, National &amp; International Events, Government Schemes, Sports, Awards, Books &amp; Authors, Important Days, History, Geography, Science, Business and Corporate Affairs</td></tr><tr><td>Innovation &amp; Entrepreneurship</td><td>Entrepreneurship, Innovation, Start-ups, Business Models, Entrepreneurial Ecosystem, Business Terminology, Product Development, Marketing, Business Strategy, Leadership, Risk-taking and Government Initiatives</td></tr></tbody></table></div>
-<p><strong> </strong><strong>CMAT 2027 Application Form</strong></p>
+<h2>CMAT 2027 Application Form</h2>
 <p><strong>Based on the CMAT 2027 process, the application was completely online.</strong></p>
 <p>Candidates are required to complete the registration and application process through the official NTA CMAT website.  Applications submitted through any other mode are not accepted.</p>
 <p><strong>The application process broadly consists of four steps.</strong></p>
-<p><strong>Step 1: Registration</strong></p>
+<h2>Step 1: Registration</h2>
 <p>Candidates first have to register for the examination and create their login credentials.</p>
 <p>A system-generated Application Number is provided after successful registration. Candidates were advised to preserve this number because it was required for future login and correspondence.</p>
-<p><strong>Step 2: Fill the Application Form</strong></p>
-<p><strong>Candidates then have to enter information such as:</strong></p>
+<h2>Step 2: Fill the Application Form</h2>
+<h2>Candidates then have to enter information such as:</h2>
 <ol class="doc-ol"><li>Personal details</li><li>Educational qualifications</li><li>University/programme information</li><li>Test-related details</li><li>Examination city preferences</li></ol>
 <p><strong>Candidates also have to upload the required images and documents.</strong></p>
-<p><strong>Step 3: Pay the Examination Fee</strong></p>
-<p><strong>The examination fee was payable online through:</strong></p>
+<h2>Step 3: Pay the Examination Fee</h2>
+<h2>The examination fee was payable online through:</h2>
 <ol class="doc-ol"><li>Credit Card</li><li>Debit Card</li><li>Net Banking</li><li>UPI</li></ol>
 <p><strong>Applicable processing charges and GSTare additional.</strong></p>
-<p><strong>Step 4: Download the Confirmation Page</strong></p>
+<h2>Step 4: Download the Confirmation Page</h2>
 <p>The application is considered successfully submitted only after successful payment of the prescribed fee.</p>
 <p>Candidates are advised to download, save and print the Confirmation Page for future reference. <strong> </strong><strong>Documents Required for CMAT Application</strong></p>
 <p>The CMAT 2027 application requires candidates to upload their photograph and signature. PwD/PwBD candidates also had to upload the applicable certificate.</p>
-<p><strong>Photograph</strong></p>
-<p><strong>The official instructions specified that the photograph should:</strong></p>
+<h2>Photograph</h2>
+<h2>The official instructions specified that the photograph should:</h2>
 <ol class="doc-ol"><li>Be recent</li><li>Be in JPG/JPEG format</li><li>Have approximately 80% of the face visible</li><li>Show the ears</li><li>Have a white background</li><li>Be between 10 KB and 200 KB</li><li>Signature</li></ol>
-<p><strong>The scanned signature had to:</strong></p>
+<h2>The scanned signature had to:</h2>
 <ol class="doc-ol"><li>Be in JPG/JPEG format</li><li>Be clearly legible</li><li>Be between 10 KB and 50 KB</li><li>PwD/PwBD Certificate</li></ol>
 <p>Where applicable, the PwD/PwBD/UDID certificate had to be uploaded in PDF format and was specified as 50 KB to 300 KB in the 2026 bulletin. <strong>What to Carry to the CMAT Exam Centre?</strong></p>
 <p><strong>Based on the CMAT 2027  instructions, candidates were required to carry:</strong></p>
@@ -347,38 +367,31 @@ figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(
 <p><strong>CMAT 2027 Preparation: How Should You Prepare?</strong></p>
 <p>CMAT is not simply an examination of academic knowledge. With five sections and negative marking, candidates need a combination of speed, accuracy, awareness and decision-making.</p>
 <p>A practical preparation strategy is to divide your preparation into three stages.</p>
-<p><strong>Stage 1: Build the Basics</strong></p>
-<p><strong>Start by strengthening:</strong></p>
+<h2>Stage 1: Build the Basics</h2>
+<h2>Start by strengthening:</h2>
 <ol class="doc-ol"><li>Quantitative concepts</li><li>Logical reasoning fundamentals</li><li>English grammar and vocabulary</li><li>Reading comprehension</li><li>Static GK</li><li>Current affairs</li><li>Entrepreneurship concepts</li></ol>
 <p><strong>Do not rush into full length mocks before understanding the fundamentals.</strong></p>
-<p><strong>Stage 2: Build Speed</strong></p>
+<h2>Stage 2: Build Speed</h2>
 <p>Once the basics are comfortable, start solving questions under time pressure.</p>
-<p><strong>Focus on:</strong></p>
+<h2>Focus on:</h2>
 <ol class="doc-ol"><li>Calculation speed</li><li>Question selection</li><li>Eliminating incorrect options</li><li>Avoiding unnecessary calculations</li><li>Improving accuracy</li><li>Identifying easy questions quickly</li></ol>
-<p><strong>Stage 3: Mock Tests and Analysis</strong></p>
+<h2>Stage 3: Mock Tests and Analysis</h2>
 <p>Mocks become particularly important closer to the examination. But simply taking mock tests is not enough.</p>
-<p><strong>After every mock, analyse:</strong></p>
+<h2>After every mock, analyse:</h2>
 <p>What did I get wrong?</p>
 <p>Why did I get it wrong?</p>
 <p>Was it a conceptual mistake, calculation error or reading error?</p>
 <p>Did I spend too much time on a difficult question?</p>
 <p>Which questions should I have skipped?</p>
 <p><strong>This analysis often contributes more to improvement than simply taking another mock.</strong></p>
-<p><strong>CMAT 2027 FAQs</strong></p>
-<p>1. When will CMAT 2027 be conducted?</p>
-<p>The official CMAT 2027 examination date has not been announced in the source available here. Candidates should prepare keeping January 2027 as the tentative date in mind..</p>
-<p>2. Who conducts CMAT?</p>
-<p>CMAT is conducted by the National Testing Agency (NTA). NTA has been conducting CMAT since 2019.</p>
-<p>3. Is there an age limit for CMAT?</p>
-<p>Under the CMAT 2026 eligibility criteria, there was no age restriction. The final CMAT 2027 eligibility criteria should be checked once the notification is released.</p>
-<p>4. Can final-year graduation students apply for CMAT?</p>
-<p>Yes. Under the CMAT 2026 rules, candidates in the final year of their Bachelor's degree could apply, provided their result was declared before commencement of admission for the relevant academic session.</p>
-<p>5. Is CMAT conducted online?</p>
-<p>Yes. The CMAT 2026 examination was conducted in Computer Based Test (CBT) mode.</p>
-<p>6. Is there negative marking in CMAT?</p>
-<p>Yes. Under the 2026 scheme, candidates received 4 marks for a correct answer and lost 1 mark for an incorrect answer.</p>
-<p>7. Does appearing for CMAT guarantee admission?</p>
-<p>No. Candidates must apply separately to participating institutions, meet their respective cutoffs and satisfy their selection criteria. Some institutes may conduct GD and PI as part of the selection process.</p></section></main>
+<h2>CMAT 2027 FAQs</h2>
+<details class="faq-item"><summary>When will CMAT 2027 be conducted?</summary><div class="faq-a"><p>The official CMAT 2027 examination date has not been announced in the source available here. Candidates should prepare keeping January 2027 as the tentative date in mind..</p></div></details>
+<details class="faq-item"><summary>Who conducts CMAT?</summary><div class="faq-a"><p>CMAT is conducted by the National Testing Agency (NTA). NTA has been conducting CMAT since 2019.</p></div></details>
+<details class="faq-item"><summary>Is there an age limit for CMAT?</summary><div class="faq-a"><p>Under the CMAT 2026 eligibility criteria, there was no age restriction. The final CMAT 2027 eligibility criteria should be checked once the notification is released.</p></div></details>
+<details class="faq-item"><summary>Can final-year graduation students apply for CMAT?</summary><div class="faq-a"><p>Yes. Under the CMAT 2026 rules, candidates in the final year of their Bachelor's degree could apply, provided their result was declared before commencement of admission for the relevant academic session.</p></div></details>
+<details class="faq-item"><summary>Is CMAT conducted online?</summary><div class="faq-a"><p>Yes. The CMAT 2026 examination was conducted in Computer Based Test (CBT) mode.</p></div></details>
+<details class="faq-item"><summary>Is there negative marking in CMAT?</summary><div class="faq-a"><p>Yes. Under the 2026 scheme, candidates received 4 marks for a correct answer and lost 1 mark for an incorrect answer.</p></div></details>
+<details class="faq-item"><summary>Does appearing for CMAT guarantee admission?</summary><div class="faq-a"><p>No. Candidates must apply separately to participating institutions, meet their respective cutoffs and satisfy their selection criteria. Some institutes may conduct GD and PI as part of the selection process.</p></div></details></section></main>
 <aside class="side">
   <div class="card dark"><h4>Download CMAT Papers</h4><p>Free CMAT previous year papers, 2019 to 2026.</p><a class="btn btn-gold" href="https://prishth.in/cmat-previous-year-paper.html">Get CMAT Papers →</a></div>
   <div class="card"><h4>Quick Links</h4><div class="qlinks"><a href="https://prishth.in/cmat-innovation-entrepreneurship.html">💡 Innovation and Entrepreneurship</a><a href="https://prishth.in/cmat-previous-year-paper.html">📄 CMAT Previous Papers</a><a href="https://prishth.in/pyqs.html">🎓 All PYQs</a></div></div>

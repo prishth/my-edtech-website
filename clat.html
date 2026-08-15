@@ -248,18 +248,38 @@ figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(
 }
 </style>
 <style>
-.doc-content h2{font-size:22px;color:var(--navy);margin:32px 0 12px;font-family:'Sora',sans-serif;font-weight:700;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.dl-banner{display:block;margin:26px 0;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(27,58,92,.12)}
+.dl-banner img{width:100%;display:block}
+.doc-content h2{font-size:22px;color:var(--navy);margin:34px 0 14px;font-family:'Sora',sans-serif;font-weight:700;padding:11px 0 11px 18px;border-left:5px solid var(--gold);background:linear-gradient(90deg,#FBF4E6,transparent);border-radius:0 8px 8px 0}
+.doc-content h2:nth-of-type(3n+1){border-left-color:#2E6DA4;background:linear-gradient(90deg,#EAF2FB,transparent)}
+.doc-content h2:nth-of-type(3n+2){border-left-color:#2EA47C;background:linear-gradient(90deg,#E8F6F0,transparent)}
 .doc-content p{font-size:16px;line-height:1.75;color:#2B3E52;margin:12px 0}
-.doc-content strong{color:var(--navy);font-weight:600}
-.doc-content ol.doc-ol{margin:14px 0;padding-left:0;counter-reset:item;list-style:none}
-.doc-content ol.doc-ol>li{position:relative;padding:9px 0 9px 44px;line-height:1.65;color:#2B3E52;counter-increment:item;border-bottom:1px solid #EEF2F7}
-.doc-content ol.doc-ol>li::before{content:counter(item);position:absolute;left:0;top:8px;width:28px;height:28px;background:var(--navy);color:#fff;border-radius:8px;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center}
-.doc-content ul.doc-list{margin:14px 0;list-style:none;padding:0}
-.doc-content ul.doc-list>li{position:relative;padding:7px 0 7px 28px;color:#2B3E52;line-height:1.65}
-.doc-content ul.doc-list>li::before{content:"";position:absolute;left:6px;top:15px;width:8px;height:8px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.doc-content strong{color:var(--navy);font-weight:700;background:linear-gradient(transparent 62%,#FBE4B8 62%);padding:0 1px}
+.doc-content ol.doc-ol{margin:16px 0;padding-left:0;counter-reset:item;list-style:none}
+.doc-content ol.doc-ol>li{position:relative;padding:10px 0 10px 46px;line-height:1.65;color:#2B3E52;counter-increment:item;border-bottom:1px solid #EEF2F7}
+.doc-content ol.doc-ol>li::before{content:counter(item);position:absolute;left:0;top:8px;width:30px;height:30px;background:var(--steel);color:#fff;border-radius:9px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(46,109,164,.3)}
+.doc-content ol.doc-ol>li:nth-child(3n+2)::before{background:#2EA47C;box-shadow:0 2px 5px rgba(46,164,124,.3)}
+.doc-content ol.doc-ol>li:nth-child(3n)::before{background:var(--gold);box-shadow:0 2px 5px rgba(229,165,42,.3)}
+.doc-content ul.doc-list{margin:16px 0;list-style:none;padding:0}
+.doc-content ul.doc-list>li{position:relative;padding:8px 0 8px 30px;color:#2B3E52;line-height:1.65}
+.doc-content ul.doc-list>li::before{content:"";position:absolute;left:6px;top:15px;width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.doc-content ul.doc-list>li:nth-child(3n+2)::before{background:#2EA47C}
+.doc-content ul.doc-list>li:nth-child(3n)::before{background:var(--steel)}
 .lead-img{margin:0 0 22px;border-radius:14px;overflow:hidden;border:1px solid var(--border)}
 .lead-img img{width:100%;display:block}
 .doc-content table{width:100%}
+.doc-content details.faq-item{border:1px solid var(--border);border-radius:10px;margin:11px 0;overflow:hidden;background:#fff}
+.doc-content details.faq-item summary{padding:15px 18px;font-weight:600;color:var(--navy);cursor:pointer;font-family:'Sora',sans-serif;font-size:15.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;background:#F4F7FB}
+.doc-content details.faq-item summary::-webkit-details-marker{display:none}
+.doc-content details.faq-item summary::after{content:"+";font-size:24px;color:var(--steel);font-weight:400;flex-shrink:0}
+.doc-content details.faq-item[open] summary::after{content:"\2212"}
+.doc-content details.faq-item[open] summary{background:linear-gradient(90deg,#EAF2FB,#F4F7FB);border-bottom:1px solid var(--border)}
+.doc-content details.faq-item .faq-a{padding:15px 18px;color:#2B3E52;line-height:1.72}
+.dl-inline{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:13px 24px;border-radius:9px;text-decoration:none;margin:6px 0;box-shadow:0 2px 8px rgba(229,165,42,.35)}
+.dl-inline:hover{background:#d4941f}
+.doc-content .soon{display:inline-block;background:#F0F2F5;color:#8894A5;font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:6px}
+.doc-content table.plain td .dl-btn,.doc-content .dl-btn{display:inline-flex;align-items:center;background:#2EA47C;color:#fff;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:7px;text-decoration:none;white-space:nowrap}
+.doc-content .dl-btn:hover{background:#25896690}
 </style>
 </head>
 <body>
@@ -286,12 +306,12 @@ figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(
 </div></div>
 <section class="hero"><div class="wrap">
   <span class="eyebrow">Law Entrance Exam</span>
-  <h1>CLAT 2027 — Common Law Admission Test</h1>
+  <h1>CLAT 2027: Common Law Admission Test</h1>
   <p class="lead">Complete CLAT 2027 guide: overview, eligibility, fees, syllabus, exam dates and more, for admission to 26 National Law Universities.</p>
   <div class="stats"><div class="stat"><b>120</b><span>MCQs</span></div><div class="stat"><b>2 hrs</b><span>Duration</span></div><div class="stat"><b>0.25</b><span>Negative Mark</span></div><div class="stat"><b>26</b><span>NLUs</span></div></div>
 </div></section><div class="wrap"><div class="shell"><main><section class="sec"></section>
 <section class="sec doc-content"><p>CLAT 2027 - Exam Overview, Eligibility, Fees, Syllabus, Exam Dates &amp; More.<strong> </strong>The Common Law Admission Test (CLAT) is India's most popular national-level entrance exam for admission to undergraduate and postgraduate law programmes offered by 26 National Law Universities (NLUs) and several other participating universities. It is conducted every year by the Consortium of National Law Universities (Consortium of NLUs).</p>
-<p>For undergraduate admissions, CLAT serves as the gateway to 5-year integrated law programmes such as BA LLB, BBA LLB, BCom LLB, BSc LLB, and BSW LLB. In addition to NLUs, many leading private law colleges and universities also accept CLAT scores for admission.</p>
+<p>For undergraduate admissions, CLAT serves as the gateway to 5-year integrated law programmes such as BA LLB, BBA LLB, BCom LLB, BSc LLB, and BSW LLB. In addition to NLUs, many leading private law colleges and universities also accept CLAT scores for admission.</p><a href="https://prishth.in/pyqs.html" class="dl-banner"><img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-download-banner.webp" alt="Download Previous Year Papers, Practice Mocks, Syllabus and More at Prishth" loading="lazy"></a>
 <p>The CLAT exam tests a candidate's reading comprehension, logical reasoning, legal aptitude, current affairs, and quantitative ability through a passage-based question format. Rather than focusing on rote learning, the exam evaluates analytical thinking, problem-solving, and decision-making skills that are essential for studying law.</p>
 <h2>CLAT 2027 Exam Highlights</h2>
 <p>Every year, over one lakh candidates appear for the CLAT exam, making it one of the most competitive law entrance exams in India. A good score in CLAT 2027 can open the door to some of the country's top law schools and excellent career opportunities in litigation, corporate law, judiciary, civil services, legal consulting, and public policy. <strong> CLAT 2027 Exam Highlights </strong></p>
