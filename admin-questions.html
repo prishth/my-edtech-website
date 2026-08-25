@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Add Questions | Prishth Admin</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#1B3A5C;--steel:#2E6DA4;--bg:#F4F7FB;--border:#DDE6F0;--white:#FFFFFF;--gold:#E5A52A;--ink:#16283C;--muted:#5C6F84;--green:#2EA47C;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;padding:20px}
+.wrap{max-width:760px;margin:0 auto}
+h1{font-family:'Sora',sans-serif;font-size:26px;color:var(--navy);margin-bottom:4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:24px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:26px;margin-bottom:20px;box-shadow:0 2px 10px rgba(27,58,92,.06)}
+.card h2{font-family:'Sora',sans-serif;font-size:17px;color:var(--navy);margin-bottom:16px}
+label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin:14px 0 5px}
+input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--ink);background:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--steel)}
+textarea{resize:vertical;min-height:70px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.opt-row{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;margin-bottom:10px}
+.opt-letter{background:var(--navy);color:#fff;font-family:'Sora',sans-serif;font-weight:700;border-radius:8px;text-align:center;padding:11px 0;font-size:15px}
+.opt-row.correct .opt-letter{background:var(--green)}
+.btn{display:inline-block;background:var(--navy);color:#fff;font-family:'Sora',sans-serif;font-weight:600;font-size:15px;padding:13px 28px;border:none;border-radius:9px;cursor:pointer;transition:.18s}
+.btn:hover{background:var(--steel)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:#d4941f}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.hint{font-size:12.5px;color:var(--muted);margin-top:4px}
+.msg{padding:13px 16px;border-radius:9px;font-size:14px;font-weight:500;margin-top:16px;display:none}
+.msg.show{display:block}
+.msg.ok{background:#E3F5EC;color:#1a7350;border:1px solid #2EA47C}
+.msg.err{background:#FBE9E9;color:#B23636;border:1px solid #E5A0A0}
+.correct-pick{background:#F4F7FB;border:1px solid var(--border);border-radius:9px;padding:14px;margin-top:8px}
+.correct-pick .pill{display:inline-block;margin:4px 6px 0 0}
+.pill input{display:none}
+.pill label{display:inline-block;padding:8px 18px;border:1.5px solid var(--border);border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);margin:0}
+.pill input:checked + label{background:var(--green);color:#fff;border-color:var(--green)}
+#loginCard{max-width:420px;margin:40px auto}
+.hidden{display:none}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.logout{font-size:13px;color:var(--steel);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'DM Sans',sans-serif}
+.count-badge{background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;font-family:'Sora',sans-serif}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- LOGIN VIEW -->
+  <div id="loginView">
+    <div class="card" id="loginCard">
+      <h1>Prishth Admin</h1>
+      <p class="sub">Log in to add test questions.</p>
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="you@prishth.in"/>
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Your admin password"/>
+      <div style="margin-top:18px"><button class="btn" id="loginBtn">Log In</button></div>
+      <div class="msg" id="loginMsg"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN VIEW -->
+  <div id="adminView" class="hidden">
+    <div class="topbar">
+      <div>
+        <h1>Add a Question</h1>
+        <p class="sub">Fill the form and save. It goes live in Supabase instantly. <span class="count-badge" id="sessionCount">0 added this session</span></p>
+      </div>
+      <button class="logout" id="logoutBtn">Log out</button>
+    </div>
+
+    <div class="card">
+      <h2>Question Details</h2>
+      <div class="row">
+        <div>
+          <label>Exam *</label>
+          <input list="examList" id="exam" placeholder="e.g. CMAT"/>
+          <datalist id="examList">
+            <option value="CAT"><option value="XAT"><option value="NMAT"><option value="CMAT">
+            <option value="MAH MBA CET"><option value="CLAT"><option value="MP Patwari">
+            <option value="SSC CGL"><option value="SBI PO"><option value="RRB NTPC">
+          </datalist>
+        </div>
+        <div>
+          <label>Test Name *</label>
+          <input id="test_name" placeholder="e.g. CMAT Mock 1"/>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Section</label>
+          <input id="section" placeholder="e.g. Quantitative Techniques"/>
+        </div>
+        <div>
+          <label>Difficulty</label>
+          <select id="difficulty">
+            <option value="Easy">Easy</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Question *</label>
+      <textarea id="question" placeholder="Type the full question here..."></textarea>
+    </div>
+
+    <div class="card">
+      <h2>Options &amp; Correct Answer</h2>
+      <div class="opt-row"><div class="opt-letter">A</div><input id="option_a" placeholder="Option A"/></div>
+      <div class="opt-row"><div class="opt-letter">B</div><input id="option_b" placeholder="Option B"/></div>
+      <div class="opt-row"><div class="opt-letter">C</div><input id="option_c" placeholder="Option C"/></div>
+      <div class="opt-row"><div class="opt-letter">D</div><input id="option_d" placeholder="Option D"/></div>
+
+      <div class="correct-pick">
+        <label style="margin:0 0 8px">Which option is correct? *</label>
+        <span class="pill"><input type="radio" name="correct" id="cA" value="A"><label for="cA">A</label></span>
+        <span class="pill"><input type="radio" name="correct" id="cB" value="B"><label for="cB">B</label></span>
+        <span class="pill"><input type="radio" name="correct" id="cC" value="C"><label for="cC">C</label></span>
+        <span class="pill"><input type="radio" name="correct" id="cD" value="D"><label for="cD">D</label></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Explanation</h2>
+      <label>Why is the correct answer right? (shown to students after the test)</label>
+      <textarea id="explanation" placeholder="Explain the solution..."></textarea>
+    </div>
+
+    <button class="btn btn-gold" id="saveBtn">Save Question</button>
+    <div class="msg" id="saveMsg"></div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB_URL="https://aqrxmcmmdazyslznilbl.supabase.co";
+const SB_KEY="sb_publishable_wRKj-veZ1_Ro-HSH8kXCFg_ifvjUD8L";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let sessionCount=0;
+
+const loginView=document.getElementById('loginView');
+const adminView=document.getElementById('adminView');
+
+async function checkSession(){
+  const {data}=await sb.auth.getSession();
+  if(data.session){ loginView.classList.add('hidden'); adminView.classList.remove('hidden'); }
+  else { loginView.classList.remove('hidden'); adminView.classList.add('hidden'); }
+}
+checkSession();
+
+document.getElementById('loginBtn').addEventListener('click',async()=>{
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  const msg=document.getElementById('loginMsg');
+  msg.className='msg';
+  const {error}=await sb.auth.signInWithPassword({email,password:pass});
+  if(error){ msg.textContent="Login failed: "+error.message; msg.className='msg err show'; }
+  else { checkSession(); }
+});
+
+document.getElementById('logoutBtn').addEventListener('click',async()=>{
+  await sb.auth.signOut(); checkSession();
+});
+
+document.getElementById('saveBtn').addEventListener('click',async()=>{
+  const msg=document.getElementById('saveMsg');
+  msg.className='msg';
+  const correctEl=document.querySelector('input[name="correct"]:checked');
+  const row={
+    exam:document.getElementById('exam').value.trim(),
+    test_name:document.getElementById('test_name').value.trim(),
+    section:document.getElementById('section').value.trim()||null,
+    question:document.getElementById('question').value.trim(),
+    option_a:document.getElementById('option_a').value.trim(),
+    option_b:document.getElementById('option_b').value.trim(),
+    option_c:document.getElementById('option_c').value.trim(),
+    option_d:document.getElementById('option_d').value.trim(),
+    correct_answer:correctEl?correctEl.value:null,
+    explanation:document.getElementById('explanation').value.trim()||null,
+    difficulty:document.getElementById('difficulty').value
+  };
+  // validation
+  if(!row.exam||!row.test_name||!row.question||!row.option_a||!row.option_b||!row.option_c||!row.option_d||!row.correct_answer){
+    msg.textContent="Please fill all required fields (marked *) and pick the correct option.";
+    msg.className='msg err show'; return;
+  }
+  document.getElementById('saveBtn').disabled=true;
+  const {error}=await sb.from('questions').insert([row]);
+  document.getElementById('saveBtn').disabled=false;
+  if(error){ msg.textContent="Save failed: "+error.message; msg.className='msg err show'; }
+  else {
+    sessionCount++;
+    document.getElementById('sessionCount').textContent=sessionCount+" added this session";
+    msg.textContent="✓ Question saved! The form is cleared for the next one. (Exam & Test Name kept.)";
+    msg.className='msg ok show';
+    // clear question-specific fields but KEEP exam + test_name for fast entry
+    ['section','question','option_a','option_b','option_c','option_d','explanation'].forEach(id=>document.getElementById(id).value='');
+    if(correctEl) correctEl.checked=false;
+    document.getElementById('question').focus();
+  }
+});
+
+// highlight the correct option letter green as you pick
+document.querySelectorAll('input[name="correct"]').forEach(r=>{
+  r.addEventListener('change',()=>{
+    document.querySelectorAll('.opt-row').forEach(o=>o.classList.remove('correct'));
+    const letter=r.value; const map={A:0,B:1,C:2,D:3};
+    document.querySelectorAll('.opt-row')[map[letter]].classList.add('correct');
+  });
+});
+</script>
+</body>
+</html>
