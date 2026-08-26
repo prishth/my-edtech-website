@@ -17,13 +17,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line
 h1{font-family:'Sora',sans-serif;font-size:26px;color:var(--navy);margin-bottom:4px}
 .sub{color:var(--muted);font-size:14px;margin-bottom:24px}
 .card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:26px;margin-bottom:20px;box-shadow:0 2px 10px rgba(27,58,92,.06)}
-.card h2{font-family:'Sora',sans-serif;font-size:17px;color:var(--navy);margin-bottom:16px}
+.card h2{font-family:'Sora',sans-serif;font-size:17px;color:var(--navy);margin-bottom:6px}
 label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin:14px 0 5px}
 input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--ink);background:#fff}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--steel)}
 textarea{resize:vertical;min-height:70px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.opt-row{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;margin-bottom:10px}
+.opt-row{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;margin-bottom:10px}
 .opt-letter{background:var(--navy);color:#fff;font-family:'Sora',sans-serif;font-weight:700;border-radius:8px;text-align:center;padding:11px 0;font-size:15px}
 .opt-row.correct .opt-letter{background:var(--green)}
 .btn{display:inline-block;background:var(--navy);color:#fff;font-family:'Sora',sans-serif;font-weight:600;font-size:15px;padding:13px 28px;border:none;border-radius:9px;cursor:pointer;transition:.18s}
@@ -37,7 +37,7 @@ textarea{resize:vertical;min-height:70px}
 .msg.ok{background:#E3F5EC;color:#1a7350;border:1px solid #2EA47C}
 .msg.err{background:#FBE9E9;color:#B23636;border:1px solid #E5A0A0}
 .correct-pick{background:#F4F7FB;border:1px solid var(--border);border-radius:9px;padding:14px;margin-top:8px}
-.correct-pick .pill{display:inline-block;margin:4px 6px 0 0}
+.pill{display:inline-block;margin:4px 6px 0 0}
 .pill input{display:none}
 .pill label{display:inline-block;padding:8px 18px;border:1.5px solid var(--border);border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);margin:0}
 .pill input:checked + label{background:var(--green);color:#fff;border-color:var(--green)}
@@ -46,12 +46,21 @@ textarea{resize:vertical;min-height:70px}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .logout{font-size:13px;color:var(--steel);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'DM Sans',sans-serif}
 .count-badge{background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;font-family:'Sora',sans-serif}
+.rich{width:100%;min-height:70px;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--ink);background:#fff;overflow-wrap:break-word}
+.rich:focus{outline:none;border-color:var(--steel)}
+.rich:empty:before{content:attr(data-ph);color:#9AA7B5}
+.rich img{max-width:100%;height:auto;border-radius:6px;margin:6px 0;display:block}
+.toggle-group{display:flex;gap:8px;margin:6px 0 4px;flex-wrap:wrap}
+.toggle-group button{flex:0 0 auto;padding:8px 18px;border:1.5px solid var(--border);background:#fff;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13.5px;color:var(--muted);cursor:pointer}
+.toggle-group button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.uploading{font-size:12px;color:var(--gold);font-weight:600;margin-top:4px;display:none}
+.uploading.show{display:block}
+.tita-box{background:#FBF4E6;border:1px solid var(--gold);border-radius:9px;padding:16px;margin-top:8px}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- LOGIN VIEW -->
   <div id="loginView">
     <div class="card" id="loginCard">
       <h1>Prishth Admin</h1>
@@ -65,12 +74,11 @@ textarea{resize:vertical;min-height:70px}
     </div>
   </div>
 
-  <!-- ADMIN VIEW -->
   <div id="adminView" class="hidden">
     <div class="topbar">
       <div>
         <h1>Add a Question</h1>
-        <p class="sub">Fill the form and save. It goes live in Supabase instantly. <span class="count-badge" id="sessionCount">0 added this session</span></p>
+        <p class="sub">Tip: paste snipped images (Ctrl+V) directly into the question, options, or explanation. <span class="count-badge" id="sessionCount">0 added this session</span></p>
       </div>
       <button class="logout" id="logoutBtn">Log out</button>
     </div>
@@ -80,12 +88,22 @@ textarea{resize:vertical;min-height:70px}
       <div class="row">
         <div>
           <label>Exam *</label>
-          <input list="examList" id="exam" placeholder="e.g. CMAT"/>
-          <datalist id="examList">
-            <option value="CAT"><option value="XAT"><option value="NMAT"><option value="CMAT">
-            <option value="MAH MBA CET"><option value="CLAT"><option value="MP Patwari">
-            <option value="SSC CGL"><option value="SBI PO"><option value="RRB NTPC">
-          </datalist>
+          <select id="exam">
+            <option value="">— Select exam —</option>
+            <optgroup label="MBA">
+              <option>CAT</option><option>XAT</option><option>NMAT</option><option>SNAP</option>
+              <option>CMAT</option><option>MAT</option><option>TISSNET</option><option>MAH MBA CET</option>
+            </optgroup>
+            <optgroup label="BBA / IPM">
+              <option>IPMAT Indore</option><option>IPMAT Rohtak</option><option>JIPMAT</option>
+              <option>Christ BBA</option><option>Christ Entrance</option><option>SET Symbiosis</option>
+            </optgroup>
+            <optgroup label="Law"><option>CLAT</option></optgroup>
+            <optgroup label="SSC"><option>SSC CGL</option></optgroup>
+            <optgroup label="Banking"><option>SBI PO</option></optgroup>
+            <optgroup label="Railway"><option>RRB NTPC</option></optgroup>
+            <optgroup label="State"><option>MP Patwari</option></optgroup>
+          </select>
         </div>
         <div>
           <label>Test Name *</label>
@@ -107,16 +125,29 @@ textarea{resize:vertical;min-height:70px}
         </div>
       </div>
 
+      <label>Question Type *</label>
+      <div class="toggle-group" id="typeToggle">
+        <button type="button" data-type="MCQ" class="active">MCQ (options)</button>
+        <button type="button" data-type="TITA">TITA (type the answer)</button>
+      </div>
+
       <label>Question *</label>
-      <textarea id="question" placeholder="Type the full question here..."></textarea>
+      <div class="rich" id="question" contenteditable="true" data-ph="Type the question. Paste an image anywhere with Ctrl+V."></div>
+      <div class="uploading" id="upl-question">Uploading image…</div>
     </div>
 
-    <div class="card">
+    <div class="card" id="mcqCard">
       <h2>Options &amp; Correct Answer</h2>
-      <div class="opt-row"><div class="opt-letter">A</div><input id="option_a" placeholder="Option A"/></div>
-      <div class="opt-row"><div class="opt-letter">B</div><input id="option_b" placeholder="Option B"/></div>
-      <div class="opt-row"><div class="opt-letter">C</div><input id="option_c" placeholder="Option C"/></div>
-      <div class="opt-row"><div class="opt-letter">D</div><input id="option_d" placeholder="Option D"/></div>
+      <div class="toggle-group" id="optCountToggle">
+        <button type="button" data-count="4" class="active">4 options</button>
+        <button type="button" data-count="5">5 options</button>
+      </div>
+
+      <div class="opt-row"><div class="opt-letter">A</div><div><div class="rich" id="option_a" contenteditable="true" data-ph="Option A (text and/or pasted image)"></div><div class="uploading" id="upl-option_a">Uploading…</div></div></div>
+      <div class="opt-row"><div class="opt-letter">B</div><div><div class="rich" id="option_b" contenteditable="true" data-ph="Option B"></div><div class="uploading" id="upl-option_b">Uploading…</div></div></div>
+      <div class="opt-row"><div class="opt-letter">C</div><div><div class="rich" id="option_c" contenteditable="true" data-ph="Option C"></div><div class="uploading" id="upl-option_c">Uploading…</div></div></div>
+      <div class="opt-row"><div class="opt-letter">D</div><div><div class="rich" id="option_d" contenteditable="true" data-ph="Option D"></div><div class="uploading" id="upl-option_d">Uploading…</div></div></div>
+      <div class="opt-row hidden" id="optE-wrap"><div class="opt-letter">E</div><div><div class="rich" id="option_e" contenteditable="true" data-ph="Option E"></div><div class="uploading" id="upl-option_e">Uploading…</div></div></div>
 
       <div class="correct-pick">
         <label style="margin:0 0 8px">Which option is correct? *</label>
@@ -124,13 +155,24 @@ textarea{resize:vertical;min-height:70px}
         <span class="pill"><input type="radio" name="correct" id="cB" value="B"><label for="cB">B</label></span>
         <span class="pill"><input type="radio" name="correct" id="cC" value="C"><label for="cC">C</label></span>
         <span class="pill"><input type="radio" name="correct" id="cD" value="D"><label for="cD">D</label></span>
+        <span class="pill hidden" id="pillE"><input type="radio" name="correct" id="cE" value="E"><label for="cE">E</label></span>
+      </div>
+    </div>
+
+    <div class="card hidden" id="titaCard">
+      <h2>Answer (TITA)</h2>
+      <div class="tita-box">
+        <label style="margin:0 0 6px">Correct answer (the value the student must type) *</label>
+        <input id="tita_answer" placeholder="e.g. 42  or  3.5"/>
+        <p class="hint">No options for TITA. The student types this exact value.</p>
       </div>
     </div>
 
     <div class="card">
       <h2>Explanation</h2>
-      <label>Why is the correct answer right? (shown to students after the test)</label>
-      <textarea id="explanation" placeholder="Explain the solution..."></textarea>
+      <label>Solution (shown after the test). You can paste images here too.</label>
+      <div class="rich" id="explanation" contenteditable="true" data-ph="Explain the solution. Paste images with Ctrl+V."></div>
+      <div class="uploading" id="upl-explanation">Uploading image…</div>
     </div>
 
     <button class="btn btn-gold" id="saveBtn">Save Question</button>
@@ -144,11 +186,9 @@ textarea{resize:vertical;min-height:70px}
 const SB_URL="https://aqrxmcmmdazyslznilbl.supabase.co";
 const SB_KEY="sb_publishable_wRKj-veZ1_Ro-HSH8kXCFg_ifvjUD8L";
 const sb=supabase.createClient(SB_URL,SB_KEY);
-let sessionCount=0;
+let sessionCount=0, qType='MCQ', optCount=4;
 
-const loginView=document.getElementById('loginView');
-const adminView=document.getElementById('adminView');
-
+const loginView=document.getElementById('loginView'), adminView=document.getElementById('adminView');
 async function checkSession(){
   const {data}=await sb.auth.getSession();
   if(data.session){ loginView.classList.add('hidden'); adminView.classList.remove('hidden'); }
@@ -159,62 +199,110 @@ checkSession();
 document.getElementById('loginBtn').addEventListener('click',async()=>{
   const email=document.getElementById('loginEmail').value.trim();
   const pass=document.getElementById('loginPass').value;
-  const msg=document.getElementById('loginMsg');
-  msg.className='msg';
+  const msg=document.getElementById('loginMsg'); msg.className='msg';
   const {error}=await sb.auth.signInWithPassword({email,password:pass});
   if(error){ msg.textContent="Login failed: "+error.message; msg.className='msg err show'; }
-  else { checkSession(); }
+  else checkSession();
+});
+document.getElementById('logoutBtn').addEventListener('click',async()=>{ await sb.auth.signOut(); checkSession(); });
+
+document.querySelectorAll('#typeToggle button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#typeToggle button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); qType=b.dataset.type;
+    document.getElementById('mcqCard').classList.toggle('hidden',qType!=='MCQ');
+    document.getElementById('titaCard').classList.toggle('hidden',qType!=='TITA');
+  });
+});
+document.querySelectorAll('#optCountToggle button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#optCountToggle button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); optCount=parseInt(b.dataset.count);
+    const show5=optCount===5;
+    document.getElementById('optE-wrap').classList.toggle('hidden',!show5);
+    document.getElementById('pillE').classList.toggle('hidden',!show5);
+  });
 });
 
-document.getElementById('logoutBtn').addEventListener('click',async()=>{
-  await sb.auth.signOut(); checkSession();
+async function handlePaste(e, boxId){
+  const items=(e.clipboardData||e.originalEvent.clipboardData).items;
+  for(const item of items){
+    if(item.type.indexOf('image')===0){
+      e.preventDefault();
+      const file=item.getAsFile();
+      const upl=document.getElementById('upl-'+boxId); if(upl) upl.classList.add('show');
+      const fname='img_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.png';
+      const {data,error}=await sb.storage.from('question-images').upload(fname,file,{contentType:file.type});
+      if(upl) upl.classList.remove('show');
+      if(error){ alert('Image upload failed: '+error.message); return; }
+      const {data:pub}=sb.storage.from('question-images').getPublicUrl(fname);
+      const img=document.createElement('img'); img.src=pub.publicUrl;
+      const sel=window.getSelection();
+      if(sel.rangeCount){ const range=sel.getRangeAt(0); range.insertNode(img); range.collapse(false); }
+      else document.getElementById(boxId).appendChild(img);
+      return;
+    }
+  }
+}
+['question','option_a','option_b','option_c','option_d','option_e','explanation'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('paste',e=>handlePaste(e,id));
 });
+
+document.querySelectorAll('input[name="correct"]').forEach(r=>{
+  r.addEventListener('change',()=>{
+    document.querySelectorAll('.opt-row').forEach(o=>o.classList.remove('correct'));
+    const map={A:0,B:1,C:2,D:3,E:4};
+    const rows=document.querySelectorAll('#mcqCard .opt-row');
+    if(rows[map[r.value]]) rows[map[r.value]].classList.add('correct');
+  });
+});
+
+function richVal(id){ const el=document.getElementById(id); return el?el.innerHTML.trim():''; }
+function richHasContent(id){ const el=document.getElementById(id); return el && (el.textContent.trim()||el.querySelector('img')); }
 
 document.getElementById('saveBtn').addEventListener('click',async()=>{
-  const msg=document.getElementById('saveMsg');
-  msg.className='msg';
-  const correctEl=document.querySelector('input[name="correct"]:checked');
+  const msg=document.getElementById('saveMsg'); msg.className='msg';
   const row={
     exam:document.getElementById('exam').value.trim(),
     test_name:document.getElementById('test_name').value.trim(),
     section:document.getElementById('section').value.trim()||null,
-    question:document.getElementById('question').value.trim(),
-    option_a:document.getElementById('option_a').value.trim(),
-    option_b:document.getElementById('option_b').value.trim(),
-    option_c:document.getElementById('option_c').value.trim(),
-    option_d:document.getElementById('option_d').value.trim(),
-    correct_answer:correctEl?correctEl.value:null,
-    explanation:document.getElementById('explanation').value.trim()||null,
-    difficulty:document.getElementById('difficulty').value
+    difficulty:document.getElementById('difficulty').value,
+    question_type:qType,
+    question:richVal('question'),
+    explanation:richVal('explanation')||null
   };
-  // validation
-  if(!row.exam||!row.test_name||!row.question||!row.option_a||!row.option_b||!row.option_c||!row.option_d||!row.correct_answer){
-    msg.textContent="Please fill all required fields (marked *) and pick the correct option.";
-    msg.className='msg err show'; return;
+  if(!row.exam||!row.test_name||!richHasContent('question')){
+    msg.textContent="Please fill Exam, Test Name, and the Question."; msg.className='msg err show'; return;
+  }
+  if(qType==='MCQ'){
+    row.option_a=richVal('option_a'); row.option_b=richVal('option_b');
+    row.option_c=richVal('option_c'); row.option_d=richVal('option_d');
+    row.option_e=optCount===5?richVal('option_e'):null;
+    const correctEl=document.querySelector('input[name="correct"]:checked');
+    row.correct_answer=correctEl?correctEl.value:null; row.tita_answer=null;
+    const need=['option_a','option_b','option_c','option_d'].concat(optCount===5?['option_e']:[]);
+    if(need.some(o=>!richHasContent(o))||!row.correct_answer){
+      msg.textContent="Fill all "+optCount+" options and pick the correct one."; msg.className='msg err show'; return;
+    }
+  } else {
+    row.tita_answer=document.getElementById('tita_answer').value.trim();
+    row.correct_answer=null; row.option_a=row.option_b=row.option_c=row.option_d=row.option_e=null;
+    if(!row.tita_answer){ msg.textContent="Enter the TITA answer value."; msg.className='msg err show'; return; }
   }
   document.getElementById('saveBtn').disabled=true;
   const {error}=await sb.from('questions').insert([row]);
   document.getElementById('saveBtn').disabled=false;
   if(error){ msg.textContent="Save failed: "+error.message; msg.className='msg err show'; }
   else {
-    sessionCount++;
-    document.getElementById('sessionCount').textContent=sessionCount+" added this session";
-    msg.textContent="✓ Question saved! The form is cleared for the next one. (Exam & Test Name kept.)";
-    msg.className='msg ok show';
-    // clear question-specific fields but KEEP exam + test_name for fast entry
-    ['section','question','option_a','option_b','option_c','option_d','explanation'].forEach(id=>document.getElementById(id).value='');
-    if(correctEl) correctEl.checked=false;
+    sessionCount++; document.getElementById('sessionCount').textContent=sessionCount+" added this session";
+    msg.textContent="✓ Saved! Form cleared for the next question (Exam & Test Name kept)."; msg.className='msg ok show';
+    ['section','question','option_a','option_b','option_c','option_d','option_e','explanation'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML='';});
+    document.getElementById('tita_answer').value='';
+    const c=document.querySelector('input[name="correct"]:checked'); if(c) c.checked=false;
+    document.querySelectorAll('.opt-row').forEach(o=>o.classList.remove('correct'));
     document.getElementById('question').focus();
   }
-});
-
-// highlight the correct option letter green as you pick
-document.querySelectorAll('input[name="correct"]').forEach(r=>{
-  r.addEventListener('change',()=>{
-    document.querySelectorAll('.opt-row').forEach(o=>o.classList.remove('correct'));
-    const letter=r.value; const map={A:0,B:1,C:2,D:3};
-    document.querySelectorAll('.opt-row')[map[letter]].classList.add('correct');
-  });
 });
 </script>
 </body>
