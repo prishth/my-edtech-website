@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Result | Prishth Test Series</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#1B3A5C;--steel:#2E6DA4;--bg:#F4F7FB;--border:#DDE6F0;--white:#FFFFFF;--gold:#E5A52A;--ink:#16283C;--muted:#5C6F84;--green:#2EA47C;--red:#C0392B;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+.topnav{background:var(--navy);color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.topnav .brand{font-family:'Sora',sans-serif;font-weight:700;font-size:20px;color:#fff;text-decoration:none}
+.topnav a{color:#cfe0f0;text-decoration:none;font-size:14px}
+.wrap{max-width:920px;margin:0 auto;padding:30px 20px 60px}
+.hero{background:linear-gradient(135deg,var(--navy),var(--steel));color:#fff;border-radius:16px;padding:34px;text-align:center;margin-bottom:24px}
+.hero .tname{font-size:14px;opacity:.85;margin-bottom:8px}
+.hero .score{font-family:'Sora',sans-serif;font-size:52px;font-weight:700;line-height:1}
+.hero .out{font-size:16px;opacity:.9;margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.stat{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-align:center}
+.stat b{display:block;font-family:'Sora',sans-serif;font-size:26px}
+.stat span{font-size:12.5px;color:var(--muted)}
+.stat.correct b{color:var(--green)} .stat.wrong b{color:var(--red)} .stat.skip b{color:var(--muted)} .stat.acc b{color:var(--steel)}
+h2{font-family:'Sora',sans-serif;font-size:20px;color:var(--navy);margin:28px 0 14px}
+.section-analysis{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:10px}
+.sec-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #EEF2F7;font-size:14px}
+.sec-row:last-child{border-bottom:none}
+.sec-name{font-weight:600;color:var(--navy)}
+.sol{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:14px}
+.sol-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sol-num{font-family:'Sora',sans-serif;font-weight:700;color:var(--navy)}
+.badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px}
+.badge.correct{background:#E3F5EC;color:#1a7350} .badge.wrong{background:#FBE9E9;color:var(--red)} .badge.skip{background:#EEF2F7;color:var(--muted)}
+.sol-q{font-size:15px;margin-bottom:14px}
+.sol-q img,.sol-opt img,.sol-exp img{max-width:100%;height:auto;border-radius:6px;margin:5px 0}
+.sol-opt{display:flex;gap:10px;align-items:flex-start;padding:9px 13px;border:1.5px solid var(--border);border-radius:8px;margin-bottom:7px;font-size:14px}
+.sol-opt .k{width:26px;height:26px;flex-shrink:0;border-radius:6px;background:var(--bg);font-family:'Sora',sans-serif;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px}
+.sol-opt.correct{border-color:var(--green);background:#F0FBF6} .sol-opt.correct .k{background:var(--green);color:#fff}
+.sol-opt.chosen-wrong{border-color:var(--red);background:#FDF2F2} .sol-opt.chosen-wrong .k{background:var(--red);color:#fff}
+.tita-ans{font-size:14px;margin-bottom:8px}
+.tita-ans .lab{font-weight:600;color:var(--muted)}
+.exp{background:#FBF4E6;border-left:4px solid var(--gold);padding:13px 16px;border-radius:0 8px 8px 0;font-size:14px;margin-top:12px}
+.exp .lab{font-weight:700;color:var(--navy);display:block;margin-bottom:4px}
+.actions{display:flex;gap:12px;margin-top:10px}
+.btn{background:var(--navy);color:#fff;padding:12px 26px;border-radius:9px;text-decoration:none;font-family:'Sora',sans-serif;font-weight:600;font-size:14px;border:none;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--border)}
+.loading{text-align:center;padding:60px;color:var(--muted)}
+.hidden{display:none}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<nav class="topnav"><a href="/" class="brand">Prishth</a><a href="/dashboard">← Dashboard</a></nav>
+<div class="wrap">
+  <div id="loading" class="loading">Loading your result…</div>
+  <div id="result" class="hidden">
+    <div class="hero">
+      <div class="tname" id="rTname"></div>
+      <div class="score" id="rScore">0</div>
+      <div class="out" id="rOut">out of 0</div>
+    </div>
+    <div class="stats">
+      <div class="stat correct"><b id="rCorrect">0</b><span>Correct</span></div>
+      <div class="stat wrong"><b id="rWrong">0</b><span>Wrong</span></div>
+      <div class="stat skip"><b id="rSkip">0</b><span>Unattempted</span></div>
+      <div class="stat acc"><b id="rAcc">0%</b><span>Accuracy</span></div>
+    </div>
+    <div class="actions">
+      <a class="btn" href="/dashboard">Back to Dashboard</a>
+      <button class="btn ghost" id="toggleSol">View Solutions ↓</button>
+    </div>
+    <div id="sectionAnalysis"></div>
+    <div id="solutions" class="hidden"><h2>Solutions</h2><div id="solList"></div></div>
+  </div>
+</div>
+<script>
+const R=JSON.parse(sessionStorage.getItem('lastResult')||'null');
+if(!R){ document.getElementById('loading').textContent='No result to show. Please take a test first.'; }
+else {
+  const {attempt,test,questions,answers}=R;
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+  document.getElementById('rTname').textContent=test.exam+' — '+test.test_name;
+  document.getElementById('rScore').textContent=attempt.score;
+  document.getElementById('rOut').textContent='out of '+attempt.total_marks;
+  document.getElementById('rCorrect').textContent=attempt.correct_count;
+  document.getElementById('rWrong').textContent=attempt.wrong_count;
+  document.getElementById('rSkip').textContent=attempt.unattempted_count;
+  const attempted=attempt.correct_count+attempt.wrong_count;
+  const acc=attempted>0?Math.round(attempt.correct_count/attempted*100):0;
+  document.getElementById('rAcc').textContent=acc+'%';
+
+  // section analysis
+  const secs={};
+  questions.forEach((q,i)=>{
+    const s=q.section||'General';
+    secs[s]=secs[s]||{correct:0,total:0};
+    secs[s].total++;
+    const ans=answers[i];
+    let ok=false;
+    if(ans!=null&&ans!==''){
+      if(q.question_type==='TITA') ok=String(ans).trim().toLowerCase()===String(q.tita_answer).trim().toLowerCase();
+      else ok=ans===q.correct_answer;
+    }
+    if(ok) secs[s].correct++;
+  });
+  let secHtml='<h2>Section-wise Analysis</h2><div class="section-analysis">';
+  Object.keys(secs).forEach(s=>{
+    const d=secs[s]; const pct=Math.round(d.correct/d.total*100);
+    secHtml+='<div class="sec-row"><span class="sec-name">'+s+'</span><span>'+d.correct+' / '+d.total+' correct ('+pct+'%)</span></div>';
+  });
+  const mins=Math.floor(attempt.time_taken_seconds/60), secsr=attempt.time_taken_seconds%60;
+  secHtml+='<div class="sec-row"><span class="sec-name">Time taken</span><span>'+mins+'m '+secsr+'s</span></div>';
+  secHtml+='</div>';
+  document.getElementById('sectionAnalysis').innerHTML=secHtml;
+
+  // solutions
+  let sol='';
+  questions.forEach((q,i)=>{
+    const ans=answers[i];
+    let status='skip',label='Not answered';
+    if(ans!=null&&ans!==''){
+      let ok=false;
+      if(q.question_type==='TITA') ok=String(ans).trim().toLowerCase()===String(q.tita_answer).trim().toLowerCase();
+      else ok=ans===q.correct_answer;
+      status=ok?'correct':'wrong'; label=ok?'Correct':'Wrong';
+    }
+    sol+='<div class="sol"><div class="sol-head"><span class="sol-num">Question '+(i+1)+'</span><span class="badge '+status+'">'+label+'</span></div>';
+    sol+='<div class="sol-q">'+q.question+'</div>';
+    if(q.question_type==='TITA'){
+      sol+='<div class="tita-ans"><span class="lab">Your answer:</span> '+(ans!=null&&ans!==''?ans:'—')+'</div>';
+      sol+='<div class="tita-ans"><span class="lab">Correct answer:</span> '+q.tita_answer+'</div>';
+    } else {
+      const opts=[['A',q.option_a],['B',q.option_b],['C',q.option_c],['D',q.option_d]];
+      if(q.option_e) opts.push(['E',q.option_e]);
+      opts.forEach(([k,v])=>{
+        if(v==null) return;
+        let cls='';
+        if(k===q.correct_answer) cls=' correct';
+        else if(k===ans) cls=' chosen-wrong';
+        sol+='<div class="sol-opt'+cls+'"><div class="k">'+k+'</div><div>'+v+(k===ans?' <b>(your answer)</b>':'')+'</div></div>';
+      });
+    }
+    if(q.explanation) sol+='<div class="exp"><span class="lab">Explanation</span>'+q.explanation+'</div>';
+    sol+='</div>';
+  });
+  document.getElementById('solList').innerHTML=sol;
+
+  document.getElementById('toggleSol').addEventListener('click',function(){
+    const s=document.getElementById('solutions');
+    s.classList.toggle('hidden');
+    this.textContent=s.classList.contains('hidden')?'View Solutions ↓':'Hide Solutions ↑';
+    if(!s.classList.contains('hidden')) s.scrollIntoView({behavior:'smooth'});
+  });
+}
+</script>
+</body>
+</html>

@@ -77,27 +77,22 @@ textarea{resize:vertical;min-height:70px}
   <div id="adminView" class="hidden">
     <div class="topbar">
       <div>
-        <h1>Add a Question</h1>
-        <p class="sub">Tip: paste snipped images (Ctrl+V) directly into the question, options, or explanation. <span class="count-badge" id="sessionCount">0 added this session</span></p>
+        <h1>Prishth Admin</h1>
+        <p class="sub">Create tests and add questions. <span class="count-badge" id="sessionCount">0 added this session</span></p>
       </div>
       <button class="logout" id="logoutBtn">Log out</button>
     </div>
 
-    <div class="card">
-      <h2>Question Details</h2>
+    <div class="card" style="border-top:4px solid var(--gold)">
+      <h2>Step 1 — Create a Test</h2>
+      <p class="hint" style="margin-bottom:8px">Set the marking scheme once per test. Then add questions to it below.</p>
       <div class="row">
         <div>
           <label>Exam *</label>
-          <select id="exam">
+          <select id="t_exam">
             <option value="">— Select exam —</option>
-            <optgroup label="MBA">
-              <option>CAT</option><option>XAT</option><option>NMAT</option><option>SNAP</option>
-              <option>CMAT</option><option>MAT</option><option>TISSNET</option><option>MAH MBA CET</option>
-            </optgroup>
-            <optgroup label="BBA / IPM">
-              <option>IPMAT Indore</option><option>IPMAT Rohtak</option><option>JIPMAT</option>
-              <option>Christ BBA</option><option>Christ Entrance</option><option>SET Symbiosis</option>
-            </optgroup>
+            <optgroup label="MBA"><option>CAT</option><option>XAT</option><option>NMAT</option><option>SNAP</option><option>CMAT</option><option>MAT</option><option>TISSNET</option><option>MAH MBA CET</option></optgroup>
+            <optgroup label="BBA / IPM"><option>IPMAT Indore</option><option>IPMAT Rohtak</option><option>JIPMAT</option><option>Christ BBA</option><option>Christ Entrance</option><option>SET Symbiosis</option></optgroup>
             <optgroup label="Law"><option>CLAT</option></optgroup>
             <optgroup label="SSC"><option>SSC CGL</option></optgroup>
             <optgroup label="Banking"><option>SBI PO</option></optgroup>
@@ -107,22 +102,58 @@ textarea{resize:vertical;min-height:70px}
         </div>
         <div>
           <label>Test Name *</label>
-          <input id="test_name" placeholder="e.g. CMAT Mock 1"/>
+          <input id="t_name" placeholder="e.g. CMAT Mock 1"/>
         </div>
       </div>
       <div class="row">
         <div>
-          <label>Section</label>
+          <label>Marks per correct *</label>
+          <input id="t_correct" type="number" step="0.25" value="1"/>
+          <p class="hint">e.g. 1, 2, 3, or 4</p>
+        </div>
+        <div>
+          <label>Marks per wrong (negative) *</label>
+          <input id="t_wrong" type="number" step="0.25" value="0"/>
+          <p class="hint">e.g. 0 (none), -0.25, or -1</p>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Duration (minutes) *</label>
+          <input id="t_duration" type="number" value="30"/>
+        </div>
+        <div>
+          <label>Access</label>
+          <select id="t_free"><option value="true">Free</option><option value="false">Paid (later)</option></select>
+        </div>
+      </div>
+      <div style="margin-top:16px"><button class="btn" id="createTestBtn">Create Test</button></div>
+      <div class="msg" id="testMsg"></div>
+    </div>
+
+    <div class="card">
+      <h2>Step 2 — Add a Question</h2>
+      <p class="hint" style="margin-bottom:10px">Tip: paste snipped images (Ctrl+V) into the question, options, or explanation.</p>
+      <div class="row">
+        <div>
+          <label>Add to which test? *</label>
+          <select id="test_picker"><option value="">— Select a test —</option></select>
+        </div>
+        <div>
+          <label>Section (optional)</label>
           <input id="section" placeholder="e.g. Quantitative Techniques"/>
         </div>
+      </div>
+      <input type="hidden" id="exam"/>
+      <input type="hidden" id="test_name"/>
+      <div class="row">
         <div>
           <label>Difficulty</label>
           <select id="difficulty">
-            <option value="Easy">Easy</option>
-            <option value="Medium" selected>Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="Easy">Easy</option><option value="Medium" selected>Medium</option><option value="Hard">Hard</option>
           </select>
         </div>
+        <div></div>
       </div>
 
       <label>Question Type *</label>
@@ -191,10 +222,60 @@ let sessionCount=0, qType='MCQ', optCount=4;
 const loginView=document.getElementById('loginView'), adminView=document.getElementById('adminView');
 async function checkSession(){
   const {data}=await sb.auth.getSession();
-  if(data.session){ loginView.classList.add('hidden'); adminView.classList.remove('hidden'); }
+  if(data.session){ loginView.classList.add('hidden'); adminView.classList.remove('hidden'); loadTests(); }
   else { loginView.classList.remove('hidden'); adminView.classList.add('hidden'); }
 }
 checkSession();
+
+// Load existing tests into the picker
+async function loadTests(){
+  const {data,error}=await sb.from('tests').select('*').order('created_at',{ascending:false});
+  const picker=document.getElementById('test_picker');
+  picker.innerHTML='<option value="">— Select a test —</option>';
+  if(data){
+    data.forEach(t=>{
+      const o=document.createElement('option');
+      o.value=t.id;
+      o.textContent=t.exam+" — "+t.test_name+"  (+"+t.marks_correct+" / "+t.marks_wrong+", "+t.duration_minutes+" min)";
+      o.dataset.exam=t.exam; o.dataset.name=t.test_name;
+      picker.appendChild(o);
+    });
+  }
+}
+
+// Create a test
+document.getElementById('createTestBtn').addEventListener('click',async()=>{
+  const msg=document.getElementById('testMsg'); msg.className='msg';
+  const row={
+    exam:document.getElementById('t_exam').value.trim(),
+    test_name:document.getElementById('t_name').value.trim(),
+    marks_correct:parseFloat(document.getElementById('t_correct').value),
+    marks_wrong:parseFloat(document.getElementById('t_wrong').value),
+    duration_minutes:parseInt(document.getElementById('t_duration').value),
+    is_free:document.getElementById('t_free').value==='true'
+  };
+  if(!row.exam||!row.test_name||isNaN(row.marks_correct)||isNaN(row.marks_wrong)||isNaN(row.duration_minutes)){
+    msg.textContent="Fill exam, test name, marks, and duration."; msg.className='msg err show'; return;
+  }
+  const {error}=await sb.from('tests').insert([row]);
+  if(error){
+    if(error.message.includes('duplicate')) msg.textContent="A test with this exam + name already exists.";
+    else msg.textContent="Failed: "+error.message;
+    msg.className='msg err show';
+  } else {
+    msg.textContent="✓ Test created! Now select it below in Step 2 and add questions.";
+    msg.className='msg ok show';
+    document.getElementById('t_name').value='';
+    loadTests();
+  }
+});
+
+// When a test is picked, set the hidden exam + test_name fields
+document.getElementById('test_picker').addEventListener('change',function(){
+  const opt=this.options[this.selectedIndex];
+  document.getElementById('exam').value=opt.dataset.exam||'';
+  document.getElementById('test_name').value=opt.dataset.name||'';
+});
 
 document.getElementById('loginBtn').addEventListener('click',async()=>{
   const email=document.getElementById('loginEmail').value.trim();
@@ -272,8 +353,11 @@ document.getElementById('saveBtn').addEventListener('click',async()=>{
     question:richVal('question'),
     explanation:richVal('explanation')||null
   };
-  if(!row.exam||!row.test_name||!richHasContent('question')){
-    msg.textContent="Please fill Exam, Test Name, and the Question."; msg.className='msg err show'; return;
+  if(!row.exam||!row.test_name){
+    msg.textContent="Please pick a test in Step 2 first (create one in Step 1 if needed)."; msg.className='msg err show'; return;
+  }
+  if(!richHasContent('question')){
+    msg.textContent="Please type the question."; msg.className='msg err show'; return;
   }
   if(qType==='MCQ'){
     row.option_a=richVal('option_a'); row.option_b=richVal('option_b');

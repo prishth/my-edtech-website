@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Test | Prishth Test Series</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#1B3A5C;--steel:#2E6DA4;--bg:#F4F7FB;--border:#DDE6F0;--white:#FFFFFF;--gold:#E5A52A;--ink:#16283C;--muted:#5C6F84;--green:#2EA47C;--red:#C0392B;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+.bar{background:var(--navy);color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.bar .tname{font-family:'Sora',sans-serif;font-weight:600;font-size:15px}
+.timer{background:#fff;color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;padding:7px 16px;border-radius:8px;font-size:15px}
+.timer.low{background:var(--red);color:#fff}
+/* instructions */
+.inst-wrap{max-width:640px;margin:40px auto;padding:0 20px}
+.inst-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:30px}
+.inst-card h1{font-family:'Sora',sans-serif;font-size:24px;color:var(--navy);margin-bottom:6px}
+.inst-card .exam{color:var(--muted);margin-bottom:20px}
+.inst-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.inst-stat{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:14px}
+.inst-stat b{display:block;font-family:'Sora',sans-serif;font-size:20px;color:var(--navy)}
+.inst-stat span{font-size:12.5px;color:var(--muted)}
+.inst-rules{font-size:14px;color:var(--ink);margin-bottom:22px}
+.inst-rules li{margin:6px 0 6px 18px}
+.btn{background:var(--navy);color:#fff;border:none;padding:13px 30px;border-radius:9px;font-family:'Sora',sans-serif;font-weight:600;font-size:15px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{background:var(--steel)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-green{background:var(--green);color:#fff}
+/* test layout */
+.test-layout{display:grid;grid-template-columns:1fr 260px;gap:20px;max-width:1100px;margin:20px auto;padding:0 20px}
+.q-panel{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:26px;min-height:400px}
+.q-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.q-num{font-family:'Sora',sans-serif;font-weight:700;color:var(--navy);font-size:17px}
+.q-tags{display:flex;gap:8px;font-size:11.5px}
+.q-tag{background:var(--bg);border:1px solid var(--border);padding:3px 10px;border-radius:999px;color:var(--muted);font-weight:600}
+.q-text{font-size:16px;line-height:1.7;margin-bottom:22px}
+.q-text img,.opt-text img{max-width:100%;height:auto;border-radius:6px;margin:6px 0}
+.options{display:flex;flex-direction:column;gap:11px}
+.option{display:flex;gap:13px;align-items:flex-start;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;background:#fff;transition:.15s}
+.option:hover{border-color:var(--steel);background:#FAFCFE}
+.option.selected{border-color:var(--steel);background:#EAF2FB}
+.opt-key{width:30px;height:30px;flex-shrink:0;border-radius:7px;background:var(--bg);color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px}
+.option.selected .opt-key{background:var(--steel);color:#fff}
+.opt-text{flex:1;font-size:15px;padding-top:3px}
+.tita-input{width:100%;max-width:280px;padding:13px 15px;border:1.5px solid var(--border);border-radius:9px;font-size:16px;font-family:'DM Sans',sans-serif}
+.tita-input:focus{outline:none;border-color:var(--steel)}
+.q-actions{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.btn-sm{padding:10px 20px;font-size:14px;border-radius:8px;border:1.5px solid var(--border);background:#fff;color:var(--navy);font-family:'Sora',sans-serif;font-weight:600;cursor:pointer}
+.btn-sm:hover{border-color:var(--steel)}
+.btn-clear{color:var(--muted)}
+/* palette */
+.side{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px;height:fit-content;position:sticky;top:70px}
+.side h4{font-family:'Sora',sans-serif;font-size:14px;color:var(--navy);margin-bottom:12px}
+.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+.pal-btn{aspect-ratio:1;border:1.5px solid var(--border);border-radius:7px;background:#fff;font-family:'Sora',sans-serif;font-weight:600;font-size:13px;cursor:pointer;color:var(--ink);display:flex;align-items:center;justify-content:center}
+.pal-btn.answered{background:var(--green);color:#fff;border-color:var(--green)}
+.pal-btn.review{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.pal-btn.current{outline:3px solid var(--steel);outline-offset:1px}
+.legend{font-size:11.5px;color:var(--muted);display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
+.legend span{display:flex;align-items:center;gap:7px}
+.dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+.submit-btn{width:100%;background:var(--green);color:#fff;border:none;padding:13px;border-radius:9px;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;cursor:pointer}
+.loading{text-align:center;padding:60px;color:var(--muted)}
+.hidden{display:none}
+@media(max-width:860px){.test-layout{grid-template-columns:1fr}.side{position:static}}
+</style>
+</head>
+<body>
+
+<div id="loadingView" class="loading">Loading test…</div>
+
+<!-- INSTRUCTIONS -->
+<div id="instView" class="hidden">
+  <div class="bar"><span class="tname">Prishth Test Series</span><a href="/dashboard" style="color:#cfe0f0;text-decoration:none;font-size:13px">← Back to dashboard</a></div>
+  <div class="inst-wrap"><div class="inst-card">
+    <h1 id="instName">Test</h1>
+    <p class="exam" id="instExam"></p>
+    <div class="inst-stats">
+      <div class="inst-stat"><b id="instQ">0</b><span>Questions</span></div>
+      <div class="inst-stat"><b id="instDur">0</b><span>Minutes</span></div>
+      <div class="inst-stat"><b id="instCorrect">+1</b><span>Per correct</span></div>
+      <div class="inst-stat"><b id="instWrong">0</b><span>Per wrong</span></div>
+    </div>
+    <ul class="inst-rules">
+      <li>The timer starts as soon as you begin and cannot be paused.</li>
+      <li>You can move between questions freely and mark questions for review.</li>
+      <li>The test auto-submits when time runs out.</li>
+      <li>Your answers and score are saved to your account.</li>
+    </ul>
+    <button class="btn btn-gold" id="startBtn">Start Test</button>
+  </div></div>
+</div>
+
+<!-- TEST -->
+<div id="testView" class="hidden">
+  <div class="bar">
+    <span class="tname" id="barName">Test</span>
+    <span class="timer" id="timer">00:00</span>
+  </div>
+  <div class="test-layout">
+    <div class="q-panel">
+      <div class="q-head">
+        <span class="q-num" id="qNum">Question 1</span>
+        <div class="q-tags" id="qTags"></div>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="options" id="optionsWrap"></div>
+      <div id="titaWrap" class="hidden">
+        <input type="text" class="tita-input" id="titaInput" placeholder="Type your answer"/>
+      </div>
+      <div class="q-actions">
+        <button class="btn-sm btn-clear" id="clearBtn">Clear</button>
+        <button class="btn-sm" id="reviewBtn">Mark for review</button>
+        <button class="btn-sm" id="prevBtn">← Previous</button>
+        <button class="btn-sm" id="nextBtn">Next →</button>
+      </div>
+    </div>
+    <div class="side">
+      <h4>Questions</h4>
+      <div class="palette" id="palette"></div>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--green)"></span> Answered</span>
+        <span><span class="dot" style="background:var(--gold)"></span> Marked for review</span>
+        <span><span class="dot" style="background:#fff;border:1.5px solid var(--border)"></span> Not answered</span>
+      </div>
+      <button class="submit-btn" id="submitBtn">Submit Test</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=supabase.createClient("https://aqrxmcmmdazyslznilbl.supabase.co","sb_publishable_wRKj-veZ1_Ro-HSH8kXCFg_ifvjUD8L");
+const params=new URLSearchParams(location.search);
+const testId=params.get('id');
+let test=null, questions=[], answers={}, review={}, current=0, timeLeft=0, timerInt=null, startTime=null;
+
+async function init(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){ window.location.href='/login'; return; }
+  if(!testId){ document.getElementById('loadingView').textContent='No test selected.'; return; }
+  const {data:t}=await sb.from('tests').select('*').eq('id',testId).single();
+  if(!t){ document.getElementById('loadingView').textContent='Test not found.'; return; }
+  test=t;
+  const {data:qs}=await sb.from('questions').select('*').eq('exam',t.exam).eq('test_name',t.test_name).order('id');
+  questions=qs||[];
+  if(questions.length===0){ document.getElementById('loadingView').textContent='This test has no questions yet.'; return; }
+  // instructions
+  document.getElementById('loadingView').classList.add('hidden');
+  document.getElementById('instView').classList.remove('hidden');
+  document.getElementById('instName').textContent=t.test_name;
+  document.getElementById('instExam').textContent=t.exam;
+  document.getElementById('instQ').textContent=questions.length;
+  document.getElementById('instDur').textContent=t.duration_minutes;
+  document.getElementById('instCorrect').textContent='+'+t.marks_correct;
+  document.getElementById('instWrong').textContent=t.marks_wrong;
+  document.getElementById('barName').textContent=t.test_name;
+}
+init();
+
+document.getElementById('startBtn').addEventListener('click',()=>{
+  document.getElementById('instView').classList.add('hidden');
+  document.getElementById('testView').classList.remove('hidden');
+  timeLeft=test.duration_minutes*60; startTime=Date.now();
+  buildPalette(); renderQuestion(); startTimer();
+});
+
+function startTimer(){
+  updateTimerDisplay();
+  timerInt=setInterval(()=>{
+    timeLeft--; updateTimerDisplay();
+    if(timeLeft<=0){ clearInterval(timerInt); submitTest(true); }
+  },1000);
+}
+function updateTimerDisplay(){
+  const m=Math.floor(timeLeft/60), s=timeLeft%60;
+  const el=document.getElementById('timer');
+  el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  el.classList.toggle('low',timeLeft<=60);
+}
+
+function buildPalette(){
+  const pal=document.getElementById('palette'); pal.innerHTML='';
+  questions.forEach((q,i)=>{
+    const b=document.createElement('button');
+    b.className='pal-btn'; b.textContent=i+1;
+    b.addEventListener('click',()=>{ current=i; renderQuestion(); });
+    pal.appendChild(b);
+  });
+}
+function refreshPalette(){
+  document.querySelectorAll('.pal-btn').forEach((b,i)=>{
+    b.classList.remove('answered','review','current');
+    if(review[i]) b.classList.add('review');
+    else if(answers[i]!=null && answers[i]!=='') b.classList.add('answered');
+    if(i===current) b.classList.add('current');
+  });
+}
+
+function renderQuestion(){
+  const q=questions[current];
+  document.getElementById('qNum').textContent='Question '+(current+1)+' of '+questions.length;
+  const tags=[]; if(q.section) tags.push(q.section); if(q.difficulty) tags.push(q.difficulty);
+  tags.push(q.question_type==='TITA'?'TITA':'MCQ');
+  document.getElementById('qTags').innerHTML=tags.map(t=>'<span class="q-tag">'+t+'</span>').join('');
+  document.getElementById('qText').innerHTML=q.question;
+  const optWrap=document.getElementById('optionsWrap'), titaWrap=document.getElementById('titaWrap');
+  if(q.question_type==='TITA'){
+    optWrap.classList.add('hidden'); titaWrap.classList.remove('hidden');
+    document.getElementById('titaInput').value=answers[current]||'';
+  } else {
+    titaWrap.classList.add('hidden'); optWrap.classList.remove('hidden');
+    const opts=[['A',q.option_a],['B',q.option_b],['C',q.option_c],['D',q.option_d]];
+    if(q.option_e) opts.push(['E',q.option_e]);
+    optWrap.innerHTML='';
+    opts.forEach(([k,v])=>{
+      if(v==null) return;
+      const div=document.createElement('div');
+      div.className='option'+(answers[current]===k?' selected':'');
+      div.innerHTML='<div class="opt-key">'+k+'</div><div class="opt-text">'+v+'</div>';
+      div.addEventListener('click',()=>{ answers[current]=k; renderQuestion(); refreshPalette(); });
+      optWrap.appendChild(div);
+    });
+  }
+  refreshPalette();
+}
+
+document.getElementById('titaInput').addEventListener('input',function(){ answers[current]=this.value.trim(); refreshPalette(); });
+document.getElementById('clearBtn').addEventListener('click',()=>{ delete answers[current]; renderQuestion(); });
+document.getElementById('reviewBtn').addEventListener('click',()=>{ review[current]=!review[current]; refreshPalette(); });
+document.getElementById('prevBtn').addEventListener('click',()=>{ if(current>0){current--; renderQuestion();} });
+document.getElementById('nextBtn').addEventListener('click',()=>{ if(current<questions.length-1){current++; renderQuestion();} });
+document.getElementById('submitBtn').addEventListener('click',()=>{ if(confirm('Submit the test? You cannot change answers after this.')) submitTest(false); });
+
+async function submitTest(auto){
+  clearInterval(timerInt);
+  let correct=0,wrong=0,unatt=0,score=0;
+  const detail=[];
+  questions.forEach((q,i)=>{
+    const ans=answers[i];
+    let status='unattempted';
+    if(ans==null||ans===''){ unatt++; }
+    else {
+      let isCorrect=false;
+      if(q.question_type==='TITA') isCorrect=(String(ans).trim().toLowerCase()===String(q.tita_answer).trim().toLowerCase());
+      else isCorrect=(ans===q.correct_answer);
+      if(isCorrect){ correct++; score+=parseFloat(test.marks_correct); status='correct'; }
+      else { wrong++; score+=parseFloat(test.marks_wrong); status='wrong'; }
+    }
+    detail.push({id:q.id, given:ans!=null?ans:null, status});
+  });
+  const totalMarks=questions.length*parseFloat(test.marks_correct);
+  const timeTaken=Math.round((Date.now()-startTime)/1000);
+  const {data:{session}}=await sb.auth.getSession();
+  const attempt={
+    user_id:session.user.id, exam:test.exam, test_name:test.test_name,
+    score:score, total_marks:totalMarks, correct_count:correct, wrong_count:wrong,
+    unattempted_count:unatt, time_taken_seconds:timeTaken, answers:{detail:detail}
+  };
+  const {data:saved,error}=await sb.from('attempts').insert([attempt]).select().single();
+  // stash result for the result page
+  sessionStorage.setItem('lastResult',JSON.stringify({attempt:saved||attempt,test:test,questions:questions,answers:answers}));
+  window.location.href='/result';
+}
+// warn on accidental leave
+window.addEventListener('beforeunload',e=>{ if(timerInt){ e.preventDefault(); e.returnValue=''; } });
+</script>
+</body>
+</html>
