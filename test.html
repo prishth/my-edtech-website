@@ -146,7 +146,7 @@ async function init(){
   const {data:t}=await sb.from('tests').select('*').eq('id',testId).single();
   if(!t){ document.getElementById('loadingView').textContent='Test not found.'; return; }
   test=t;
-  const {data:qs}=await sb.from('questions').select('*').eq('exam',t.exam).eq('test_name',t.test_name).order('id');
+  const {data:qs}=await sb.from('questions').select('*').eq('test_id',t.id).order('id');
   questions=qs||[];
   if(questions.length===0){ document.getElementById('loadingView').textContent='This test has no questions yet.'; return; }
   // instructions
@@ -257,7 +257,7 @@ async function submitTest(auto){
   const timeTaken=Math.round((Date.now()-startTime)/1000);
   const {data:{session}}=await sb.auth.getSession();
   const attempt={
-    user_id:session.user.id, exam:test.exam, test_name:test.test_name,
+    user_id:session.user.id, test_id:test.id, exam:test.exam, test_name:test.test_name,
     score:score, total_marks:totalMarks, correct_count:correct, wrong_count:wrong,
     unattempted_count:unatt, time_taken_seconds:timeTaken, answers:{detail:detail}
   };

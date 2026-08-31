@@ -229,14 +229,20 @@ checkSession();
 
 // Load existing tests into the picker
 async function loadTests(){
-  const {data,error}=await sb.from('tests').select('*').order('created_at',{ascending:false});
+  const [{data},{data:qs}]=await Promise.all([
+    sb.from('tests').select('*').order('created_at',{ascending:false}),
+    sb.from('questions').select('test_id')
+  ]);
+  const counts={};
+  (qs||[]).forEach(q=>{ if(q.test_id) counts[q.test_id]=(counts[q.test_id]||0)+1; });
   const picker=document.getElementById('test_picker');
   picker.innerHTML='<option value="">— Select a test —</option>';
   if(data){
     data.forEach(t=>{
       const o=document.createElement('option');
       o.value=t.id;
-      o.textContent=t.exam+" — "+t.test_name+"  (+"+t.marks_correct+" / "+t.marks_wrong+", "+t.duration_minutes+" min)";
+      const nq=counts[t.id]||0;
+      o.textContent=t.exam+" — "+t.test_name+"  ["+nq+" Qs]  (+"+t.marks_correct+" / "+t.marks_wrong+", "+t.duration_minutes+" min)";
       o.dataset.exam=t.exam; o.dataset.name=t.test_name;
       picker.appendChild(o);
     });
@@ -257,16 +263,22 @@ document.getElementById('createTestBtn').addEventListener('click',async()=>{
   if(!row.exam||!row.test_name||isNaN(row.marks_correct)||isNaN(row.marks_wrong)||isNaN(row.duration_minutes)){
     msg.textContent="Fill exam, test name, marks, and duration."; msg.className='msg err show'; return;
   }
-  const {error}=await sb.from('tests').insert([row]);
+  const {data:created,error}=await sb.from('tests').insert([row]).select().single();
   if(error){
     if(error.message.includes('duplicate')) msg.textContent="A test with this exam + name already exists.";
     else msg.textContent="Failed: "+error.message;
     msg.className='msg err show';
   } else {
-    msg.textContent="✓ Test created! Now select it below in Step 2 and add questions.";
+    msg.textContent="✓ Test created and selected below. Now add questions to it in Step 2.";
     msg.className='msg ok show';
     document.getElementById('t_name').value='';
-    loadTests();
+    await loadTests();
+    // auto-select the new test in Step 2
+    if(created){
+      const picker=document.getElementById('test_picker');
+      picker.value=created.id;
+      picker.dispatchEvent(new Event('change'));
+    }
   }
 });
 
@@ -275,6 +287,7 @@ document.getElementById('test_picker').addEventListener('change',function(){
   const opt=this.options[this.selectedIndex];
   document.getElementById('exam').value=opt.dataset.exam||'';
   document.getElementById('test_name').value=opt.dataset.name||'';
+  window.selectedTestId=this.value||null;
 });
 
 document.getElementById('loginBtn').addEventListener('click',async()=>{
@@ -345,6 +358,7 @@ function richHasContent(id){ const el=document.getElementById(id); return el && 
 document.getElementById('saveBtn').addEventListener('click',async()=>{
   const msg=document.getElementById('saveMsg'); msg.className='msg';
   const row={
+    test_id:window.selectedTestId?parseInt(window.selectedTestId):null,
     exam:document.getElementById('exam').value.trim(),
     test_name:document.getElementById('test_name').value.trim(),
     section:document.getElementById('section').value.trim()||null,
@@ -353,7 +367,7 @@ document.getElementById('saveBtn').addEventListener('click',async()=>{
     question:richVal('question'),
     explanation:richVal('explanation')||null
   };
-  if(!row.exam||!row.test_name){
+  if(!row.test_id){
     msg.textContent="Please pick a test in Step 2 first (create one in Step 1 if needed)."; msg.className='msg err show'; return;
   }
   if(!richHasContent('question')){
@@ -380,11 +394,15 @@ document.getElementById('saveBtn').addEventListener('click',async()=>{
   if(error){ msg.textContent="Save failed: "+error.message; msg.className='msg err show'; }
   else {
     sessionCount++; document.getElementById('sessionCount').textContent=sessionCount+" added this session";
-    msg.textContent="✓ Saved! Form cleared for the next question (Exam & Test Name kept)."; msg.className='msg ok show';
+    msg.textContent="✓ Saved! Form cleared for the next question (test stays selected)."; msg.className='msg ok show';
     ['section','question','option_a','option_b','option_c','option_d','option_e','explanation'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML='';});
     document.getElementById('tita_answer').value='';
     const c=document.querySelector('input[name="correct"]:checked'); if(c) c.checked=false;
     document.querySelectorAll('.opt-row').forEach(o=>o.classList.remove('correct'));
+    // refresh picker counts, keep same test selected
+    const keepId=window.selectedTestId;
+    await loadTests();
+    if(keepId){ const pk=document.getElementById('test_picker'); pk.value=keepId; window.selectedTestId=keepId; }
     document.getElementById('question').focus();
   }
 });

@@ -61,8 +61,8 @@ async function init(){
   document.getElementById('welcome').textContent='Choose a test to begin. All your attempts are saved.';
   const [{data:tests},{data:questions},{data:attempts}]=await Promise.all([
     sb.from('tests').select('*').order('exam'),
-    sb.from('questions').select('exam,test_name'),
-    sb.from('attempts').select('exam,test_name,score,total_marks')
+    sb.from('questions').select('test_id'),
+    sb.from('attempts').select('test_id,score,total_marks')
   ]);
   const content=document.getElementById('content');
   if(!tests||tests.length===0){
@@ -70,18 +70,17 @@ async function init(){
     return;
   }
   const qcount={};
-  (questions||[]).forEach(q=>{const k=q.exam+'||'+q.test_name; qcount[k]=(qcount[k]||0)+1;});
+  (questions||[]).forEach(q=>{ if(q.test_id) qcount[q.test_id]=(qcount[q.test_id]||0)+1; });
   const bestAttempt={};
-  (attempts||[]).forEach(a=>{const k=a.exam+'||'+a.test_name; if(!bestAttempt[k]||a.score>bestAttempt[k].score) bestAttempt[k]=a;});
+  (attempts||[]).forEach(a=>{ if(a.test_id && (!bestAttempt[a.test_id]||a.score>bestAttempt[a.test_id].score)) bestAttempt[a.test_id]=a; });
   const byExam={};
   tests.forEach(t=>{ (byExam[t.exam]=byExam[t.exam]||[]).push(t); });
   let html='';
   Object.keys(byExam).forEach(exam=>{
     html+='<div class="exam-block"><div class="exam-head">'+exam+'</div><div class="tests-grid">';
     byExam[exam].forEach(t=>{
-      const k=t.exam+'||'+t.test_name;
-      const nq=qcount[k]||0;
-      const att=bestAttempt[k];
+      const nq=qcount[t.id]||0;
+      const att=bestAttempt[t.id];
       const negTxt = t.marks_wrong!=0 ? (t.marks_wrong+' wrong') : 'No negative';
       html+='<div class="test-card"><h3>'+t.test_name+'</h3>'+
         '<div class="test-meta">'+
