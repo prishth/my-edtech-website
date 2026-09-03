@@ -276,20 +276,32 @@ function buildSectionRows(){
   const wrap=document.getElementById('sectionsBuilder');
   let html='';
   for(let i=0;i<n;i++){
-    html+=`<div class="row" style="align-items:end;margin-bottom:8px">
-      <div>
-        <label>Section ${i+1} name</label>
-        <select class="sec-name" data-i="${i}">${SECTION_OPTIONS.map(o=>`<option>${o}</option>`).join('')}</select>
-        <input class="sec-custom" data-i="${i}" placeholder="Custom section name" style="display:none;margin-top:6px"/>
+    html+=`<div class="sec-block" style="border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;background:#FAFCFE">
+      <div style="font-family:'Sora',sans-serif;font-weight:600;color:var(--navy);margin-bottom:8px">Section ${i+1}</div>
+      <div class="row" style="align-items:end">
+        <div>
+          <label>Name</label>
+          <select class="sec-name" data-i="${i}">${SECTION_OPTIONS.map(o=>`<option>${o}</option>`).join('')}</select>
+          <input class="sec-custom" data-i="${i}" placeholder="Custom section name" style="display:none;margin-top:6px"/>
+        </div>
+        <div>
+          <label>Minutes</label>
+          <input class="sec-time" data-i="${i}" type="number" value="40" min="1"/>
+        </div>
       </div>
-      <div>
-        <label>Minutes for Section ${i+1}</label>
-        <input class="sec-time" data-i="${i}" type="number" value="30" min="1"/>
+      <div class="row" style="align-items:end;margin-top:8px">
+        <div>
+          <label>Marks per correct</label>
+          <input class="sec-correct" data-i="${i}" type="number" step="0.25" value="4"/>
+        </div>
+        <div>
+          <label>Marks per wrong (negative)</label>
+          <input class="sec-wrong" data-i="${i}" type="number" step="0.25" value="-1"/>
+        </div>
       </div>
     </div>`;
   }
   wrap.innerHTML=html;
-  // wire custom toggle + time recalc
   wrap.querySelectorAll('.sec-name').forEach(sel=>{
     sel.addEventListener('change',function(){
       const cust=wrap.querySelector('.sec-custom[data-i="'+this.dataset.i+'"]');
@@ -306,14 +318,16 @@ function recalcTotal(){
 }
 function getSections(){
   const secs=[];
-  document.querySelectorAll('#sectionsBuilder .row').forEach((r,i)=>{
+  document.querySelectorAll('#sectionsBuilder .sec-block').forEach((r,i)=>{
     const sel=r.querySelector('.sec-name');
     let name=sel.value;
     if(name.startsWith('Custom')){
       name=r.querySelector('.sec-custom').value.trim();
     }
     const time=parseInt(r.querySelector('.sec-time').value)||0;
-    if(name) secs.push({name:name,minutes:time});
+    const mc=parseFloat(r.querySelector('.sec-correct').value);
+    const mw=parseFloat(r.querySelector('.sec-wrong').value);
+    if(name) secs.push({name:name,minutes:time,marks_correct:isNaN(mc)?1:mc,marks_wrong:isNaN(mw)?0:mw});
   });
   return secs;
 }

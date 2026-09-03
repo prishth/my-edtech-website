@@ -358,20 +358,34 @@ async function submitTest(auto){
   clearInterval(timerInt);
   let correct=0,wrong=0,unatt=0,score=0;
   const detail=[];
+  // build a lookup: section name -> {marks_correct, marks_wrong}
+  const secMarks={};
+  if(isStrict && Array.isArray(test.sections)){
+    test.sections.forEach(s=>{ secMarks[s.name]={mc:parseFloat(s.marks_correct), mw:parseFloat(s.marks_wrong)}; });
+  }
+  function marksFor(q){
+    // per-section marking if available, else test-level
+    if(secMarks[q.section||'']) return secMarks[q.section||''];
+    return {mc:parseFloat(test.marks_correct), mw:parseFloat(test.marks_wrong)};
+  }
+  let totalMarks=0;
   questions.forEach((q,i)=>{
     const ans=answers[i];
+    const m=marksFor(q);
+    totalMarks+=m.mc;  // total possible = sum of each question's correct marks
     let status='unattempted';
     if(ans==null||ans===''){ unatt++; }
     else {
       let isCorrect=false;
       if(q.question_type==='TITA') isCorrect=(String(ans).trim().toLowerCase()===String(q.tita_answer).trim().toLowerCase());
       else isCorrect=(ans===q.correct_answer);
-      if(isCorrect){ correct++; score+=parseFloat(test.marks_correct); status='correct'; }
-      else { wrong++; score+=parseFloat(test.marks_wrong); status='wrong'; }
+      if(isCorrect){ correct++; score+=m.mc; status='correct'; }
+      else { wrong++; score+=m.mw; status='wrong'; }
     }
     detail.push({id:q.id, given:ans!=null?ans:null, status});
   });
-  const totalMarks=questions.length*parseFloat(test.marks_correct);
+  score=Math.round(score*100)/100;
+  totalMarks=Math.round(totalMarks*100)/100;
   const timeTaken=Math.round((Date.now()-startTime)/1000);
   const {data:{session}}=await sb.auth.getSession();
   const attempt={
@@ -380,7 +394,6 @@ async function submitTest(auto){
     unattempted_count:unatt, time_taken_seconds:timeTaken, answers:{detail:detail}
   };
   const {data:saved,error}=await sb.from('attempts').insert([attempt]).select().single();
-  // stash result for the result page
   sessionStorage.setItem('lastResult',JSON.stringify({attempt:saved||attempt,test:test,questions:questions,answers:answers}));
   window.location.href='/result';
 }
