@@ -117,10 +117,29 @@ textarea{resize:vertical;min-height:70px}
           <p class="hint">e.g. 0 (none), -0.25, or -1</p>
         </div>
       </div>
-      <div class="row">
+
+      <label>Section timing *</label>
+      <div class="toggle-group" id="timingToggle">
+        <button type="button" data-timing="free" class="active">Free (one timer, roam anywhere) — like SNAP</button>
+        <button type="button" data-timing="strict">Strict (each section locks) — like CAT/IPMAT</button>
+      </div>
+
+      <label>How many sections? *</label>
+      <select id="t_numsections">
+        <option value="1">1 section</option>
+        <option value="2">2 sections</option>
+        <option value="3">3 sections</option>
+        <option value="4">4 sections</option>
+        <option value="5">5 sections</option>
+      </select>
+
+      <div id="sectionsBuilder" style="margin-top:12px"></div>
+
+      <div class="row" style="margin-top:8px">
         <div>
-          <label>Duration (minutes) *</label>
-          <input id="t_duration" type="number" value="30"/>
+          <label>Total Duration (auto)</label>
+          <input id="t_duration" type="number" value="30" readonly style="background:#F0F2F5;font-weight:700"/>
+          <p class="hint">Sum of all section times.</p>
         </div>
         <div>
           <label>Access</label>
@@ -249,19 +268,83 @@ async function loadTests(){
   }
 }
 
+// ===== Section builder =====
+let sectionTiming='free';
+const SECTION_OPTIONS=['English','Quantitative Aptitude','LR','LR&DI','GK','Custom (type below)'];
+function buildSectionRows(){
+  const n=parseInt(document.getElementById('t_numsections').value);
+  const wrap=document.getElementById('sectionsBuilder');
+  let html='';
+  for(let i=0;i<n;i++){
+    html+=`<div class="row" style="align-items:end;margin-bottom:8px">
+      <div>
+        <label>Section ${i+1} name</label>
+        <select class="sec-name" data-i="${i}">${SECTION_OPTIONS.map(o=>`<option>${o}</option>`).join('')}</select>
+        <input class="sec-custom" data-i="${i}" placeholder="Custom section name" style="display:none;margin-top:6px"/>
+      </div>
+      <div>
+        <label>Minutes for Section ${i+1}</label>
+        <input class="sec-time" data-i="${i}" type="number" value="30" min="1"/>
+      </div>
+    </div>`;
+  }
+  wrap.innerHTML=html;
+  // wire custom toggle + time recalc
+  wrap.querySelectorAll('.sec-name').forEach(sel=>{
+    sel.addEventListener('change',function(){
+      const cust=wrap.querySelector('.sec-custom[data-i="'+this.dataset.i+'"]');
+      cust.style.display=this.value.startsWith('Custom')?'block':'none';
+    });
+  });
+  wrap.querySelectorAll('.sec-time').forEach(t=>t.addEventListener('input',recalcTotal));
+  recalcTotal();
+}
+function recalcTotal(){
+  let total=0;
+  document.querySelectorAll('.sec-time').forEach(t=>{ total+=parseInt(t.value)||0; });
+  document.getElementById('t_duration').value=total;
+}
+function getSections(){
+  const secs=[];
+  document.querySelectorAll('#sectionsBuilder .row').forEach((r,i)=>{
+    const sel=r.querySelector('.sec-name');
+    let name=sel.value;
+    if(name.startsWith('Custom')){
+      name=r.querySelector('.sec-custom').value.trim();
+    }
+    const time=parseInt(r.querySelector('.sec-time').value)||0;
+    if(name) secs.push({name:name,minutes:time});
+  });
+  return secs;
+}
+document.getElementById('t_numsections').addEventListener('change',buildSectionRows);
+document.querySelectorAll('#timingToggle button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#timingToggle button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); sectionTiming=b.dataset.timing;
+  });
+});
+buildSectionRows();
+
 // Create a test
 document.getElementById('createTestBtn').addEventListener('click',async()=>{
   const msg=document.getElementById('testMsg'); msg.className='msg';
+  const sections=getSections();
   const row={
     exam:document.getElementById('t_exam').value.trim(),
     test_name:document.getElementById('t_name').value.trim(),
     marks_correct:parseFloat(document.getElementById('t_correct').value),
     marks_wrong:parseFloat(document.getElementById('t_wrong').value),
     duration_minutes:parseInt(document.getElementById('t_duration').value),
-    is_free:document.getElementById('t_free').value==='true'
+    is_free:document.getElementById('t_free').value==='true',
+    sections:sections,
+    sectional_timing:sectionTiming==='strict'
   };
   if(!row.exam||!row.test_name||isNaN(row.marks_correct)||isNaN(row.marks_wrong)||isNaN(row.duration_minutes)){
-    msg.textContent="Fill exam, test name, marks, and duration."; msg.className='msg err show'; return;
+    msg.textContent="Fill exam, test name, marks, and section times."; msg.className='msg err show'; return;
+  }
+  if(sections.length===0){
+    msg.textContent="Add at least one section with a name and time."; msg.className='msg err show'; return;
   }
   const {data:created,error}=await sb.from('tests').insert([row]).select().single();
   if(error){

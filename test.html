@@ -15,6 +15,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line
 .bar .tname{font-family:'Sora',sans-serif;font-weight:600;font-size:15px}
 .timer{background:#fff;color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;padding:7px 16px;border-radius:8px;font-size:15px}
 .timer.low{background:var(--red);color:#fff}
+.section-tabs{display:flex;gap:8px;padding:10px 20px;background:#fff;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.sec-tab{padding:8px 16px;border-radius:8px;font-family:'Sora',sans-serif;font-weight:600;font-size:13px;background:#F0F2F5;color:var(--muted);border:1.5px solid var(--border)}
+.sec-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.sec-tab.done{background:#E3F5EC;color:#1a7350;border-color:#2EA47C}
 /* instructions */
 .inst-wrap{max-width:640px;margin:40px auto;padding:0 20px}
 .inst-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:30px}
@@ -91,6 +95,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line
       <li>The test auto-submits when time runs out.</li>
       <li>Your answers and score are saved to your account.</li>
     </ul>
+    <p id="instMode" style="font-size:13.5px;color:var(--navy);background:#EAF2FB;border:1px solid #C4DCF2;border-radius:8px;padding:11px 14px;margin-bottom:20px"></p>
     <button class="btn btn-gold" id="startBtn">Start Test</button>
   </div></div>
 </div>
@@ -101,6 +106,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line
     <span class="tname" id="barName">Test</span>
     <span class="timer" id="timer">00:00</span>
   </div>
+  <div id="sectionTabs" class="section-tabs"></div>
   <div class="test-layout">
     <div class="q-panel">
       <div class="q-head">
@@ -138,6 +144,7 @@ const sb=supabase.createClient("https://aqrxmcmmdazyslznilbl.supabase.co","sb_pu
 const params=new URLSearchParams(location.search);
 const testId=params.get('id');
 let test=null, questions=[], answers={}, review={}, current=0, timeLeft=0, timerInt=null, startTime=null;
+let isStrict=false, sections=[], secGroups=[], curSec=0, secTimeLeft=[];
 
 async function init(){
   const {data:{session}}=await sb.auth.getSession();
@@ -149,7 +156,31 @@ async function init(){
   const {data:qs}=await sb.from('questions').select('*').eq('test_id',t.id).order('id');
   questions=qs||[];
   if(questions.length===0){ document.getElementById('loadingView').textContent='This test has no questions yet.'; return; }
-  // instructions
+
+  // section setup
+  isStrict = t.sectional_timing===true && Array.isArray(t.sections) && t.sections.length>0;
+  if(isStrict){
+    sections=t.sections;
+    // group questions by section name, in the order sections are defined
+    secGroups=sections.map(s=>({name:s.name, minutes:s.minutes, idx:[]}));
+    const nameToGroup={}; secGroups.forEach((g,gi)=>nameToGroup[g.name]=gi);
+    // build a reordered question list grouped by section
+    const ordered=[]; 
+    secGroups.forEach((g,gi)=>{
+      questions.forEach((q,qi)=>{
+        if((q.section||'')===g.name){ g.idx.push(ordered.length); ordered.push(q); }
+      });
+    });
+    // any questions whose section doesn't match go into a trailing "Other" bucket appended to last section
+    questions.forEach(q=>{
+      if(!secGroups.some(g=>g.name===(q.section||''))){ 
+        secGroups[secGroups.length-1].idx.push(ordered.length); ordered.push(q);
+      }
+    });
+    questions=ordered;
+    secTimeLeft=secGroups.map(g=>g.minutes*60);
+  }
+
   document.getElementById('loadingView').classList.add('hidden');
   document.getElementById('instView').classList.remove('hidden');
   document.getElementById('instName').textContent=t.test_name;
@@ -159,15 +190,72 @@ async function init(){
   document.getElementById('instCorrect').textContent='+'+t.marks_correct;
   document.getElementById('instWrong').textContent=t.marks_wrong;
   document.getElementById('barName').textContent=t.test_name;
+  // show timing mode on instructions
+  const modeNote=document.getElementById('instMode');
+  if(modeNote){
+    if(isStrict) modeNote.textContent='This test has SECTIONAL timing: each section has its own timer and locks when time ends. You cannot return to a completed section.';
+    else modeNote.textContent='This test has a single overall timer. You can move freely between all questions.';
+  }
 }
 init();
 
 document.getElementById('startBtn').addEventListener('click',()=>{
   document.getElementById('instView').classList.add('hidden');
   document.getElementById('testView').classList.remove('hidden');
-  timeLeft=test.duration_minutes*60; startTime=Date.now();
-  buildPalette(); renderQuestion(); startTimer();
+  startTime=Date.now();
+  if(isStrict){
+    curSec=0;
+    startSectionTimer();
+    buildPalette(); renderQuestion();
+  } else {
+    timeLeft=test.duration_minutes*60;
+    buildPalette(); renderQuestion(); startTimer();
+  }
 });
+
+function startSectionTimer(){
+  // set current question to first of this section
+  if(secGroups[curSec].idx.length>0) current=secGroups[curSec].idx[0];
+  updateSecTimerDisplay();
+  clearInterval(timerInt);
+  timerInt=setInterval(()=>{
+    secTimeLeft[curSec]--; updateSecTimerDisplay();
+    if(secTimeLeft[curSec]<=0){ clearInterval(timerInt); lockAndAdvance(); }
+  },1000);
+  renderSectionTabs();
+  buildPalette(); renderQuestion();
+}
+function updateSecTimerDisplay(){
+  const tl=secTimeLeft[curSec];
+  const m=Math.floor(tl/60), s=tl%60;
+  const el=document.getElementById('timer');
+  el.textContent='Section: '+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  el.classList.toggle('low',tl<=60);
+}
+function lockAndAdvance(){
+  if(curSec<secGroups.length-1){
+    alert('Time for "'+secGroups[curSec].name+'" is over. Moving to the next section.');
+    curSec++;
+    startSectionTimer();
+  } else {
+    alert('Time is over. Submitting your test.');
+    submitTest(true);
+  }
+}
+function renderSectionTabs(){
+  const wrap=document.getElementById('sectionTabs');
+  if(!wrap) return;
+  wrap.innerHTML='';
+  secGroups.forEach((g,gi)=>{
+    const tab=document.createElement('div');
+    tab.className='sec-tab'+(gi===curSec?' active':'')+(gi<curSec?' done':'');
+    tab.textContent=g.name+(gi<curSec?' ✓':'');
+    wrap.appendChild(tab);
+  });
+  // update submit button label
+  const sb2=document.getElementById('submitBtn');
+  if(sb2) sb2.textContent = (curSec<secGroups.length-1) ? 'Submit Section →' : 'Submit Test';
+}
 
 function startTimer(){
   updateTimerDisplay();
@@ -185,25 +273,33 @@ function updateTimerDisplay(){
 
 function buildPalette(){
   const pal=document.getElementById('palette'); pal.innerHTML='';
-  questions.forEach((q,i)=>{
+  const indices = isStrict ? secGroups[curSec].idx : questions.map((q,i)=>i);
+  indices.forEach((qi,n)=>{
     const b=document.createElement('button');
-    b.className='pal-btn'; b.textContent=i+1;
-    b.addEventListener('click',()=>{ current=i; renderQuestion(); });
+    b.className='pal-btn'; b.textContent=n+1; b.dataset.qi=qi;
+    b.addEventListener('click',()=>{ current=qi; renderQuestion(); });
     pal.appendChild(b);
   });
 }
 function refreshPalette(){
-  document.querySelectorAll('.pal-btn').forEach((b,i)=>{
+  const indices = isStrict ? secGroups[curSec].idx : questions.map((q,i)=>i);
+  document.querySelectorAll('.pal-btn').forEach((b)=>{
+    const qi=parseInt(b.dataset.qi);
     b.classList.remove('answered','review','current');
-    if(review[i]) b.classList.add('review');
-    else if(answers[i]!=null && answers[i]!=='') b.classList.add('answered');
-    if(i===current) b.classList.add('current');
+    if(review[qi]) b.classList.add('review');
+    else if(answers[qi]!=null && answers[qi]!=='') b.classList.add('answered');
+    if(qi===current) b.classList.add('current');
   });
 }
 
 function renderQuestion(){
   const q=questions[current];
-  document.getElementById('qNum').textContent='Question '+(current+1)+' of '+questions.length;
+  if(isStrict){
+    const idx=secGroups[curSec].idx; const pos=idx.indexOf(current)+1;
+    document.getElementById('qNum').textContent='Question '+pos+' of '+idx.length+' ('+secGroups[curSec].name+')';
+  } else {
+    document.getElementById('qNum').textContent='Question '+(current+1)+' of '+questions.length;
+  }
   const tags=[]; if(q.section) tags.push(q.section); if(q.difficulty) tags.push(q.difficulty);
   tags.push(q.question_type==='TITA'?'TITA':'MCQ');
   document.getElementById('qTags').innerHTML=tags.map(t=>'<span class="q-tag">'+t+'</span>').join('');
@@ -232,9 +328,31 @@ function renderQuestion(){
 document.getElementById('titaInput').addEventListener('input',function(){ answers[current]=this.value.trim(); refreshPalette(); });
 document.getElementById('clearBtn').addEventListener('click',()=>{ delete answers[current]; renderQuestion(); });
 document.getElementById('reviewBtn').addEventListener('click',()=>{ review[current]=!review[current]; refreshPalette(); });
-document.getElementById('prevBtn').addEventListener('click',()=>{ if(current>0){current--; renderQuestion();} });
-document.getElementById('nextBtn').addEventListener('click',()=>{ if(current<questions.length-1){current++; renderQuestion();} });
-document.getElementById('submitBtn').addEventListener('click',()=>{ if(confirm('Submit the test? You cannot change answers after this.')) submitTest(false); });
+document.getElementById('prevBtn').addEventListener('click',()=>{
+  if(isStrict){
+    const idx=secGroups[curSec].idx; const pos=idx.indexOf(current);
+    if(pos>0){ current=idx[pos-1]; renderQuestion(); }
+  } else if(current>0){ current--; renderQuestion(); }
+});
+document.getElementById('nextBtn').addEventListener('click',()=>{
+  if(isStrict){
+    const idx=secGroups[curSec].idx; const pos=idx.indexOf(current);
+    if(pos<idx.length-1){ current=idx[pos+1]; renderQuestion(); }
+  } else if(current<questions.length-1){ current++; renderQuestion(); }
+});
+document.getElementById('submitBtn').addEventListener('click',()=>{
+  if(isStrict){
+    if(curSec<secGroups.length-1){
+      if(confirm('Submit "'+secGroups[curSec].name+'" and move to the next section? You cannot return to this section.')){
+        clearInterval(timerInt); curSec++; startSectionTimer();
+      }
+    } else {
+      if(confirm('This is the last section. Submit the whole test? You cannot change answers after this.')) submitTest(false);
+    }
+  } else {
+    if(confirm('Submit the test? You cannot change answers after this.')) submitTest(false);
+  }
+});
 
 async function submitTest(auto){
   clearInterval(timerInt);
