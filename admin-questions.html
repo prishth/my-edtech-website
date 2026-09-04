@@ -298,9 +298,10 @@ const sb=supabase.createClient(SB_URL,SB_KEY);
 let sessionCount=0, qType='MCQ', optCount=4;
 
 const loginView=document.getElementById('loginView'), adminView=document.getElementById('adminView');
+let CURRENT_USER=null;
 async function checkSession(){
   const {data}=await sb.auth.getSession();
-  if(data.session){ loginView.classList.add('hidden'); adminView.classList.remove('hidden'); loadTests(); }
+  if(data.session){ CURRENT_USER=data.session.user; loginView.classList.add('hidden'); adminView.classList.remove('hidden'); loadTests(); }
   else { loginView.classList.remove('hidden'); adminView.classList.add('hidden'); }
 }
 checkSession();
@@ -308,25 +309,28 @@ checkSession();
 // Load existing tests into the picker
 let ALL_TESTS=[];
 async function loadTests(){
-  const [{data},{data:qs}]=await Promise.all([
-    sb.from('tests').select('*').order('created_at',{ascending:false}),
+  let query=sb.from('tests').select('*').order('created_at',{ascending:false});
+  // per-admin ownership: only show tests THIS admin created
+  // (older tests with no created_by are shown to everyone so nothing is orphaned)
+  const [{data:allTests},{data:qs}]=await Promise.all([
+    query,
     sb.from('questions').select('test_id')
   ]);
-  ALL_TESTS=data||[];
+  const uid=CURRENT_USER?CURRENT_USER.id:null;
+  const data=(allTests||[]).filter(t=> !t.created_by || t.created_by===uid );
+  ALL_TESTS=data;
   const counts={};
   (qs||[]).forEach(q=>{ if(q.test_id) counts[q.test_id]=(counts[q.test_id]||0)+1; });
   const picker=document.getElementById('test_picker');
   picker.innerHTML='<option value="">— Select a test —</option>';
-  if(data){
-    data.forEach(t=>{
-      const o=document.createElement('option');
-      o.value=t.id;
-      const nq=counts[t.id]||0;
-      o.textContent=t.exam+" — "+t.test_name+"  ["+nq+" Qs]  (+"+t.marks_correct+" / "+t.marks_wrong+", "+t.duration_minutes+" min)";
-      o.dataset.exam=t.exam; o.dataset.name=t.test_name;
-      picker.appendChild(o);
-    });
-  }
+  data.forEach(t=>{
+    const o=document.createElement('option');
+    o.value=t.id;
+    const nq=counts[t.id]||0;
+    o.textContent=t.exam+" — "+t.test_name+"  ["+nq+" Qs]  (+"+t.marks_correct+" / "+t.marks_wrong+", "+t.duration_minutes+" min)";
+    o.dataset.exam=t.exam; o.dataset.name=t.test_name;
+    picker.appendChild(o);
+  });
   renderTestsList(counts);
 }
 
@@ -338,18 +342,37 @@ function renderTestsList(counts){
     const nq=counts[t.id]||0;
     const timing=t.sectional_timing?'Strict sectional':'Free roaming';
     const secList=Array.isArray(t.sections)?t.sections.map(s=>s.name+' ('+s.minutes+'m, +'+ (s.marks_correct!=null?s.marks_correct:t.marks_correct) +'/'+ (s.marks_wrong!=null?s.marks_wrong:t.marks_wrong) +')').join(', '):'—';
+    const live=t.is_published===true;
+    const statusBadge=live
+      ? '<span style="background:#E3F5EC;color:#1a7350;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px">● LIVE</span>'
+      : '<span style="background:#FBE9C7;color:#8a6d1f;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px">● DRAFT</span>';
+    const canPublish = nq>0;
+    const pubBtn = live
+      ? `<button class="btn" style="padding:8px 16px;font-size:13px;background:#8894A5;margin-left:6px" onclick="setPublish(${t.id},false)">Make Draft</button>`
+      : `<button class="btn" style="padding:8px 16px;font-size:13px;background:#2EA47C;margin-left:6px" ${canPublish?'':'disabled title=\"Add questions first\"'} onclick="setPublish(${t.id},true)">Make Live</button>`;
     html+=`<div style="border:1px solid var(--border);border-radius:9px;padding:14px;margin-bottom:10px;background:#FAFCFE">
-      <div style="font-family:'Sora',sans-serif;font-weight:600;color:var(--navy)">${t.exam} — ${t.test_name}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <div style="font-family:'Sora',sans-serif;font-weight:600;color:var(--navy)">${t.exam} — ${t.test_name}</div>
+        ${statusBadge}
+      </div>
       <div class="hint" style="margin:4px 0">${nq} questions · ${t.duration_minutes} min · ${timing}</div>
       <div class="hint" style="margin-bottom:8px">Sections: ${secList}</div>
       <button class="btn" style="padding:8px 16px;font-size:13px" onclick="resumeTest(${t.id})">Add Questions</button>
       <button class="btn" style="padding:8px 16px;font-size:13px;background:var(--steel);margin-left:6px" onclick="manageQuestions(${t.id})">Questions (${nq})</button>
       <button class="btn" style="padding:8px 16px;font-size:13px;margin-left:6px" onclick="editTest(${t.id})">Edit</button>
+      ${pubBtn}
       <button class="btn" style="padding:8px 16px;font-size:13px;background:#B23636;margin-left:6px" onclick="deleteTest(${t.id},'${(t.test_name||'').replace(/'/g,"")}')">Delete</button>
     </div>`;
   });
   wrap.innerHTML=html;
 }
+window.setPublish=async function(id,pub){
+  if(pub && !confirm('Make this test LIVE? Students will be able to see and take it.')) return;
+  if(!pub && !confirm('Move this test back to DRAFT? Students will no longer see it.')) return;
+  const {error}=await sb.from('tests').update({is_published:pub}).eq('id',id);
+  if(error){ alert('Failed: '+error.message); return; }
+  loadTests();
+};
 
 let editingTestId=null;
 window.editTest=function(id){

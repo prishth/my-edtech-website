@@ -60,7 +60,7 @@ async function init(){
   document.getElementById('userEmail').textContent=session.user.email;
   document.getElementById('welcome').textContent='Choose a test to begin. All your attempts are saved.';
   const [{data:tests},{data:questions},{data:attempts}]=await Promise.all([
-    sb.from('tests').select('*').order('exam'),
+    sb.from('tests').select('*').eq('is_published',true).order('exam'),
     sb.from('questions').select('test_id'),
     sb.from('attempts').select('test_id,score,total_marks')
   ]);
