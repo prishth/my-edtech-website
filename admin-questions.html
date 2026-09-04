@@ -146,8 +146,67 @@ textarea{resize:vertical;min-height:70px}
           <select id="t_free"><option value="true">Free</option><option value="false">Paid (later)</option></select>
         </div>
       </div>
-      <div style="margin-top:16px"><button class="btn" id="createTestBtn">Create Test</button></div>
+      <div style="margin-top:16px">
+        <button class="btn" id="createTestBtn">Create Test</button>
+        <button class="btn" id="cancelEditBtn" style="display:none;background:#8894A5;margin-left:8px">Cancel Edit</button>
+      </div>
       <div class="msg" id="testMsg"></div>
+    </div>
+
+    <div class="card">
+      <h2>Manage Existing Tests</h2>
+      <p class="hint" style="margin-bottom:10px">Click <b>Add Questions</b> to resume an unfinished paper. Click <b>Edit</b> to change marking/timing/sections. Click <b>Questions</b> to view, edit, delete, or reorder the questions in a paper.</p>
+      <div id="testsList"><p class="hint">Loading tests…</p></div>
+    </div>
+
+    <div class="card" id="manageQuestionsCard" style="display:none;border-top:4px solid var(--steel)">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 id="mqTitle">Questions</h2>
+        <button class="logout" id="mqClose">Close</button>
+      </div>
+      <div id="questionsList"><p class="hint">Loading questions…</p></div>
+    </div>
+
+    <!-- Edit Question modal-ish card -->
+    <div class="card" id="editQuestionCard" style="display:none;border-top:4px solid var(--gold)">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2>Edit Question</h2>
+        <button class="logout" id="eqClose">Cancel</button>
+      </div>
+      <label>Section</label>
+      <input id="eq_section"/>
+      <label>Difficulty</label>
+      <select id="eq_difficulty"><option>Easy</option><option>Medium</option><option>Hard</option></select>
+      <label>Question Type</label>
+      <div class="toggle-group" id="eqTypeToggle">
+        <button type="button" data-type="MCQ">MCQ</button>
+        <button type="button" data-type="TITA">TITA</button>
+      </div>
+      <label>Question *</label>
+      <div class="rich" id="eq_question" contenteditable="true"></div>
+      <div id="eqMcq">
+        <div class="opt-row"><div class="opt-letter">A</div><div class="rich" id="eq_option_a" contenteditable="true"></div></div>
+        <div class="opt-row"><div class="opt-letter">B</div><div class="rich" id="eq_option_b" contenteditable="true"></div></div>
+        <div class="opt-row"><div class="opt-letter">C</div><div class="rich" id="eq_option_c" contenteditable="true"></div></div>
+        <div class="opt-row"><div class="opt-letter">D</div><div class="rich" id="eq_option_d" contenteditable="true"></div></div>
+        <div class="opt-row" id="eqOptEWrap"><div class="opt-letter">E</div><div class="rich" id="eq_option_e" contenteditable="true"></div></div>
+        <div class="correct-pick">
+          <label style="margin:0 0 8px">Correct option *</label>
+          <span class="pill"><input type="radio" name="eq_correct" id="eqcA" value="A"><label for="eqcA">A</label></span>
+          <span class="pill"><input type="radio" name="eq_correct" id="eqcB" value="B"><label for="eqcB">B</label></span>
+          <span class="pill"><input type="radio" name="eq_correct" id="eqcC" value="C"><label for="eqcC">C</label></span>
+          <span class="pill"><input type="radio" name="eq_correct" id="eqcD" value="D"><label for="eqcD">D</label></span>
+          <span class="pill"><input type="radio" name="eq_correct" id="eqcE" value="E"><label for="eqcE">E</label></span>
+        </div>
+      </div>
+      <div id="eqTita" style="display:none">
+        <label>TITA answer *</label>
+        <input id="eq_tita_answer"/>
+      </div>
+      <label>Explanation</label>
+      <div class="rich" id="eq_explanation" contenteditable="true"></div>
+      <div style="margin-top:16px"><button class="btn btn-gold" id="eqSaveBtn">Save Changes</button></div>
+      <div class="msg" id="eqMsg"></div>
     </div>
 
     <div class="card">
@@ -247,11 +306,13 @@ async function checkSession(){
 checkSession();
 
 // Load existing tests into the picker
+let ALL_TESTS=[];
 async function loadTests(){
   const [{data},{data:qs}]=await Promise.all([
     sb.from('tests').select('*').order('created_at',{ascending:false}),
     sb.from('questions').select('test_id')
   ]);
+  ALL_TESTS=data||[];
   const counts={};
   (qs||[]).forEach(q=>{ if(q.test_id) counts[q.test_id]=(counts[q.test_id]||0)+1; });
   const picker=document.getElementById('test_picker');
@@ -266,7 +327,221 @@ async function loadTests(){
       picker.appendChild(o);
     });
   }
+  renderTestsList(counts);
 }
+
+function renderTestsList(counts){
+  const wrap=document.getElementById('testsList');
+  if(!ALL_TESTS.length){ wrap.innerHTML='<p class="hint">No tests yet.</p>'; return; }
+  let html='';
+  ALL_TESTS.forEach(t=>{
+    const nq=counts[t.id]||0;
+    const timing=t.sectional_timing?'Strict sectional':'Free roaming';
+    const secList=Array.isArray(t.sections)?t.sections.map(s=>s.name+' ('+s.minutes+'m, +'+ (s.marks_correct!=null?s.marks_correct:t.marks_correct) +'/'+ (s.marks_wrong!=null?s.marks_wrong:t.marks_wrong) +')').join(', '):'—';
+    html+=`<div style="border:1px solid var(--border);border-radius:9px;padding:14px;margin-bottom:10px;background:#FAFCFE">
+      <div style="font-family:'Sora',sans-serif;font-weight:600;color:var(--navy)">${t.exam} — ${t.test_name}</div>
+      <div class="hint" style="margin:4px 0">${nq} questions · ${t.duration_minutes} min · ${timing}</div>
+      <div class="hint" style="margin-bottom:8px">Sections: ${secList}</div>
+      <button class="btn" style="padding:8px 16px;font-size:13px" onclick="resumeTest(${t.id})">Add Questions</button>
+      <button class="btn" style="padding:8px 16px;font-size:13px;background:var(--steel);margin-left:6px" onclick="manageQuestions(${t.id})">Questions (${nq})</button>
+      <button class="btn" style="padding:8px 16px;font-size:13px;margin-left:6px" onclick="editTest(${t.id})">Edit</button>
+      <button class="btn" style="padding:8px 16px;font-size:13px;background:#B23636;margin-left:6px" onclick="deleteTest(${t.id},'${(t.test_name||'').replace(/'/g,"")}')">Delete</button>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+}
+
+let editingTestId=null;
+window.editTest=function(id){
+  const t=ALL_TESTS.find(x=>x.id===id); if(!t) return;
+  editingTestId=id;
+  // fill top fields
+  document.getElementById('t_exam').value=t.exam;
+  document.getElementById('t_name').value=t.test_name;
+  document.getElementById('t_correct').value=t.marks_correct;
+  document.getElementById('t_wrong').value=t.marks_wrong;
+  document.getElementById('t_free').value=String(t.is_free);
+  // timing toggle
+  sectionTiming=t.sectional_timing?'strict':'free';
+  document.querySelectorAll('#timingToggle button').forEach(b=>b.classList.toggle('active',b.dataset.timing===sectionTiming));
+  // sections
+  const secs=Array.isArray(t.sections)?t.sections:[];
+  if(secs.length){
+    document.getElementById('t_numsections').value=String(Math.min(5,secs.length));
+    buildSectionRows();
+    const blocks=document.querySelectorAll('#sectionsBuilder .sec-block');
+    secs.forEach((s,i)=>{
+      if(!blocks[i]) return;
+      const nameSel=blocks[i].querySelector('.sec-name');
+      const preset=Array.from(nameSel.options).find(o=>o.value===s.name);
+      if(preset){ nameSel.value=s.name; }
+      else { nameSel.value='Custom (type below)'; const c=blocks[i].querySelector('.sec-custom'); c.style.display='block'; c.value=s.name; }
+      blocks[i].querySelector('.sec-time').value=s.minutes;
+      blocks[i].querySelector('.sec-correct').value=(s.marks_correct!=null?s.marks_correct:t.marks_correct);
+      blocks[i].querySelector('.sec-wrong').value=(s.marks_wrong!=null?s.marks_wrong:t.marks_wrong);
+    });
+    recalcTotal();
+  }
+  document.getElementById('createTestBtn').textContent='Update Test';
+  document.getElementById('cancelEditBtn').style.display='inline-block';
+  const msg=document.getElementById('testMsg'); msg.textContent='Editing "'+t.test_name+'". Change fields and click Update Test.'; msg.className='msg ok show';
+  document.getElementById('t_exam').scrollIntoView({behavior:'smooth',block:'center'});
+};
+
+window.deleteTest=async function(id,name){
+  if(!confirm('Delete "'+name+'" and ALL its questions? This cannot be undone.')) return;
+  await sb.from('questions').delete().eq('test_id',id);
+  await sb.from('tests').delete().eq('id',id);
+  loadTests();
+};
+
+// ===== RESUME: select a test in Step 2 and scroll there =====
+window.resumeTest=function(id){
+  const picker=document.getElementById('test_picker');
+  picker.value=String(id);
+  picker.dispatchEvent(new Event('change'));
+  document.getElementById('test_picker').scrollIntoView({behavior:'smooth',block:'center'});
+};
+
+// ===== MANAGE QUESTIONS =====
+let mqTestId=null, mqQuestions=[];
+window.manageQuestions=async function(id){
+  mqTestId=id;
+  const t=ALL_TESTS.find(x=>x.id===id);
+  document.getElementById('mqTitle').textContent='Questions: '+(t?t.exam+' — '+t.test_name:'');
+  document.getElementById('manageQuestionsCard').style.display='block';
+  document.getElementById('editQuestionCard').style.display='none';
+  document.getElementById('questionsList').innerHTML='<p class="hint">Loading…</p>';
+  const {data}=await sb.from('questions').select('*').eq('test_id',id).order('sort_order',{ascending:true}).order('id',{ascending:true});
+  mqQuestions=data||[];
+  renderQuestionsList();
+  document.getElementById('manageQuestionsCard').scrollIntoView({behavior:'smooth',block:'start'});
+};
+function stripHtml(h){ const d=document.createElement('div'); d.innerHTML=h||''; return (d.textContent||'').slice(0,90); }
+function renderQuestionsList(){
+  const wrap=document.getElementById('questionsList');
+  if(!mqQuestions.length){ wrap.innerHTML='<p class="hint">No questions in this paper yet. Use "Add Questions" to add some.</p>'; return; }
+  let html='';
+  mqQuestions.forEach((q,i)=>{
+    html+=`<div style="border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:8px;background:#fff">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:start">
+        <div style="flex:1">
+          <b>Q${i+1}</b> <span class="hint">[${q.question_type}${q.section?' · '+q.section:''}]</span><br>
+          <span style="font-size:13.5px">${stripHtml(q.question)}${(q.question&&q.question.length>90)?'…':''}</span>
+        </div>
+        <div style="flex-shrink:0;display:flex;flex-direction:column;gap:4px">
+          <div>
+            <button class="btn" style="padding:5px 10px;font-size:12px" onclick="moveQ(${i},-1)">↑</button>
+            <button class="btn" style="padding:5px 10px;font-size:12px" onclick="moveQ(${i},1)">↓</button>
+          </div>
+          <button class="btn" style="padding:5px 12px;font-size:12px;background:var(--gold);color:var(--navy)" onclick="editQuestion(${q.id})">Edit</button>
+          <button class="btn" style="padding:5px 12px;font-size:12px;background:#B23636" onclick="deleteQuestion(${q.id})">Delete</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+}
+document.getElementById('mqClose').addEventListener('click',()=>{ document.getElementById('manageQuestionsCard').style.display='none'; document.getElementById('editQuestionCard').style.display='none'; });
+
+// reorder (persist sort_order)
+window.moveQ=async function(i,dir){
+  const j=i+dir; if(j<0||j>=mqQuestions.length) return;
+  const a=mqQuestions[i], b=mqQuestions[j];
+  mqQuestions[i]=b; mqQuestions[j]=a;
+  renderQuestionsList();
+  // write new sort_order for all
+  for(let k=0;k<mqQuestions.length;k++){
+    await sb.from('questions').update({sort_order:k}).eq('id',mqQuestions[k].id);
+  }
+};
+
+window.deleteQuestion=async function(qid){
+  if(!confirm('Delete this question permanently?')) return;
+  await sb.from('questions').delete().eq('id',qid);
+  mqQuestions=mqQuestions.filter(q=>q.id!==qid);
+  renderQuestionsList();
+  loadTests(); // refresh counts
+};
+
+// ===== EDIT QUESTION =====
+let eqId=null, eqType='MCQ';
+window.editQuestion=function(qid){
+  const q=mqQuestions.find(x=>x.id===qid); if(!q) return;
+  eqId=qid;
+  document.getElementById('editQuestionCard').style.display='block';
+  document.getElementById('eq_section').value=q.section||'';
+  document.getElementById('eq_difficulty').value=q.difficulty||'Medium';
+  eqType=q.question_type||'MCQ';
+  document.querySelectorAll('#eqTypeToggle button').forEach(b=>b.classList.toggle('active',b.dataset.type===eqType));
+  document.getElementById('eqMcq').style.display=eqType==='MCQ'?'block':'none';
+  document.getElementById('eqTita').style.display=eqType==='TITA'?'block':'none';
+  document.getElementById('eq_question').innerHTML=q.question||'';
+  document.getElementById('eq_option_a').innerHTML=q.option_a||'';
+  document.getElementById('eq_option_b').innerHTML=q.option_b||'';
+  document.getElementById('eq_option_c').innerHTML=q.option_c||'';
+  document.getElementById('eq_option_d').innerHTML=q.option_d||'';
+  document.getElementById('eq_option_e').innerHTML=q.option_e||'';
+  document.getElementById('eqOptEWrap').style.display=q.option_e?'grid':'none';
+  document.getElementById('eq_explanation').innerHTML=q.explanation||'';
+  document.getElementById('eq_tita_answer').value=q.tita_answer||'';
+  document.querySelectorAll('input[name="eq_correct"]').forEach(r=>r.checked=(r.value===q.correct_answer));
+  document.getElementById('eqMsg').className='msg';
+  document.getElementById('editQuestionCard').scrollIntoView({behavior:'smooth',block:'start'});
+};
+document.querySelectorAll('#eqTypeToggle button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#eqTypeToggle button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); eqType=b.dataset.type;
+    document.getElementById('eqMcq').style.display=eqType==='MCQ'?'block':'none';
+    document.getElementById('eqTita').style.display=eqType==='TITA'?'block':'none';
+  });
+});
+document.getElementById('eqClose').addEventListener('click',()=>{ document.getElementById('editQuestionCard').style.display='none'; });
+// paste images into edit boxes
+['eq_question','eq_option_a','eq_option_b','eq_option_c','eq_option_d','eq_option_e','eq_explanation'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('paste',e=>handlePaste(e,id));
+});
+document.getElementById('eqSaveBtn').addEventListener('click',async()=>{
+  const msg=document.getElementById('eqMsg'); msg.className='msg';
+  const rv=id=>document.getElementById(id).innerHTML.trim();
+  const upd={
+    section:document.getElementById('eq_section').value.trim()||null,
+    difficulty:document.getElementById('eq_difficulty').value,
+    question_type:eqType,
+    question:rv('eq_question'),
+    explanation:rv('eq_explanation')||null
+  };
+  if(eqType==='MCQ'){
+    upd.option_a=rv('eq_option_a'); upd.option_b=rv('eq_option_b');
+    upd.option_c=rv('eq_option_c'); upd.option_d=rv('eq_option_d');
+    upd.option_e=rv('eq_option_e')||null;
+    const c=document.querySelector('input[name="eq_correct"]:checked');
+    upd.correct_answer=c?c.value:null; upd.tita_answer=null;
+    if(!upd.correct_answer){ msg.textContent='Pick the correct option.'; msg.className='msg err show'; return; }
+  } else {
+    upd.tita_answer=document.getElementById('eq_tita_answer').value.trim();
+    upd.correct_answer=null; upd.option_a=upd.option_b=upd.option_c=upd.option_d=upd.option_e=null;
+    if(!upd.tita_answer){ msg.textContent='Enter the TITA answer.'; msg.className='msg err show'; return; }
+  }
+  const {error}=await sb.from('questions').update(upd).eq('id',eqId);
+  if(error){ msg.textContent='Save failed: '+error.message; msg.className='msg err show'; return; }
+  msg.textContent='✓ Question updated.'; msg.className='msg ok show';
+  // refresh local copy + list
+  const idx=mqQuestions.findIndex(x=>x.id===eqId);
+  if(idx>=0) mqQuestions[idx]=Object.assign({},mqQuestions[idx],upd);
+  renderQuestionsList();
+});
+
+document.getElementById('cancelEditBtn').addEventListener('click',()=>{
+  editingTestId=null;
+  document.getElementById('createTestBtn').textContent='Create Test';
+  document.getElementById('cancelEditBtn').style.display='none';
+  document.getElementById('t_name').value='';
+  document.getElementById('testMsg').className='msg';
+});
+
 
 // ===== Section builder =====
 let sectionTiming='free';
@@ -354,11 +629,26 @@ document.getElementById('createTestBtn').addEventListener('click',async()=>{
     sections:sections,
     sectional_timing:sectionTiming==='strict'
   };
+  // tag creator
+  const {data:sess}=await sb.auth.getSession();
+  if(sess&&sess.session) row.created_by=sess.session.user.id;
   if(!row.exam||!row.test_name||isNaN(row.marks_correct)||isNaN(row.marks_wrong)||isNaN(row.duration_minutes)){
     msg.textContent="Fill exam, test name, marks, and section times."; msg.className='msg err show'; return;
   }
   if(sections.length===0){
     msg.textContent="Add at least one section with a name and time."; msg.className='msg err show'; return;
+  }
+  if(editingTestId){
+    // UPDATE existing test
+    const {error}=await sb.from('tests').update(row).eq('id',editingTestId);
+    if(error){ msg.textContent="Update failed: "+error.message; msg.className='msg err show'; return; }
+    msg.textContent="✓ Test updated."; msg.className='msg ok show';
+    editingTestId=null;
+    document.getElementById('createTestBtn').textContent='Create Test';
+    document.getElementById('cancelEditBtn').style.display='none';
+    document.getElementById('t_name').value='';
+    await loadTests();
+    return;
   }
   const {data:created,error}=await sb.from('tests').insert([row]).select().single();
   if(error){
@@ -370,7 +660,6 @@ document.getElementById('createTestBtn').addEventListener('click',async()=>{
     msg.className='msg ok show';
     document.getElementById('t_name').value='';
     await loadTests();
-    // auto-select the new test in Step 2
     if(created){
       const picker=document.getElementById('test_picker');
       picker.value=created.id;
