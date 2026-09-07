@@ -160,7 +160,7 @@ async function handleSignup() {
   successMsg.style.display = 'block';
   btn.textContent = 'Account Created!';
 
-  setTimeout(() => { window.location.href = 'login.html'; }, 3000);
+  setTimeout(() => { window.location.href = '/login'; }, 3000);
 }
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSignup(); });

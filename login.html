@@ -68,6 +68,19 @@
   <div class="auth-card">
     <h1>Welcome back</h1>
     <p class="subtitle">Log in to access your PYQs, tests and results</p>
+    <div id="gateNote" style="display:none;background:#FFFBF2;border:1px solid #F2E3C2;border-left:4px solid #E5A52A;border-radius:8px;padding:12px 14px;margin:0 0 20px;font-size:14px;line-height:1.55;color:#16283C;text-align:left">
+      <strong style="color:#1B3A5C">The Test Series needs an account.</strong><br>
+      Log in below, or <a href="signup" style="color:#2E6DA4;font-weight:600">create a free account</a> to start attempting mock tests.
+    </div>
+    <script>
+    (function(){
+      try{
+        if(new URLSearchParams(window.location.search).get('next')==='dashboard'){
+          document.getElementById('gateNote').style.display='block';
+        }
+      }catch(e){}
+    })();
+    </script>
 
     <div class="alert error" id="errorMsg"></div>
     <div class="alert success" id="successMsg"></div>
@@ -127,14 +140,15 @@ async function handleLogin() {
 
   successMsg.textContent = 'Login successful! Redirecting...';
   successMsg.style.display = 'block';
-  setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+  setTimeout(() => { window.location.href = '/dashboard'; }, 800);
 }
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
 
+
 // If already logged in, go to dashboard
 supabase.auth.getSession().then(( { data: { session } }) => {
-  if (session) window.location.href = 'dashboard.html';
+  if (session) window.location.href = '/dashboard';
 });
 </script>
 </body>
