@@ -49,10 +49,48 @@ h2{font-family:'Sora',sans-serif;font-size:20px;color:var(--navy);margin:28px 0 
 .btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--border)}
 .loading{text-align:center;padding:60px;color:var(--muted)}
 .hidden{display:none}
-@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+/* --- question palette --- */
+.palette-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.palette-hint{font-size:13.5px;color:var(--muted);margin-bottom:14px}
+.palette{display:flex;flex-wrap:wrap;gap:9px}
+.pnum{width:44px;height:44px;border-radius:10px;border:2px solid var(--border);background:#fff;
+  font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:var(--navy);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;padding:0}
+.pnum:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(27,58,92,.13)}
+.pnum.correct{border-color:var(--green);background:#F0FBF6;color:#1a7350}
+.pnum.wrong{border-color:var(--red);background:#FDF2F2;color:var(--red)}
+.pnum.skip{border-color:var(--border);background:var(--bg);color:var(--muted)}
+.pnum.active{outline:3px solid var(--gold);outline-offset:1px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.dot{width:13px;height:13px;border-radius:4px;border:2px solid var(--border);display:inline-block}
+.dot.c{border-color:var(--green);background:#F0FBF6}
+.dot.w{border-color:var(--red);background:#FDF2F2}
+.dot.s{background:var(--bg)}
+
+.sol-nav{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+.sol-nav.hidden{display:none}
+.sol-nav button{background:#fff;color:var(--navy);border:1.5px solid var(--border);border-radius:9px;
+  padding:10px 20px;font-family:'Sora',sans-serif;font-weight:600;font-size:13.5px;cursor:pointer}
+.sol-nav button:disabled{opacity:.4;cursor:not-allowed}
+.sol-empty{background:#fff;border:1px dashed var(--border);border-radius:var(--radius);
+  padding:34px 20px;text-align:center;color:var(--muted);font-size:14.5px}
+
+/* --- printing is not supported on this page --- */
+@media print{
+  body *{visibility:hidden !important}
+  #printNotice,#printNotice *{visibility:visible !important}
+  #printNotice{display:block !important;position:absolute;top:40px;left:0;right:0;
+    text-align:center;font-family:sans-serif;font-size:15px;color:#16283C;padding:0 40px}
+}
+#printNotice{display:none}
+
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}.pnum{width:40px;height:40px}}
 </style>
 </head>
 <body>
+<div id="printNotice">Prishth solutions are for on-screen study only and cannot be printed or saved as PDF. Please sign in at prishth.in to review them.</div>
 <nav class="topnav"><a href="/" class="brand">Prishth</a><a href="/dashboard">← Dashboard</a></nav>
 <div class="wrap">
   <div id="loading" class="loading">Loading your result…</div>
@@ -73,7 +111,23 @@ h2{font-family:'Sora',sans-serif;font-size:20px;color:var(--navy);margin:28px 0 
       <button class="btn ghost" id="toggleSol">View Solutions ↓</button>
     </div>
     <div id="sectionAnalysis"></div>
-    <div id="solutions" class="hidden"><h2>Solutions</h2><div id="solList"></div></div>
+    <div id="solutions" class="hidden">
+      <h2>Solutions</h2>
+      <div class="palette-wrap">
+        <div class="palette-hint">Tap a question number to see that question and its solution.</div>
+        <div class="palette" id="palette"></div>
+        <div class="legend">
+          <span><i class="dot c"></i> Correct</span>
+          <span><i class="dot w"></i> Wrong</span>
+          <span><i class="dot s"></i> Not answered</span>
+        </div>
+      </div>
+      <div id="solList"><div class="sol-empty">Choose a question number above to view its solution.</div></div>
+      <div class="sol-nav hidden" id="solNav">
+        <button id="prevQ">&larr; Previous</button>
+        <button id="nextQ">Next &rarr;</button>
+      </div>
+    </div>
   </div>
 </div>
 <script>
@@ -117,43 +171,87 @@ else {
   secHtml+='</div>';
   document.getElementById('sectionAnalysis').innerHTML=secHtml;
 
-  // solutions
-  let sol='';
-  questions.forEach((q,i)=>{
-    const ans=answers[i];
-    let status='skip',label='Not answered';
-    if(ans!=null&&ans!==''){
-      let ok=false;
-      if(q.question_type==='TITA') ok=String(ans).trim().toLowerCase()===String(q.tita_answer).trim().toLowerCase();
-      else ok=ans===q.correct_answer;
-      status=ok?'correct':'wrong'; label=ok?'Correct':'Wrong';
-    }
-    sol+='<div class="sol"><div class="sol-head"><span class="sol-num">Question '+(i+1)+'</span><span class="badge '+status+'">'+label+'</span></div>';
-    sol+='<div class="sol-q">'+q.question+'</div>';
+  // ---------- solutions: rendered one question at a time ----------
+  // Nothing is built until a number is tapped, so the page never holds
+  // every solution at once.
+
+  function verdict(i){
+    const q=questions[i], ans=answers[i];
+    if(ans==null||ans==='') return 'skip';
+    let ok=false;
+    if(q.question_type==='TITA') ok=String(ans).trim().toLowerCase()===String(q.tita_answer).trim().toLowerCase();
+    else ok=ans===q.correct_answer;
+    return ok?'correct':'wrong';
+  }
+
+  function buildOne(i){
+    const q=questions[i], ans=answers[i];
+    const status=verdict(i);
+    const label=status==='correct'?'Correct':(status==='wrong'?'Wrong':'Not answered');
+    let h='<div class="sol"><div class="sol-head"><span class="sol-num">Question '+(i+1)+
+          ' of '+questions.length+'</span><span class="badge '+status+'">'+label+'</span></div>';
+    if(q.section) h+='<div class="tita-ans"><span class="lab">Section:</span> '+q.section+'</div>';
+    h+='<div class="sol-q">'+q.question+'</div>';
     if(q.question_type==='TITA'){
-      sol+='<div class="tita-ans"><span class="lab">Your answer:</span> '+(ans!=null&&ans!==''?ans:'—')+'</div>';
-      sol+='<div class="tita-ans"><span class="lab">Correct answer:</span> '+q.tita_answer+'</div>';
+      h+='<div class="tita-ans"><span class="lab">Your answer:</span> '+((ans!=null&&ans!=='')?ans:'\u2014')+'</div>';
+      h+='<div class="tita-ans"><span class="lab">Correct answer:</span> '+q.tita_answer+'</div>';
     } else {
       const opts=[['A',q.option_a],['B',q.option_b],['C',q.option_c],['D',q.option_d]];
       if(q.option_e) opts.push(['E',q.option_e]);
-      opts.forEach(([k,v])=>{
+      opts.forEach(function(o){
+        const k=o[0], v=o[1];
         if(v==null) return;
         let cls='';
         if(k===q.correct_answer) cls=' correct';
         else if(k===ans) cls=' chosen-wrong';
-        sol+='<div class="sol-opt'+cls+'"><div class="k">'+k+'</div><div>'+v+(k===ans?' <b>(your answer)</b>':'')+'</div></div>';
+        h+='<div class="sol-opt'+cls+'"><div class="k">'+k+'</div><div>'+v+
+           (k===ans?' <b>(your answer)</b>':'')+'</div></div>';
       });
     }
-    if(q.explanation) sol+='<div class="exp"><span class="lab">Explanation</span>'+q.explanation+'</div>';
-    sol+='</div>';
+    if(q.explanation) h+='<div class="exp"><span class="lab">Explanation</span>'+q.explanation+'</div>';
+    h+='</div>';
+    return h;
+  }
+
+  let current=-1;
+
+  function showQ(i){
+    if(i<0||i>=questions.length) return;
+    current=i;
+    document.getElementById('solList').innerHTML=buildOne(i);
+    document.getElementById('solNav').classList.remove('hidden');
+    document.getElementById('prevQ').disabled = (i===0);
+    document.getElementById('nextQ').disabled = (i===questions.length-1);
+    const btns=document.querySelectorAll('.pnum');
+    btns.forEach(function(b,n){ b.classList.toggle('active', n===i); });
+    document.getElementById('solList').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  // build the number grid
+  let pal='';
+  questions.forEach(function(q,i){
+    pal+='<button type="button" class="pnum '+verdict(i)+'" data-i="'+i+'">'+(i+1)+'</button>';
   });
-  document.getElementById('solList').innerHTML=sol;
+  document.getElementById('palette').innerHTML=pal;
+
+  document.getElementById('palette').addEventListener('click',function(e){
+    const b=e.target.closest('.pnum');
+    if(b) showQ(parseInt(b.getAttribute('data-i'),10));
+  });
+  document.getElementById('prevQ').addEventListener('click',function(){ showQ(current-1); });
+  document.getElementById('nextQ').addEventListener('click',function(){ showQ(current+1); });
 
   document.getElementById('toggleSol').addEventListener('click',function(){
     const s=document.getElementById('solutions');
     s.classList.toggle('hidden');
     this.textContent=s.classList.contains('hidden')?'View Solutions ↓':'Hide Solutions ↑';
-    if(!s.classList.contains('hidden')) s.scrollIntoView({behavior:'smooth'});
+    if(!s.classList.contains('hidden')){ s.scrollIntoView({behavior:'smooth'}); }
+    else {
+      current=-1;
+      document.getElementById('solList').innerHTML='<div class="sol-empty">Choose a question number above to view its solution.</div>';
+      document.getElementById('solNav').classList.add('hidden');
+      document.querySelectorAll('.pnum').forEach(function(b){ b.classList.remove('active'); });
+    }
   });
 }
 </script>
