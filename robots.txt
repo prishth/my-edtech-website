@@ -1,6 +1,18 @@
 User-agent: *
 Allow: /
+
+# Private / account-only areas (clean URLs and legacy .html)
+Disallow: /dashboard
 Disallow: /dashboard.html
+Disallow: /login
 Disallow: /login.html
+Disallow: /test
+Disallow: /test.html
+Disallow: /result
+Disallow: /result.html
+Disallow: /admin-questions
+Disallow: /admin-questions.html
+Disallow: /reset-password
+Disallow: /reset-password.html
 
 Sitemap: https://prishth.in/sitemap.xml
