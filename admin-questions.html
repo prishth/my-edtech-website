@@ -843,11 +843,11 @@ document.getElementById('saveBtn').addEventListener('click',async()=>{
   if(error){ msg.textContent="Save failed: "+error.message; msg.className='msg err show'; }
   else {
     sessionCount++; document.getElementById('sessionCount').textContent=sessionCount+" added this session";
+    const keepPsg = document.getElementById('hasPassage').checked
+                 && document.getElementById('keepPassage').checked;
     msg.textContent = keepPsg
       ? "\u2713 Saved! Passage kept for the next question. Everything else cleared."
       : "\u2713 Saved! Form cleared for the next question (test stays selected)."; msg.className='msg ok show';
-    const keepPsg = document.getElementById('hasPassage').checked
-                 && document.getElementById('keepPassage').checked;
     const clearIds = ['section','question','option_a','option_b','option_c','option_d','option_e','explanation'];
     if(!keepPsg) clearIds.push('passage');
     clearIds.forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML='';});
