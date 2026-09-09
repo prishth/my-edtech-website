@@ -42,6 +42,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line
 .q-tags{display:flex;gap:8px;font-size:11.5px}
 .q-tag{background:var(--bg);border:1px solid var(--border);padding:3px 10px;border-radius:999px;color:var(--muted);font-weight:600}
 .q-text{font-size:16px;line-height:1.7;margin-bottom:22px}
+.q-passage{background:#FFFDF7;border:1px solid #F0E2C4;border-left:4px solid #E5A52A;
+  border-radius:0 10px 10px 0;padding:16px 18px;margin-bottom:16px;font-size:14.5px;line-height:1.75;
+  max-height:340px;overflow-y:auto}
+.q-passage .p-lab{display:block;font-size:11.5px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:#8A6100;margin-bottom:8px}
+.q-passage img{max-width:100%;height:auto;border-radius:6px;margin:6px 0}
+.q-passage p{margin:0 0 10px}
+.q-passage p:last-child{margin-bottom:0}
 .q-text img,.opt-text img{max-width:100%;height:auto;border-radius:6px;margin:6px 0}
 .options{display:flex;flex-direction:column;gap:11px}
 .option{display:flex;gap:13px;align-items:flex-start;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;background:#fff;transition:.15s}
@@ -113,6 +121,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line
         <span class="q-num" id="qNum">Question 1</span>
         <div class="q-tags" id="qTags"></div>
       </div>
+      <div class="q-passage hidden" id="qPassage"></div>
       <div class="q-text" id="qText"></div>
       <div class="options" id="optionsWrap"></div>
       <div id="titaWrap" class="hidden">
@@ -303,6 +312,9 @@ function renderQuestion(){
   const tags=[]; if(q.section) tags.push(q.section); if(q.difficulty) tags.push(q.difficulty);
   tags.push(q.question_type==='TITA'?'TITA':'MCQ');
   document.getElementById('qTags').innerHTML=tags.map(t=>'<span class="q-tag">'+t+'</span>').join('');
+    const pBox=document.getElementById('qPassage');
+  if(q.passage){ pBox.innerHTML='<span class="p-lab">Passage</span>'+q.passage; pBox.classList.remove('hidden'); }
+  else { pBox.classList.add('hidden'); pBox.innerHTML=''; }
   document.getElementById('qText').innerHTML=q.question;
   const optWrap=document.getElementById('optionsWrap'), titaWrap=document.getElementById('titaWrap');
   if(q.question_type==='TITA'){

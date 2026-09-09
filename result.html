@@ -35,6 +35,12 @@ h2{font-family:'Sora',sans-serif;font-size:20px;color:var(--navy);margin:28px 0 
 .badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px}
 .badge.correct{background:#E3F5EC;color:#1a7350} .badge.wrong{background:#FBE9E9;color:var(--red)} .badge.skip{background:#EEF2F7;color:var(--muted)}
 .sol-q{font-size:15px;margin-bottom:14px}
+.sol-passage{background:#FFFDF7;border:1px solid #F0E2C4;border-left:4px solid var(--gold);
+  border-radius:0 10px 10px 0;padding:15px 17px;margin-bottom:14px;font-size:14px;line-height:1.75;
+  max-height:300px;overflow-y:auto}
+.sol-passage .p-lab{display:block;font-size:11.5px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:#8A6100;margin-bottom:8px}
+.sol-passage img{max-width:100%;height:auto;border-radius:6px;margin:6px 0}
 .sol-q img,.sol-opt img,.sol-exp img{max-width:100%;height:auto;border-radius:6px;margin:5px 0}
 .sol-opt{display:flex;gap:10px;align-items:flex-start;padding:9px 13px;border:1.5px solid var(--border);border-radius:8px;margin-bottom:7px;font-size:14px}
 .sol-opt .k{width:26px;height:26px;flex-shrink:0;border-radius:6px;background:var(--bg);font-family:'Sora',sans-serif;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px}
@@ -191,6 +197,7 @@ else {
     let h='<div class="sol"><div class="sol-head"><span class="sol-num">Question '+(i+1)+
           ' of '+questions.length+'</span><span class="badge '+status+'">'+label+'</span></div>';
     if(q.section) h+='<div class="tita-ans"><span class="lab">Section:</span> '+q.section+'</div>';
+    if(q.passage) h+='<div class="sol-passage"><span class="p-lab">Passage</span>'+q.passage+'</div>';
     h+='<div class="sol-q">'+q.question+'</div>';
     if(q.question_type==='TITA'){
       h+='<div class="tita-ans"><span class="lab">Your answer:</span> '+((ans!=null&&ans!=='')?ans:'\u2014')+'</div>';

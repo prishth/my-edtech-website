@@ -46,6 +46,18 @@ textarea{resize:vertical;min-height:70px}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .logout{font-size:13px;color:var(--steel);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'DM Sans',sans-serif}
 .count-badge{background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;font-family:'Sora',sans-serif}
+.passage-toggle{display:flex;align-items:center;gap:9px;margin:2px 0 12px;padding:11px 14px;
+  background:#F4F7FB;border:1.5px solid #DDE6F0;border-radius:8px;cursor:pointer;user-select:none}
+.passage-toggle input{width:17px;height:17px;margin:0;cursor:pointer;flex:0 0 auto}
+.passage-toggle label{margin:0;cursor:pointer;font-size:14px;font-weight:600;color:#1B3A5C}
+.passage-box{border-left:4px solid #E5A52A;background:#FFFDF7;border-radius:0 8px 8px 0;
+  padding:14px 16px;margin-bottom:14px}
+.passage-box .ph-lab{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:#8A6100;margin-bottom:7px;display:block}
+.passage-box .rich{min-height:150px}
+.keep-row{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13.5px;color:#5C6F84}
+.keep-row input{width:16px;height:16px;margin:0;cursor:pointer;flex:0 0 auto}
+.keep-row label{margin:0;cursor:pointer;font-size:13.5px;font-weight:500;color:#5C6F84}
 .rich{width:100%;min-height:70px;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--ink);background:#fff;overflow-wrap:break-word}
 .rich:focus{outline:none;border-color:var(--steel)}
 .rich:empty:before{content:attr(data-ph);color:#9AA7B5}
@@ -239,6 +251,33 @@ textarea{resize:vertical;min-height:70px}
         <button type="button" data-type="MCQ" class="active">MCQ (options)</button>
         <button type="button" data-type="TITA">TITA (type the answer)</button>
       </div>
+
+      <div class="passage-toggle">
+        <input type="checkbox" id="hasPassage">
+        <label for="hasPassage">Does this question have a passage?</label>
+      </div>
+
+      <div class="passage-box hidden" id="passageBox">
+        <span class="ph-lab">Passage</span>
+        <div class="rich" id="passage" contenteditable="true" data-ph="Paste or type the passage here. Ctrl+V works for images too."></div>
+        <div class="uploading" id="upl-passage">Uploading image…</div>
+        <div class="keep-row">
+          <input type="checkbox" id="keepPassage" checked>
+          <label for="keepPassage">Keep this passage for the next question (for a set of questions on one passage)</label>
+        </div>
+      </div>
+      <script>
+      (function(){
+        var cb=document.getElementById('hasPassage');
+        var box=document.getElementById('passageBox');
+        if(!cb||!box) return;
+        cb.addEventListener('change',function(){
+          if(cb.checked){ box.classList.remove('hidden');
+                          var f=document.getElementById('passage'); if(f) f.focus(); }
+          else { box.classList.add('hidden'); }
+        });
+      })();
+      </script>
 
       <label>Question *</label>
       <div class="rich" id="question" contenteditable="true" data-ph="Type the question. Paste an image anywhere with Ctrl+V."></div>
@@ -747,7 +786,7 @@ async function handlePaste(e, boxId){
     }
   }
 }
-['question','option_a','option_b','option_c','option_d','option_e','explanation'].forEach(id=>{
+['passage','question','option_a','option_b','option_c','option_d','option_e','explanation'].forEach(id=>{
   const el=document.getElementById(id);
   if(el) el.addEventListener('paste',e=>handlePaste(e,id));
 });
@@ -773,6 +812,7 @@ document.getElementById('saveBtn').addEventListener('click',async()=>{
     section:document.getElementById('section').value.trim()||null,
     difficulty:document.getElementById('difficulty').value,
     question_type:qType,
+    passage:(document.getElementById('hasPassage').checked && richHasContent('passage')) ? richVal('passage') : null,
     question:richVal('question'),
     explanation:richVal('explanation')||null
   };
@@ -803,8 +843,18 @@ document.getElementById('saveBtn').addEventListener('click',async()=>{
   if(error){ msg.textContent="Save failed: "+error.message; msg.className='msg err show'; }
   else {
     sessionCount++; document.getElementById('sessionCount').textContent=sessionCount+" added this session";
-    msg.textContent="✓ Saved! Form cleared for the next question (test stays selected)."; msg.className='msg ok show';
-    ['section','question','option_a','option_b','option_c','option_d','option_e','explanation'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML='';});
+    msg.textContent = keepPsg
+      ? "\u2713 Saved! Passage kept for the next question. Everything else cleared."
+      : "\u2713 Saved! Form cleared for the next question (test stays selected)."; msg.className='msg ok show';
+    const keepPsg = document.getElementById('hasPassage').checked
+                 && document.getElementById('keepPassage').checked;
+    const clearIds = ['section','question','option_a','option_b','option_c','option_d','option_e','explanation'];
+    if(!keepPsg) clearIds.push('passage');
+    clearIds.forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML='';});
+    if(!keepPsg){
+      document.getElementById('hasPassage').checked=false;
+      document.getElementById('passageBox').classList.add('hidden');
+    }
     document.getElementById('tita_answer').value='';
     const c=document.querySelector('input[name="correct"]:checked'); if(c) c.checked=false;
     document.querySelectorAll('.opt-row').forEach(o=>o.classList.remove('correct'));
