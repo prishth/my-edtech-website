@@ -146,6 +146,7 @@ textarea{resize:vertical;min-height:70px}
       </select>
 
       <div id="sectionsBuilder" style="margin-top:12px"></div>
+      <p class="hint" id="plannedTotal" style="font-weight:600;color:#1B3A5C;margin-top:6px"></p>
 
       <div class="row" style="margin-top:8px">
         <div>
@@ -251,6 +252,8 @@ textarea{resize:vertical;min-height:70px}
         <button type="button" data-type="MCQ" class="active">MCQ (options)</button>
         <button type="button" data-type="TITA">TITA (type the answer)</button>
       </div>
+
+      <div id="secProgress"></div>
 
       <div class="passage-toggle">
         <input type="checkbox" id="hasPassage">
@@ -368,6 +371,7 @@ async function loadTests(){
     const nq=counts[t.id]||0;
     o.textContent=t.exam+" — "+t.test_name+"  ["+nq+" Qs]  (+"+t.marks_correct+" / "+t.marks_wrong+", "+t.duration_minutes+" min)";
     o.dataset.exam=t.exam; o.dataset.name=t.test_name;
+    o.dataset.sections=JSON.stringify(Array.isArray(t.sections)?t.sections:[]);
     picker.appendChild(o);
   });
   renderTestsList(counts);
@@ -380,7 +384,7 @@ function renderTestsList(counts){
   ALL_TESTS.forEach(t=>{
     const nq=counts[t.id]||0;
     const timing=t.sectional_timing?'Strict sectional':'Free roaming';
-    const secList=Array.isArray(t.sections)?t.sections.map(s=>s.name+' ('+s.minutes+'m, +'+ (s.marks_correct!=null?s.marks_correct:t.marks_correct) +'/'+ (s.marks_wrong!=null?s.marks_wrong:t.marks_wrong) +')').join(', '):'—';
+    const secList=Array.isArray(t.sections)?t.sections.map(s=>s.name+' ('+s.minutes+'m'+(s.question_count?', '+s.question_count+'Q':'')+', +'+ (s.marks_correct!=null?s.marks_correct:t.marks_correct) +'/'+ (s.marks_wrong!=null?s.marks_wrong:t.marks_wrong) +')').join(', '):'—';
     const live=t.is_published===true;
     const statusBadge=live
       ? '<span style="background:#E3F5EC;color:#1a7350;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px">● LIVE</span>'
@@ -439,6 +443,7 @@ window.editTest=function(id){
       if(preset){ nameSel.value=s.name; }
       else { nameSel.value='Custom (type below)'; const c=blocks[i].querySelector('.sec-custom'); c.style.display='block'; c.value=s.name; }
       blocks[i].querySelector('.sec-time').value=s.minutes;
+      const qcEl=blocks[i].querySelector('.sec-count'); if(qcEl) qcEl.value=s.question_count||0;
       blocks[i].querySelector('.sec-correct').value=(s.marks_correct!=null?s.marks_correct:t.marks_correct);
       blocks[i].querySelector('.sec-wrong').value=(s.marks_wrong!=null?s.marks_wrong:t.marks_wrong);
     });
@@ -625,6 +630,10 @@ function buildSectionRows(){
           <label>Minutes</label>
           <input class="sec-time" data-i="${i}" type="number" value="40" min="1"/>
         </div>
+        <div>
+          <label>Number of questions</label>
+          <input class="sec-count" data-i="${i}" type="number" value="0" min="0" placeholder="e.g. 30"/>
+        </div>
       </div>
       <div class="row" style="align-items:end;margin-top:8px">
         <div>
@@ -646,12 +655,17 @@ function buildSectionRows(){
     });
   });
   wrap.querySelectorAll('.sec-time').forEach(t=>t.addEventListener('input',recalcTotal));
+  wrap.querySelectorAll('.sec-count').forEach(c=>c.addEventListener('input',recalcTotal));
   recalcTotal();
 }
 function recalcTotal(){
   let total=0;
   document.querySelectorAll('.sec-time').forEach(t=>{ total+=parseInt(t.value)||0; });
   document.getElementById('t_duration').value=total;
+  let q=0;
+  document.querySelectorAll('.sec-count').forEach(c=>{ q+=parseInt(c.value)||0; });
+  const box=document.getElementById('plannedTotal');
+  if(box) box.textContent = q>0 ? ('Planned total: '+q+' questions') : '';
 }
 function getSections(){
   const secs=[];
@@ -664,7 +678,8 @@ function getSections(){
     const time=parseInt(r.querySelector('.sec-time').value)||0;
     const mc=parseFloat(r.querySelector('.sec-correct').value);
     const mw=parseFloat(r.querySelector('.sec-wrong').value);
-    if(name) secs.push({name:name,minutes:time,marks_correct:isNaN(mc)?1:mc,marks_wrong:isNaN(mw)?0:mw});
+    const qc=parseInt(r.querySelector('.sec-count').value)||0;
+    if(name) secs.push({name:name,minutes:time,question_count:qc,marks_correct:isNaN(mc)?1:mc,marks_wrong:isNaN(mw)?0:mw});
   });
   return secs;
 }
@@ -736,7 +751,45 @@ document.getElementById('test_picker').addEventListener('change',function(){
   document.getElementById('exam').value=opt.dataset.exam||'';
   document.getElementById('test_name').value=opt.dataset.name||'';
   window.selectedTestId=this.value||null;
+  try{ window.selectedTestSections = opt.dataset.sections ? JSON.parse(opt.dataset.sections) : []; }
+  catch(e){ window.selectedTestSections = []; }
+  refreshProgress();
 });
+
+// ---- live progress: added per section against the planned count ----
+async function refreshProgress(){
+  const box=document.getElementById('secProgress');
+  if(!box) return;
+  const tid=window.selectedTestId;
+  const secs=window.selectedTestSections||[];
+  if(!tid || !secs.length || !secs.some(x=>(parseInt(x.question_count)||0)>0)){ box.innerHTML=''; return; }
+
+  const {data,error}=await sb.from('questions').select('section').eq('test_id',parseInt(tid));
+  if(error){ box.innerHTML=''; return; }
+  const have={};
+  (data||[]).forEach(q=>{ const k=(q.section||'').trim(); have[k]=(have[k]||0)+1; });
+
+  let rows='', doneAll=true, totHave=0, totWant=0;
+  secs.forEach(sc=>{
+    const want=parseInt(sc.question_count)||0;
+    const got=have[sc.name]||0;
+    totHave+=got; totWant+=want;
+    if(want && got!==want) doneAll=false;
+    const colour = !want ? '#5C6F84' : (got===want ? '#1F7A5A' : (got>want ? '#C0392B' : '#8A6100'));
+    const mark   = !want ? '' : (got===want ? ' \u2713' : (got>want ? ' too many' : ''));
+    rows+='<div style="display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-size:13.5px">'
+        + '<span style="color:#16283C">'+sc.name+'</span>'
+        + '<b style="color:'+colour+'">'+got+(want?' / '+want:'')+mark+'</b></div>';
+  });
+  box.innerHTML='<div style="background:#F4F7FB;border:1px solid #DDE6F0;border-radius:10px;padding:12px 14px;margin-bottom:14px">'
+    + '<div style="font-family:Sora,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.05em;'
+    + 'text-transform:uppercase;color:#5C6F84;margin-bottom:7px">Progress</div>'
+    + rows
+    + (totWant? '<div style="border-top:1px solid #DDE6F0;margin-top:7px;padding-top:7px;display:flex;'
+      + 'justify-content:space-between;font-size:13.5px;font-weight:700;color:#1B3A5C">'
+      + '<span>Total</span><span>'+totHave+' / '+totWant+(doneAll?' complete':'')+'</span></div>':'')
+    + '</div>';
+}
 
 document.getElementById('loginBtn').addEventListener('click',async()=>{
   const email=document.getElementById('loginEmail').value.trim();
@@ -859,6 +912,7 @@ document.getElementById('saveBtn').addEventListener('click',async()=>{
     const c=document.querySelector('input[name="correct"]:checked'); if(c) c.checked=false;
     document.querySelectorAll('.opt-row').forEach(o=>o.classList.remove('correct'));
     // refresh picker counts, keep same test selected
+    try{ refreshProgress(); }catch(e){}
     const keepId=window.selectedTestId;
     await loadTests();
     if(keepId){ const pk=document.getElementById('test_picker'); pk.value=keepId; window.selectedTestId=keepId; }

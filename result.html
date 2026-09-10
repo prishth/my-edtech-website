@@ -60,6 +60,14 @@ h2{font-family:'Sora',sans-serif;font-size:20px;color:var(--navy);margin:28px 0 
 .palette-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
 .palette-hint{font-size:13.5px;color:var(--muted);margin-bottom:14px}
 .palette{display:flex;flex-wrap:wrap;gap:9px}
+.palette.grouped{display:block}
+.pal-sec{margin-bottom:16px}
+.pal-sec:last-child{margin-bottom:0}
+.pal-sec-head{font-family:'Sora',sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--navy);margin-bottom:9px;padding-bottom:6px;
+  border-bottom:1px solid var(--border)}
+.pal-sec-head span{color:var(--muted);font-weight:600;letter-spacing:0}
+.pal-row{display:flex;flex-wrap:wrap;gap:9px}
 .pnum{width:44px;height:44px;border-radius:10px;border:2px solid var(--border);background:#fff;
   font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:var(--navy);
   cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;padding:0}
@@ -194,9 +202,10 @@ else {
     const q=questions[i], ans=answers[i];
     const status=verdict(i);
     const label=status==='correct'?'Correct':(status==='wrong'?'Wrong':'Not answered');
-    let h='<div class="sol"><div class="sol-head"><span class="sol-num">Question '+(i+1)+
-          ' of '+questions.length+'</span><span class="badge '+status+'">'+label+'</span></div>';
-    if(q.section) h+='<div class="tita-ans"><span class="lab">Section:</span> '+q.section+'</div>';
+    const heading = (typeof window.__qLabel==='function')
+        ? window.__qLabel(i) : ('Question '+(i+1)+' of '+questions.length);
+    let h='<div class="sol"><div class="sol-head"><span class="sol-num">'+heading+
+          '</span><span class="badge '+status+'">'+label+'</span></div>';
     if(q.passage) h+='<div class="sol-passage"><span class="p-lab">Passage</span>'+q.passage+'</div>';
     h+='<div class="sol-q">'+q.question+'</div>';
     if(q.question_type==='TITA'){
@@ -234,12 +243,45 @@ else {
     document.getElementById('solList').scrollIntoView({behavior:'smooth',block:'start'});
   }
 
-  // build the number grid
-  let pal='';
+  // build the number grid, grouped by section, numbered from 1 inside each
+  const groups=[]; const seen={};
   questions.forEach(function(q,i){
-    pal+='<button type="button" class="pnum '+verdict(i)+'" data-i="'+i+'">'+(i+1)+'</button>';
+    const name=(q.section||'').trim() || 'Questions';
+    if(!(name in seen)){ seen[name]=groups.length; groups.push({name:name, idx:[]}); }
+    groups[seen[name]].idx.push(i);
   });
+
+  let pal='';
+  if(groups.length>1){
+    groups.forEach(function(g){
+      pal+='<div class="pal-sec"><div class="pal-sec-head">'+g.name+
+           ' <span>(1 \u2013 '+g.idx.length+')</span></div><div class="pal-row">';
+      g.idx.forEach(function(qi,n){
+        pal+='<button type="button" class="pnum '+verdict(qi)+'" data-i="'+qi+'">'+(n+1)+'</button>';
+      });
+      pal+='</div></div>';
+    });
+  } else {
+    questions.forEach(function(q,i){
+      pal+='<button type="button" class="pnum '+verdict(i)+'" data-i="'+i+'">'+(i+1)+'</button>';
+    });
+  }
   document.getElementById('palette').innerHTML=pal;
+  if(groups.length>1) document.getElementById('palette').classList.add('grouped');
+
+  // heading for the open solution: section-relative number
+  function qLabel(i){
+    for(let gi=0; gi<groups.length; gi++){
+      const pos=groups[gi].idx.indexOf(i);
+      if(pos>-1){
+        return groups.length>1
+          ? 'Question '+(pos+1)+' of '+groups[gi].idx.length+' \u00b7 '+groups[gi].name
+          : 'Question '+(i+1)+' of '+questions.length;
+      }
+    }
+    return 'Question '+(i+1)+' of '+questions.length;
+  }
+  window.__qLabel=qLabel;
 
   document.getElementById('palette').addEventListener('click',function(e){
     const b=e.target.closest('.pnum');

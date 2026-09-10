@@ -42,14 +42,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line
 .q-tags{display:flex;gap:8px;font-size:11.5px}
 .q-tag{background:var(--bg);border:1px solid var(--border);padding:3px 10px;border-radius:999px;color:var(--muted);font-weight:600}
 .q-text{font-size:16px;line-height:1.7;margin-bottom:22px}
-.q-passage{background:#FFFDF7;border:1px solid #F0E2C4;border-left:4px solid #E5A52A;
-  border-radius:0 10px 10px 0;padding:16px 18px;margin-bottom:16px;font-size:14.5px;line-height:1.75;
-  max-height:340px;overflow-y:auto}
-.q-passage .p-lab{display:block;font-size:11.5px;font-weight:700;letter-spacing:.07em;
-  text-transform:uppercase;color:#8A6100;margin-bottom:8px}
-.q-passage img{max-width:100%;height:auto;border-radius:6px;margin:6px 0}
-.q-passage p{margin:0 0 10px}
-.q-passage p:last-child{margin-bottom:0}
 .q-text img,.opt-text img{max-width:100%;height:auto;border-radius:6px;margin:6px 0}
 .options{display:flex;flex-direction:column;gap:11px}
 .option{display:flex;gap:13px;align-items:flex-start;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;background:#fff;transition:.15s}
@@ -68,6 +60,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line
 .side{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px;height:fit-content;position:sticky;top:70px}
 .side h4{font-family:'Sora',sans-serif;font-size:14px;color:var(--navy);margin-bottom:12px}
 .palette{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+.palette.grouped{display:block}
+.pal-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+.pal-sec-head{font-family:'Sora',sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--muted);margin:4px 0 7px;padding-bottom:5px;
+  border-bottom:1px solid var(--border)}
 .pal-btn{aspect-ratio:1;border:1.5px solid var(--border);border-radius:7px;background:#fff;font-family:'Sora',sans-serif;font-weight:600;font-size:13px;cursor:pointer;color:var(--ink);display:flex;align-items:center;justify-content:center}
 .pal-btn.answered{background:var(--green);color:#fff;border-color:var(--green)}
 .pal-btn.review{background:var(--gold);color:var(--navy);border-color:var(--gold)}
@@ -121,7 +118,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line
         <span class="q-num" id="qNum">Question 1</span>
         <div class="q-tags" id="qTags"></div>
       </div>
-      <div class="q-passage hidden" id="qPassage"></div>
       <div class="q-text" id="qText"></div>
       <div class="options" id="optionsWrap"></div>
       <div id="titaWrap" class="hidden">
@@ -153,7 +149,7 @@ const sb=supabase.createClient("https://aqrxmcmmdazyslznilbl.supabase.co","sb_pu
 const params=new URLSearchParams(location.search);
 const testId=params.get('id');
 let test=null, questions=[], answers={}, review={}, current=0, timeLeft=0, timerInt=null, startTime=null;
-let isStrict=false, sections=[], secGroups=[], curSec=0, secTimeLeft=[];
+let isStrict=false, hasSections=false, sections=[], secGroups=[], curSec=0, secTimeLeft=[];
 
 async function init(){
   const {data:{session}}=await sb.auth.getSession();
@@ -167,8 +163,9 @@ async function init(){
   if(questions.length===0){ document.getElementById('loadingView').textContent='This test has no questions yet.'; return; }
 
   // section setup
-  isStrict = t.sectional_timing===true && Array.isArray(t.sections) && t.sections.length>0;
-  if(isStrict){
+  hasSections = Array.isArray(t.sections) && t.sections.length>0;
+  isStrict    = t.sectional_timing===true && hasSections;
+  if(hasSections){
     sections=t.sections;
     // group questions by section name, in the order sections are defined
     secGroups=sections.map(s=>({name:s.name, minutes:s.minutes, idx:[]}));
@@ -187,7 +184,7 @@ async function init(){
       }
     });
     questions=ordered;
-    secTimeLeft=secGroups.map(g=>g.minutes*60);
+    secTimeLeft=secGroups.map(g=>(g.minutes||0)*60);
   }
 
   document.getElementById('loadingView').classList.add('hidden');
@@ -255,15 +252,22 @@ function renderSectionTabs(){
   const wrap=document.getElementById('sectionTabs');
   if(!wrap) return;
   wrap.innerHTML='';
+  let liveSec=curSec;
+  if(!isStrict){
+    for(let i=0;i<secGroups.length;i++){ if(secGroups[i].idx.indexOf(current)>-1){ liveSec=i; break; } }
+  }
   secGroups.forEach((g,gi)=>{
     const tab=document.createElement('div');
-    tab.className='sec-tab'+(gi===curSec?' active':'')+(gi<curSec?' done':'');
-    tab.textContent=g.name+(gi<curSec?' ✓':'');
+    tab.className='sec-tab'+(gi===liveSec?' active':'')+(isStrict&&gi<curSec?' done':'');
+    tab.textContent=g.name+' ('+g.idx.length+')'+((isStrict&&gi<curSec)?' \u2713':'');
+    if(!isStrict && g.idx.length){
+      tab.style.cursor='pointer';
+      tab.addEventListener('click',()=>{ current=g.idx[0]; renderQuestion(); });
+    }
     wrap.appendChild(tab);
   });
-  // update submit button label
   const sb2=document.getElementById('submitBtn');
-  if(sb2) sb2.textContent = (curSec<secGroups.length-1) ? 'Submit Section →' : 'Submit Test';
+  if(sb2) sb2.textContent = (isStrict && curSec<secGroups.length-1) ? 'Submit Section \u2192' : 'Submit Test';
 }
 
 function startTimer(){
@@ -280,18 +284,45 @@ function updateTimerDisplay(){
   el.classList.toggle('low',timeLeft<=60);
 }
 
+function makePalBtn(qi,label){
+  const b=document.createElement('button');
+  b.className='pal-btn'; b.textContent=label; b.dataset.qi=qi;
+  b.addEventListener('click',()=>{ current=qi; renderQuestion(); });
+  return b;
+}
+
 function buildPalette(){
   const pal=document.getElementById('palette'); pal.innerHTML='';
-  const indices = isStrict ? secGroups[curSec].idx : questions.map((q,i)=>i);
-  indices.forEach((qi,n)=>{
-    const b=document.createElement('button');
-    b.className='pal-btn'; b.textContent=n+1; b.dataset.qi=qi;
-    b.addEventListener('click',()=>{ current=qi; renderQuestion(); });
-    pal.appendChild(b);
-  });
+
+  if(isStrict){
+    // one section at a time, numbered from 1 within that section
+    pal.classList.remove('grouped');
+    secGroups[curSec].idx.forEach((qi,n)=>pal.appendChild(makePalBtn(qi,n+1)));
+    return;
+  }
+
+  if(hasSections){
+    // all sections shown, each numbered from 1, with a heading
+    pal.classList.add('grouped');
+    secGroups.forEach(g=>{
+      if(!g.idx.length) return;
+      const h=document.createElement('div');
+      h.className='pal-sec-head';
+      h.textContent=g.name+' (1 \u2013 '+g.idx.length+')';
+      pal.appendChild(h);
+      const grid=document.createElement('div');
+      grid.className='pal-grid';
+      g.idx.forEach((qi,n)=>grid.appendChild(makePalBtn(qi,n+1)));
+      pal.appendChild(grid);
+    });
+    return;
+  }
+
+  // no sections defined: plain 1..N
+  pal.classList.remove('grouped');
+  questions.forEach((q,i)=>pal.appendChild(makePalBtn(i,i+1)));
 }
 function refreshPalette(){
-  const indices = isStrict ? secGroups[curSec].idx : questions.map((q,i)=>i);
   document.querySelectorAll('.pal-btn').forEach((b)=>{
     const qi=parseInt(b.dataset.qi);
     b.classList.remove('answered','review','current');
@@ -303,18 +334,21 @@ function refreshPalette(){
 
 function renderQuestion(){
   const q=questions[current];
-  if(isStrict){
-    const idx=secGroups[curSec].idx; const pos=idx.indexOf(current)+1;
-    document.getElementById('qNum').textContent='Question '+pos+' of '+idx.length+' ('+secGroups[curSec].name+')';
+  if(hasSections){
+    let g=null;
+    for(let i=0;i<secGroups.length;i++){ if(secGroups[i].idx.indexOf(current)>-1){ g=secGroups[i]; break; } }
+    if(g){
+      const pos=g.idx.indexOf(current)+1;
+      document.getElementById('qNum').textContent='Question '+pos+' of '+g.idx.length+' \u00b7 '+g.name;
+    } else {
+      document.getElementById('qNum').textContent='Question '+(current+1)+' of '+questions.length;
+    }
   } else {
     document.getElementById('qNum').textContent='Question '+(current+1)+' of '+questions.length;
   }
   const tags=[]; if(q.section) tags.push(q.section); if(q.difficulty) tags.push(q.difficulty);
   tags.push(q.question_type==='TITA'?'TITA':'MCQ');
   document.getElementById('qTags').innerHTML=tags.map(t=>'<span class="q-tag">'+t+'</span>').join('');
-    const pBox=document.getElementById('qPassage');
-  if(q.passage){ pBox.innerHTML='<span class="p-lab">Passage</span>'+q.passage; pBox.classList.remove('hidden'); }
-  else { pBox.classList.add('hidden'); pBox.innerHTML=''; }
   document.getElementById('qText').innerHTML=q.question;
   const optWrap=document.getElementById('optionsWrap'), titaWrap=document.getElementById('titaWrap');
   if(q.question_type==='TITA'){
