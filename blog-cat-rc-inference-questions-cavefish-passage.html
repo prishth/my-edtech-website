@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAT RC Inference Questions: Why You Pick the Wrong Option</title>
+<meta name="description" content="Break down a real CAT RC inference question, option by option. Learn why plausible isn't the same as provable and the framework to tell them apart.">
+<meta name="keywords" content="CAT RC inference questions, CAT VARC, reading comprehension CAT, CAT 2025 Slot 2, CAT RC strategy, inference questions CAT, CAT RC traps, invalidate question CAT">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Prishth Technosoft Pvt Ltd">
+<link rel="canonical" href="https://prishth.in/blog-cat-rc-inference-questions-cavefish-passage">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Prishth">
+<meta property="og:title" content="Why So Many Students Pick the Wrong Option on CAT RC Inference Questions">
+<meta property="og:description" content="A real CAT 2025 RC inference question dissected option by option, plus a four-filter framework for inference, invalidate and weaken questions.">
+<meta property="og:url" content="https://prishth.in/blog-cat-rc-inference-questions-cavefish-passage">
+<meta property="og:image" content="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/blog4-hero.webp">
+<meta property="article:published_time" content="2026-09-10">
+<meta property="article:modified_time" content="2026-09-10">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "y0o0yyxvr3");
+</script>
+<style>
+:root{
+  --navy:#1B3A5C; --steel:#2E6DA4; --bg:#F4F7FB; --border:#DDE6F0;
+  --white:#FFFFFF; --gold:#E5A52A; --ink:#16283C; --muted:#5C6F84;
+  --navy-soft:rgba(27,58,92,.06); --shadow:0 1px 3px rgba(27,58,92,.08);
+  --shadow-lg:0 8px 28px rgba(27,58,92,.10);
+  --radius:12px; --maxw:1180px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--ink);background:var(--white);line-height:1.68;font-size:16.5px;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.f-display{font-family:'Sora',system-ui,sans-serif;letter-spacing:-.02em;line-height:1.25}
+a{color:var(--steel);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+/* ---------- header ---------- */
+.site-header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border)}
+.hdr{display:flex;align-items:center;gap:18px;height:66px}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;
+  font-weight:700;color:var(--navy);font-size:19px}
+.brand:hover{text-decoration:none}
+.brand img{height:30px;width:auto}
+.nav{display:flex;gap:22px;margin-left:14px;flex:1}
+.nav a{color:var(--navy);font-weight:500;font-size:15px}
+.auth{display:flex;gap:10px;align-items:center}
+.btn{display:inline-block;font-weight:600;font-size:14.5px;padding:9px 18px;
+  border-radius:8px;border:1px solid transparent;transition:.15s;cursor:pointer;
+  font-family:'DM Sans',sans-serif}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-ghost{color:var(--navy);border-color:var(--border);background:var(--white)}
+.btn-solid{background:var(--navy);color:#fff}
+.btn-solid:hover{background:#14304d}
+.btn-gold{background:var(--gold);color:#3d2b06}
+.nav-toggle{display:none;background:none;border:1px solid var(--border);
+  border-radius:8px;padding:7px 11px;font-size:17px;color:var(--navy)}
+
+/* ---------- breadcrumb ---------- */
+.crumb{background:var(--bg);border-bottom:1px solid var(--border);
+  font-size:13.5px;color:var(--muted);padding:11px 0}
+.crumb a{color:var(--muted)}
+.crumb span{color:var(--navy);font-weight:600}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,#24507c 55%,var(--steel) 100%);
+  color:#fff;padding:46px 0 40px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:340px;height:340px;
+  border-radius:50%;background:rgba(255,255,255,.05)}
+.eyebrow{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  color:#fff;font-size:12.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+  padding:5px 13px;border-radius:999px;margin-bottom:16px}
+.hero h1{font-size:clamp(26px,4.4vw,42px);font-weight:700;margin-bottom:14px;max-width:20ch}
+.hero .lead{font-size:17px;color:#DCE7F3;max-width:62ch}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px;position:relative;z-index:2}
+.stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--radius);padding:15px 16px}
+.stat b{display:block;font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#fff}
+.stat span{font-size:12.5px;color:#C6D8EA;letter-spacing:.02em}
+
+/* ---------- layout ---------- */
+.shell{display:grid;grid-template-columns:minmax(0,1fr) 314px;gap:38px;
+  padding:38px 0 56px;align-items:start}
+.sec{margin-bottom:34px;scroll-margin-top:80px}
+.sec > h2{font-size:23px;color:var(--navy);font-weight:700;margin-bottom:8px;
+  padding-bottom:9px;border-bottom:2px solid var(--border);display:flex;
+  align-items:center;gap:9px;flex-wrap:wrap}
+.sec > h2 .ic{font-size:19px;line-height:1}
+.sec h3{font-size:18px;color:var(--navy);margin:22px 0 8px;font-weight:600}
+.sec p{margin:11px 0;color:#2B3E52}
+.sec ul,.sec ol{margin:11px 0 11px 22px}
+.sec li{margin:6px 0;color:#2B3E52}
+.sec strong{color:var(--navy);font-weight:600}
+.lede{font-size:17.5px;color:#243B52}
+.muted-note{font-size:14px;color:var(--muted);font-style:italic;margin-top:10px}
+
+/* ---------- tables ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);
+  margin:16px 0;box-shadow:var(--shadow);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:520px;background:#fff}
+thead th{background:var(--navy);color:#fff;text-align:left;font-family:'Sora',sans-serif;
+  font-weight:600;font-size:14px;padding:12px 14px;letter-spacing:.01em;
+  border-right:1px solid rgba(255,255,255,.13)}
+thead th:last-child{border-right:0}
+tbody td{padding:11px 14px;border-top:1px solid var(--border);
+  border-right:1px solid var(--border);vertical-align:top;color:#2B3E52}
+tbody td:last-child{border-right:0}
+tbody tr:nth-child(even){background:#FAFCFE}
+tbody tr:hover{background:#F1F6FC}
+tbody td:first-child{font-weight:600;color:var(--navy)}
+table.plain tbody td:first-child{font-weight:500;color:#2B3E52}
+.scroll-hint{display:none;font-size:12.5px;color:var(--muted);margin:-8px 0 14px}
+
+/* ---------- callouts ---------- */
+.callout{border:1px solid var(--border);border-left:4px solid var(--steel);
+  background:var(--bg);border-radius:10px;padding:16px 18px;margin:18px 0}
+.callout.gold{border-left-color:var(--gold);background:#FFFBF2;border-color:#F2E3C2}
+.callout h3{margin-top:0;font-size:16.5px}
+.callout p:first-child{margin-top:0}
+.callout p:last-child{margin-bottom:0}
+.worked{background:var(--navy);color:#EAF2FA;border-radius:var(--radius);
+  padding:20px 22px;margin:20px 0;border:0}
+.worked h3{color:#fff;margin:0 0 10px;font-size:17px}
+.worked p{color:#CFE0F0;margin:8px 0}
+.worked .calc{font-family:'Sora',sans-serif;font-size:17px;color:var(--gold);
+  font-weight:600;display:block;margin:12px 0;letter-spacing:.01em}
+.worked strong{color:#fff}
+
+/* ---------- pyq banner ---------- */
+.pyq{display:flex;align-items:center;justify-content:space-between;gap:18px;
+  background:linear-gradient(100deg,#EAF2FB,#F7FAFE);border:1px solid var(--border);
+  border-left:4px solid var(--gold);border-radius:var(--radius);padding:18px 20px;margin:22px 0}
+.pyq p{margin:0;font-weight:600;color:var(--navy);font-size:15.5px}
+.pyq small{display:block;font-weight:400;color:var(--muted);font-size:13.5px;margin-top:3px}
+
+/* ---------- figure ---------- */
+figure{margin:22px 0;border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+figure img{width:100%}
+figcaption{font-size:13.5px;color:var(--muted);padding:10px 14px;background:var(--bg);
+  border-top:1px solid var(--border)}
+.banner-strip{margin:24px 0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+
+/* ---------- download rows ---------- */
+.dl-btn{display:inline-flex;align-items:center;gap:6px;background:var(--steel);color:#fff;
+  font-weight:600;font-size:13.5px;padding:7px 14px;border-radius:7px;white-space:nowrap}
+.dl-btn:hover{background:var(--navy);text-decoration:none;color:#fff}
+.dl-soon{display:inline-block;background:#EEF3F9;color:var(--muted);font-weight:600;
+  font-size:13px;padding:7px 13px;border-radius:7px;border:1px dashed var(--border)}
+
+/* ---------- pill grid ---------- */
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.pills span{background:var(--bg);border:1px solid var(--border);border-radius:999px;
+  padding:6px 13px;font-size:13.5px;color:#2B3E52}
+
+/* ---------- eligibility list ---------- */
+.elig{list-style:none;margin:14px 0 0;padding:0}
+.elig li{background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  padding:13px 16px;margin-bottom:9px;color:#2B3E52}
+.elig li b{display:block;color:var(--navy);font-family:'Sora',sans-serif;
+  font-size:14.5px;margin-bottom:2px}
+
+/* ---------- steps ---------- */
+.steps{list-style:none;counter-reset:s;margin:16px 0 0;padding:0}
+.steps li{counter-increment:s;position:relative;padding:0 0 14px 44px;margin:0}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;
+  width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;
+  font-family:'Sora',sans-serif;font-size:12.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center}
+
+/* ---------- faq ---------- */
+.faq details{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;
+  background:#fff;overflow:hidden}
+.faq details[open]{box-shadow:var(--shadow)}
+.faq summary{cursor:pointer;padding:14px 44px 14px 17px;font-weight:600;color:var(--navy);
+  font-family:'Sora',sans-serif;font-size:15.5px;list-style:none;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:17px;top:12px;font-size:21px;
+  color:var(--steel);font-weight:400;transition:.2s}
+.faq details[open] summary::after{content:"−"}
+.faq details[open] summary{background:var(--bg);border-bottom:1px solid var(--border)}
+.faq .ans{padding:14px 17px;color:#2B3E52}
+.faq .ans p{margin:0 0 9px}
+.faq .ans p:last-child{margin-bottom:0}
+
+/* ---------- sidebar ---------- */
+.side{position:sticky;top:82px;display:flex;flex-direction:column;gap:16px}
+.card{border:1px solid var(--border);border-radius:var(--radius);background:#fff;
+  padding:18px;box-shadow:var(--shadow)}
+.card h4{font-size:15.5px;color:var(--navy);margin-bottom:10px;font-weight:600}
+.card.dark{background:linear-gradient(160deg,var(--navy),var(--steel));border:0;color:#fff}
+.card.dark h4{color:#fff}
+.card.dark p{font-size:14px;color:#D3E2F1;margin-bottom:13px}
+.card.dark .btn{width:100%;text-align:center}
+.qlinks{display:flex;flex-direction:column;gap:8px}
+.qlinks a{background:var(--bg);border:1px solid var(--border);border-radius:8px;
+  padding:10px 13px;font-size:14px;font-weight:500;color:var(--navy)}
+.qlinks a:hover{background:#E9F1FA;text-decoration:none}
+.org{font-size:14px;color:#2B3E52}
+.org b{display:block;font-family:'Sora',sans-serif;color:var(--navy);margin-bottom:4px}
+.updated{font-size:12.5px;color:var(--muted);border-top:1px solid var(--border);
+  padding-top:10px;margin-top:4px}
+
+/* ---------- footer ---------- */
+.site-footer{background:var(--navy);color:#C9DAEA;padding:40px 0 22px;margin-top:20px;width:100%}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px}
+.site-footer h5{font-family:'Sora',sans-serif;color:#fff;font-size:14.5px;margin-bottom:11px}
+.site-footer a{color:#C9DAEA;font-size:14px;display:block;margin-bottom:7px}
+.site-footer a:hover{color:#fff}
+.site-footer p{font-size:14px;margin-bottom:9px}
+.fbot{border-top:1px solid rgba(255,255,255,.14);margin-top:26px;padding-top:16px;
+  font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ---------- responsive ---------- */
+@media(max-width:960px){
+  .shell{grid-template-columns:1fr;gap:26px}
+  .side{position:static;width:100%}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .site-footer{padding:32px 0 22px}
+}
+@media(max-width:720px){
+  body{font-size:16px}
+  .nav{display:none}
+  .nav-toggle{display:block}
+  .nav.open{display:flex;position:absolute;top:66px;left:0;right:0;background:#fff;
+    flex-direction:column;padding:14px 20px;border-bottom:1px solid var(--border);
+    box-shadow:var(--shadow-lg);gap:14px;margin:0}
+  .hdr{gap:10px}
+  .auth .btn-ghost{display:none}
+  .hero{padding:34px 0 32px}
+  .pyq{flex-direction:column;align-items:flex-start}
+  .pyq .btn{width:100%;text-align:center}
+  .scroll-hint{display:block}
+  .fgrid{grid-template-columns:1fr}
+  .sec > h2{font-size:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+
+<style>
+.article{max-width:760px}
+.article .meta-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  font-size:13.5px;color:var(--muted);margin:2px 0 20px}
+.article .meta-row .pill{background:var(--bg);border:1px solid var(--border);
+  border-radius:999px;padding:4px 12px;font-weight:600;color:var(--steel)}
+.article figure.lead{margin:0 0 26px;border:1px solid var(--border);border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow)}
+.article h2{font-size:22px;margin:30px 0 10px}
+.article h3{font-size:17.5px;color:var(--navy);margin:22px 0 6px}
+.article p{font-size:16.5px;line-height:1.75;color:#2B3E52;margin:12px 0}
+.article ul{margin:12px 0 12px 4px;list-style:none}
+.article ul li{position:relative;padding:6px 0 6px 28px;color:#2B3E52}
+.article ul li::before{content:"";position:absolute;left:4px;top:13px;width:8px;height:8px;
+  border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.article ul li b{color:var(--navy)}
+.article .keypoint{background:var(--navy);color:#EAF2FA;border-radius:14px;padding:22px 24px;margin:24px 0}
+.article .keypoint h3{color:#fff;margin:0 0 8px}
+.article .keypoint p{color:#CFE0F0;margin:6px 0}
+.article .keypoint .big{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;color:var(--gold)}
+.article .band{margin:26px 0;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.article .cta-box{background:linear-gradient(135deg,var(--navy),var(--steel));color:#fff;
+  border-radius:16px;padding:28px;margin:32px 0;text-align:center}
+.article .cta-box h3{color:#fff;font-size:20px;margin:0 0 8px}
+.article .cta-box p{color:#DCE7F3;margin:0 0 16px}
+.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+.stat-strip div{background:var(--bg);border:1px solid var(--border);border-radius:12px;
+  padding:16px;text-align:center}
+.stat-strip b{display:block;font-family:'Sora',sans-serif;font-size:24px;color:var(--steel)}
+.stat-strip span{font-size:12.5px;color:var(--muted)}
+/* listing */
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px;margin-top:6px}
+.blog-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;transition:.18s}
+.blog-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.blog-card .thumb{aspect-ratio:16/7;overflow:hidden;background:var(--bg);border-bottom:1px solid var(--border)}
+.blog-card .thumb img{width:100%;height:100%;object-fit:cover}
+.blog-card .body{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1}
+.blog-card .tag{align-self:flex-start;font-size:11px;font-weight:600;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--steel);background:var(--bg);border:1px solid var(--border);
+  padding:4px 11px;border-radius:999px;margin-bottom:10px}
+.blog-card h3{font-size:17px;color:var(--navy);line-height:1.4;margin:0 0 8px}
+.blog-card p{font-size:14px;color:#5C6F84;margin:0 0 14px;flex:1}
+.blog-card a.read{align-self:flex-start;font-weight:600;font-size:14px;color:#fff;background:var(--navy);
+  padding:9px 16px;border-radius:8px}
+.blog-card a.read:hover{background:var(--steel);text-decoration:none}
+</style>
+<style>
+:root{--green:#2EA47C;--amber:#C77700;--red:#C0392B;--violet:#5B4B9E;}
+.article .meta-row .pill.upd{background:#EAF7F1;border-color:#C4E7D8;color:var(--green)}
+
+.rc-passage{background:#FBFCFE;border:1px solid var(--border);border-left:4px solid var(--steel);
+  border-radius:0 12px 12px 0;padding:20px 22px;margin:20px 0;font-size:14.8px;line-height:1.85}
+.rc-passage .p-lab{display:block;font-family:'Sora',sans-serif;font-size:11.5px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--steel);margin-bottom:12px}
+.rc-passage p{margin:0 0 13px;color:#2B3E52}
+.rc-passage p:last-child{margin-bottom:0}
+
+.chain{margin:20px 0}
+.chain-step{position:relative;padding:0 0 18px 34px;border-left:2px solid var(--border);margin-left:9px}
+.chain-step:last-child{border-left-color:transparent;padding-bottom:0}
+.chain-step::before{content:"";position:absolute;left:-8px;top:3px;width:14px;height:14px;
+  border-radius:50%;background:#fff;border:3px solid var(--steel)}
+.chain-step:nth-child(2)::before{border-color:var(--gold)}
+.chain-step:nth-child(3)::before{border-color:var(--amber)}
+.chain-step:nth-child(4)::before{border-color:var(--green)}
+.chain-step .tag{display:inline-block;font-family:'Sora',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:6px}
+.tag.hyp{background:#EAF1F9;color:var(--steel)}
+.tag.met{background:#FFF6E2;color:#8A6100}
+.tag.res{background:#FDF1E7;color:var(--amber)}
+.tag.con{background:#EAF7F1;color:#1F7A5A}
+.chain-step p{margin:0;font-size:15px;line-height:1.7;color:#2B3E52}
+
+.question-box{background:linear-gradient(135deg,var(--navy),var(--steel));color:#fff;
+  border-radius:14px;padding:24px 26px;margin:22px 0}
+.question-box .q-stem{font-size:16.5px;line-height:1.7;margin:0 0 16px;color:#fff;font-weight:500}
+.question-box .q-stem strong{color:var(--gold)}
+.question-box .q-opts{margin:0;padding-left:22px;counter-reset:none}
+.question-box .q-opts li{color:#EAF2FA;font-size:15.5px;line-height:1.6;margin:9px 0;padding-left:4px}
+.question-box .q-opts li::marker{color:var(--gold);font-weight:700}
+
+.rule{background:var(--bg);border:1px solid var(--border);border-left:4px solid var(--violet);
+  border-radius:0 10px 10px 0;padding:14px 17px;margin:14px 0 22px}
+.rule-lab{display:block;font-family:'Sora',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--violet);margin-bottom:5px}
+.rule p{margin:0;font-size:15px;line-height:1.7;color:#2B3E52}
+
+.answer-flag{display:inline-block;background:var(--green);color:#fff;font-family:'Sora',sans-serif;
+  font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 13px;border-radius:20px;margin:0 0 12px}
+
+.warnbox{background:#FFF6F4;border:1px solid #F5CFC7;border-left:4px solid var(--red);
+  border-radius:12px;padding:18px 20px;margin:22px 0}
+.warnbox h3{color:var(--red);margin:0 0 7px;font-size:16.5px}
+.warnbox p{margin:8px 0}
+.warnbox p:last-child{margin-bottom:0}
+
+.goodbox{background:#F1FAF6;border:1px solid #C4E7D8;border-left:4px solid var(--green);
+  border-radius:12px;padding:18px 20px;margin:22px 0}
+.goodbox p{margin:0}
+
+.article ul.filters{list-style:none;margin:14px 0 0;padding:0}
+.article ul.filters li{background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  padding:13px 16px;margin:0 0 9px;font-size:15px;line-height:1.65;color:#2B3E52;position:relative}
+.article ul.filters li::before{content:none}
+.article ul.filters li b{color:var(--navy);font-family:'Sora',sans-serif}
+
+.cta-duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0}
+.cta-duo a{display:block;border-radius:14px;padding:20px 22px;text-align:left;transition:.18s}
+.cta-duo a:hover{text-decoration:none;transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.cta-duo .c1{background:linear-gradient(135deg,var(--navy),var(--steel));color:#fff}
+.cta-duo .c2{background:linear-gradient(135deg,#1F7A5A,var(--green));color:#fff}
+.cta-duo b{display:block;font-family:'Sora',sans-serif;font-size:17.5px;margin-bottom:5px;color:#fff}
+.cta-duo span{font-size:14px;opacity:.9;display:block;color:#EAF2FA}
+.cta-duo em{font-style:normal;font-weight:600;font-size:14px;display:inline-block;margin-top:10px;color:var(--gold)}
+.cta-duo .c2 em{color:#D6F5E7}
+
+@media(max-width:640px){.cta-duo{grid-template-columns:1fr}.rc-passage{padding:16px 17px;font-size:14.2px}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="https://prishth.in/"><img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-logo.png" alt="Prishth" width="30" height="30">Prishth</a>
+    <nav class="nav" id="nav">
+      <a href="https://prishth.in/">Home</a>
+      <a href="https://prishth.in/pyqs">PYQs</a>
+      <a href="https://prishth.in/dashboard">Test Series</a>
+      <a href="https://prishth.in/blog">Blog</a>
+    </nav>
+    <div class="auth">
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" id="navBtn">&#9776;</button>
+      <a class="btn btn-ghost" href="https://prishth.in/login">Log In</a>
+      <a class="btn btn-solid" href="https://prishth.in/signup">Sign Up Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="crumb"><div class="wrap">
+  <a href="https://prishth.in/">Home</a> &rsaquo;
+  <a href="https://prishth.in/blog">Blog</a> &rsaquo;
+  <span>CAT RC Inference Questions</span>
+</div></div>
+
+<section class="hero"><div class="wrap">
+  <span class="eyebrow">Prishth Blog &middot; CAT VARC</span>
+  <h1>Why So Many Students Pick the Wrong Option on CAT RC Inference Questions</h1>
+  <p class="lead">We break down a real CAT 2025 RC inference question, option by option, trap by trap.</p>
+  <div class="stats">
+    <div class="stat"><b>CAT 2025</b><span>Slot 2, Cavefish Passage</span></div>
+    <div class="stat"><b>4 Options</b><span>Dissected One by One</span></div>
+    <div class="stat"><b>4 Filters</b><span>The Earn It Framework</span></div>
+    <div class="stat"><b>VARC</b><span>Reading Comprehension</span></div>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="shell"><main>
+<article class="article">
+
+  <div class="meta-row">
+    <span class="pill">CAT VARC</span>
+    <span class="pill upd">Reading Comprehension</span>
+    <span>By Prishth Technosoft</span>
+  </div>
+
+  <figure class="lead">
+    <img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/blog4-hero.webp"
+         alt="Why so many students pick the wrong option on CAT RC inference questions"
+         width="1600" height="480" fetchpriority="high">
+  </figure>
+
+  <p class="lede">During your CAT Exam you have read the passage twice. You understood it, genuinely understood it, not just skimmed it. You eliminated two options in ten seconds flat. And then, between the two that were left, you picked the wrong one.</p>
+
+  <p>If that's ever happened to you on a CAT RC inference question, here's the uncomfortable truth: <strong>it probably wasn't a reading problem. It was a reasoning problem.</strong> Specifically, it was a failure to tell the difference between an option that sounds like it fits and an option that the passage has actually earned.</p>
+
+  <p>That distinction is the whole game in CAT RC inference questions, and today we're going to dissect a real one, the cavefish passage, option by option, trap by trap.</p>
+
+  <h2>Possible &#8800; Inferable</h2>
+
+  <p>Before we get to the question, <strong>one idea has to be nailed down, because everything else in this article builds on it.</strong></p>
+
+  <div class="callout gold">
+    <h3>Important to keep in mind before you choose the correct answer</h3>
+    <p>An option doesn't become correct because it sounds intelligent. It doesn't become correct because it's factually true in the real world. It doesn't become correct because it agrees with something you already know about biology, or because it reuses a phrase straight out of the passage.</p>
+    <p><strong>An answer is correct because it is supported by what the passage establishes, not because it is merely plausible or true outside the passage.</strong></p>
+  </div>
+
+  <p>Most CAT RC traps exist in the gap between <strong>this could be true</strong> and <strong>this is what the passage shows.</strong> Keep that gap in mind. We're about to walk straight into it.</p>
+
+  <h2>The Passage [From CAT 2025 Slot 2]</h2>
+
+  <p><strong>Here's the passage as it appeared on the CAT paper. Read it once for meaning, not for exam strategy.</strong></p>
+
+  <div class="rc-passage">
+    <span class="p-lab">Reading Comprehension Passage</span>
+    <p>Time and again, whenever a population [of Mexican tetra fish] was swept into a cave and survived long enough for natural selection to have its way, the eyes disappeared. "But it's not that everything has been lost in cavefish . . . Many enhancements have also happened." . . . Studies have found that cave-dwelling fish can detect lower levels of amino acids than surface fish can. They also have more tastebuds and a higher density of sensitive cells alongside their bodies that let them sense water pressure and flow. . . .</p>
+
+    <p>Killing the processes that support the formation of the eye is quite literally what happens. Just like non-cave-dwelling members of the species, all cavefish embryos start making eyes. But after a few hours, cells in the developing eye start dying, until the entire structure has disappeared. [Developmental biologist Misty] Riddle thinks this apparent inefficiency may be unavoidable. "The early development of the brain and the eye are completely intertwined, they happen together," she says. That means the least disruptive way for eyelessness to evolve may be to start making an eye and then get rid of it. . . .</p>
+
+    <p>It's easy to see why cavefish would be at a disadvantage if they were to maintain expensive tissues they aren't using. Since relatively little lives or grows in their caves, the fish are likely surviving on a meager diet of mostly bat feces and organic waste that washes in during the rainy season. Researchers keeping cavefish in labs have discovered that, genetically, the creatures are exquisitely adapted to absorbing and storing nutrients. . . .</p>
+
+    <p>Fats can be toxic for tissues, [evolutionary physiologist Nicolas] Rohner explains, so they are stored in fat cells. "But when these cells get too big, they can burst, which is why we often see chronic inflammation in humans and other animals that have stored a lot of fat in their tissues." Yet a 2020 study by Rohner, Krishnan and their colleagues revealed that even very well-fed cavefish had fewer signs of inflammation in their fat tissues than surface fish do. Even in their sparse cave conditions, wild cavefish can sometimes get very fat, says Riddle. This is presumably because, whenever food ends up in the cave, the fish eat as much of it as possible, since there may be nothing else for a long time to come. Intriguingly, Riddle says, their fat is usually bright yellow, because of high levels of carotenoids, the substance in the carrots that your grandmother used to tell you were good for your&hellip;eyes.</p>
+
+    <p>"The first thing that came to our mind, of course, was that they were accumulating these because they don't have eyes," says Riddle. In this species, such ideas can be tested: Scientists can cross surface fish (with eyes) and cavefish (without eyes) and look at what their offspring are like. When that's done, Riddle says, researchers see no link between eye presence or size and the accumulation of carotenoids. Some eyeless cavefish had fat that was practically white, indicating lower carotenoid levels. Instead, Riddle thinks these carotenoids may be another adaptation to suppress inflammation, which might be important in the wild, as cavefish are likely overeating whenever food arrives.</p>
+  </div>
+
+  <h2>Annotate Before You Attack the Options</h2>
+
+  <p>This is the step almost everyone skips, and it's the step that decides whether you get this question right.</p>
+
+  <p>Before you even look at the options, ask yourself one question: <strong>what did the experiment actually establish?</strong></p>
+
+  <p>Walk through the logic with me:</p>
+
+  <div class="chain">
+    <div class="chain-step">
+      <span class="tag hyp">Hypothesis</span>
+      <p>Riddle's first guess was that cavefish accumulate carotenoids because they've lost their eyes, as if the carotenoids, normally used by the eye, had nowhere to go and simply piled up as yellow fat.</p>
+    </div>
+    <div class="chain-step">
+      <span class="tag met">Method</span>
+      <p>To test that, scientists crossed eyed surface fish with eyeless cavefish and looked at the offspring.</p>
+    </div>
+    <div class="chain-step">
+      <span class="tag res">Result</span>
+      <p>No link was found between having eyes (or eye size) and carotenoid accumulation. Some eyeless offspring had white fat, meaning low carotenoids, which is exactly the opposite of what the "eyes are the cause" hypothesis would predict.</p>
+    </div>
+    <div class="chain-step">
+      <span class="tag con">Conclusion</span>
+      <p>So Riddle drops the original hypothesis and proposes something else: the carotenoids are probably there to fight inflammation, not because the eyes are gone.</p>
+    </div>
+  </div>
+
+  <p>That's the whole chain. Hold onto it, because the question is going to ask you to break it.</p>
+
+  <div class="band">
+    <img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/blog4-journey.webp"
+         alt="Your CAT journey, simpler and smarter with Prishth"
+         width="1600" height="534" loading="lazy">
+  </div>
+
+  <h2>The Question</h2>
+
+  <div class="question-box">
+    <p class="q-stem">Which one of the following results for the cross between surface fish (with eyes) and cavefish (without eyes) would <strong>invalidate</strong> Riddle's inference from the experiment?</p>
+    <ol class="q-opts">
+      <li>Only eyeless offspring had yellow fat.</li>
+      <li>Some offspring with eyes had white fat.</li>
+      <li>Some eyeless offspring had white fat.</li>
+      <li>Some offspring with eyes had yellow fat.</li>
+    </ol>
+  </div>
+
+  <div class="callout gold">
+    <p><strong>Stop here and choose an answer before reading further. Commit to one.</strong> This only works if you commit to an answer first, because the whole point of this exercise is to catch you making the mistake, not just watch someone else make it.</p>
+  </div>
+
+  <h2>Why This Question Is Genuinely Tricky</h2>
+
+  <p>This question runs the logic backwards from a standard inference question. <strong>You're not being asked what supports Riddle's conclusion, you're asked what would break it.</strong> Riddle's claim, stated precisely, is: there is no link between eye presence or size and carotenoid accumulation. To invalidate that, you need a result that establishes exactly the link she says doesn't exist. Nothing weaker qualifies.</p>
+
+  <h3>Option 3 (Some eyeless offspring had white fat): The Restated-Evidence Trap</h3>
+
+  <p>This isn't a new result, it's what the passage already told you happened, offered as evidence for the no-link conclusion, not against it. Students pick it because the phrase feels familiar, and familiarity gets mistaken for correctness. But evidence that already supports a conclusion can't also be the thing that overturns it.</p>
+
+  <div class="rule">
+    <span class="rule-lab">The rule</span>
+    <p>If an option restates something the passage already used to build its conclusion, it can't be what invalidates that conclusion.</p>
+  </div>
+
+  <h3>Options 2 and 4 (Some offspring with eyes had white fat / Some offspring with eyes had yellow fat): The Symmetrical Confusion Trap</h3>
+
+  <p>If there's genuinely no link, you'd expect scattered outcomes in both groups: some eyed fish yellow, some white, and the same for eyeless fish. That's not a problem for "no link", it's what "no link" predicts. Neither option creates a pattern, so neither can disprove one.</p>
+
+  <div class="rule">
+    <span class="rule-lab">The rule</span>
+    <p>A result that's merely consistent with "no correlation" can't be the thing that disproves it. You need a pattern, not a data point.</p>
+  </div>
+
+  <h3>Option 1 (Only eyeless offspring had yellow fat): The Exclusivity Test</h3>
+
+  <div class="answer-flag">This is the answer</div>
+
+  <p><strong>Read that word again: only.</strong> This isn't "some eyeless fish had yellow fat", it's a claim that yellow fat showed up exclusively in the eyeless group, never once in the eyed group. That's a clean, exclusive pattern tying eyelessness to yellow fat, and if it were true, Riddle's "no link" claim would be dead on arrival. It's precisely the correlation her experiment ruled out. The real passage tells us some eyeless fish had white fat too, so no such exclusivity exists.</p>
+
+  <div class="rule">
+    <span class="rule-lab">The rule</span>
+    <p>Words like <strong>only</strong>, <strong>always</strong> and <strong>never</strong> turn a harmless data point into an absolute claim, and an absolute claim is what invalidate questions are usually hunting for.</p>
+  </div>
+
+  <div class="goodbox">
+    <p><strong>In one line:</strong> Options 2, 3 and 4 describe scattered results, exactly what "no link" predicts. Option 1 describes total exclusivity, exactly what "no link" rules out.</p>
+  </div>
+
+  <h2>The Prishth Earn It Framework</h2>
+
+  <div class="band">
+    <img src="https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/blog4-earnit-framework.webp"
+         alt="The Prishth Earn It Framework: four filters to crack inference questions in CAT RC"
+         width="1700" height="850" loading="lazy">
+  </div>
+
+  <div class="warnbox">
+    <h3>Important</h3>
+    <p>This framework is built for <strong>invalidate, strengthen and weaken</strong> type inference questions, where a specific claim in the passage is being tested against a result.</p>
+    <p>For plain <strong>most reasonable inference</strong> questions, Filter 3 flips: absolute language becomes the trap, not the answer, since the correct option there is usually the most hedged one the passage actually supports. We have another blog to explain how to answer the plain inference and EXCEPT type.</p>
+  </div>
+
+  <h3>Now applying this rule to the cavefish question in one pass</h3>
+
+  <ul class="filters">
+    <li><b>Filter 1</b> names Riddle's claim as: there is no link between eyes and carotenoid levels.</li>
+    <li><b>Filter 2</b> knocks out Option 3 instantly, since it's the passage's own supporting evidence.</li>
+    <li><b>Filter 3</b> flags "only" in Option 1 as the one word doing real work, while "some" in Options 2 and 4 makes them nearly unfalsifiable.</li>
+    <li><b>Filter 4</b> closes it for Option 1: you can point to the exact line (some eyeless offspring had white fat), for the others you can't.</li>
+  </ul>
+
+  <h2>The Shift That Actually Matters</h2>
+
+  <p>Go back to where we started. You read the passage twice. You got it down to two options in ten seconds. And the version of you who picked wrong wasn't reading badly, they were asking the wrong question. They were asking <strong>"does this sound right"</strong>, when the only question that ever mattered was <strong>"did the passage earn this."</strong></p>
+
+  <p>That's the whole shift. Not reading harder. Reading for proof instead of plausibility.</p>
+
+  <div class="keypoint">
+    <h3>Next time you're stuck between two options</h3>
+    <p class="big">Run them through the four filters</p>
+    <p>Most of the time, one of them won't survive past Filter 2.</p>
+  </div>
+
+  <div class="cta-duo">
+    <a class="c1" href="https://prishth.in/cat-previous-year-paper">
+      <b>Practise on Real CAT Papers</b>
+      <span>15 slot papers from 2021 to 2025, free to download, no login needed.</span>
+      <em>Download PYQs &rarr;</em>
+    </a>
+    <a class="c2" href="https://prishth.in/dashboard">
+      <b>Take a CAT Mock Test</b>
+      <span>Sectional timing, real exam interface, full solutions and section-wise analysis.</span>
+      <em>Start a mock &rarr;</em>
+    </a>
+  </div>
+
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq">
+    <details open>
+      <summary>What is an inference question in CAT RC?</summary>
+      <div class="ans"><p>An inference question asks what follows from the passage rather than what the passage states directly. The correct option is the one the passage supports, not the one that sounds most reasonable in the real world.</p></div>
+    </details>
+    <details>
+      <summary>Why do I get down to two options and still pick wrong?</summary>
+      <div class="ans"><p>Usually because both remaining options sound plausible and you choose on feel. The fix is to ask which option the passage has actually earned, and to point at the specific line that supports it.</p></div>
+    </details>
+    <details>
+      <summary>What is an invalidate question in CAT RC?</summary>
+      <div class="ans"><p>An invalidate question asks which result would break a claim made in the passage. You need a result that establishes exactly the link the author says does not exist. A result that is merely consistent with the claim does not qualify.</p></div>
+    </details>
+    <details>
+      <summary>Are absolute words like "only" and "never" always wrong in CAT RC?</summary>
+      <div class="ans"><p>No, and this is where many students go wrong. In plain inference questions, absolute language is usually the trap. In invalidate, strengthen and weaken questions, absolute language is often exactly what the answer needs, because only an absolute pattern can break a "no link" claim.</p></div>
+    </details>
+    <details>
+      <summary>What is the Prishth Earn It Framework?</summary>
+      <div class="ans"><p>It is a four-filter method for inference questions: name the claim, separate old evidence from new evidence, watch the quantifiers, and run the defend-it test by pointing to a specific line in the passage.</p></div>
+    </details>
+    <details>
+      <summary>Where can I practise CAT RC passages like this one?</summary>
+      <div class="ans"><p>Prishth publishes CAT previous year papers free of charge, with 15 slot papers from 2021 to 2025, and runs a test series with full solutions and section-wise analysis.</p></div>
+    </details>
+  </div>
+
+</article>
+</main>
+
+<aside class="side">
+  <div class="card dark">
+    <h4>Free CAT Previous Year Papers</h4>
+    <p>15 official slot papers from 2021 to 2025, with difficulty level analysis. No login, no payment.</p>
+    <a class="btn btn-gold" href="https://prishth.in/cat-previous-year-paper">Download PYQs &rarr;</a>
+  </div>
+  <div class="card">
+    <h4>The Four Filters</h4>
+    <p class="org"><b>01 Name the Claim</b>Define what needs to be proved</p>
+    <p class="org"><b>02 Old vs New Evidence</b>Restated evidence proves nothing</p>
+    <p class="org"><b>03 Watch the Heavy Words</b>Only, always, never, some</p>
+    <p class="org"><b>04 Run the Defend-It Test</b>Point to the exact line</p>
+  </div>
+  <div class="card">
+    <h4>Quick Links</h4>
+    <div class="qlinks">
+      <a href="https://prishth.in/cat">&#127891; CAT 2026 Exam Guide</a>
+      <a href="https://prishth.in/cat-previous-year-paper">&#128196; CAT Previous Papers</a>
+      <a href="https://prishth.in/blog-cat-2026-registration-deadline-checklist">&#9997;&#65039; CAT 2026 Registration Checklist</a>
+      <a href="https://prishth.in/pyqs">&#128218; All Free PYQs</a>
+      <a href="https://prishth.in/blog">&#9998; More Blog Articles</a>
+    </div>
+  </div>
+</aside>
+</div></div>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Why So Many Students Pick the Wrong Option on CAT RC Inference Questions", "description": "Break down a real CAT RC inference question, option by option. Learn why plausible isn't the same as provable and the framework to tell them apart.", "image": "https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/blog4-hero.webp", "datePublished": "2026-09-10", "dateModified": "2026-09-10", "author": {"@type": "Organization", "name": "Prishth Technosoft Pvt Ltd", "url": "https://prishth.in"}, "publisher": {"@type": "Organization", "name": "Prishth Technosoft Pvt Ltd", "url": "https://prishth.in", "logo": {"@type": "ImageObject", "url": "https://aqrxmcmmdazyslznilbl.supabase.co/storage/v1/object/public/assets/prishth-logo.png"}}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://prishth.in/blog-cat-rc-inference-questions-cavefish-passage"}, "articleSection": "CAT VARC"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is an inference question in CAT RC?", "acceptedAnswer": {"@type": "Answer", "text": "An inference question asks what follows from the passage rather than what the passage states directly. The correct option is the one the passage supports, not the one that sounds most reasonable in the real world."}}, {"@type": "Question", "name": "Why do I get down to two options and still pick wrong?", "acceptedAnswer": {"@type": "Answer", "text": "Usually because both remaining options sound plausible and you choose on feel. The fix is to ask which option the passage has actually earned, and to point at the specific line that supports it."}}, {"@type": "Question", "name": "What is an invalidate question in CAT RC?", "acceptedAnswer": {"@type": "Answer", "text": "An invalidate question asks which result would break a claim made in the passage. You need a result that establishes exactly the link the author says does not exist. A result that is merely consistent with the claim does not qualify."}}, {"@type": "Question", "name": "Are absolute words like only and never always wrong in CAT RC?", "acceptedAnswer": {"@type": "Answer", "text": "No. In plain inference questions, absolute language is usually the trap. In invalidate, strengthen and weaken questions, absolute language is often exactly what the answer needs, because only an absolute pattern can break a no-link claim."}}, {"@type": "Question", "name": "What is the Prishth Earn It Framework?", "acceptedAnswer": {"@type": "Answer", "text": "It is a four-filter method for inference questions: name the claim, separate old evidence from new evidence, watch the quantifiers, and run the defend-it test by pointing to a specific line in the passage."}}, {"@type": "Question", "name": "Where can I practise CAT RC passages like this one?", "acceptedAnswer": {"@type": "Answer", "text": "Prishth publishes CAT previous year papers free of charge, with 15 slot papers from 2021 to 2025, and runs a test series with full solutions and section-wise analysis."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://prishth.in/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://prishth.in/blog"}, {"@type": "ListItem", "position": 3, "name": "CAT RC Inference Questions", "item": "https://prishth.in/blog-cat-rc-inference-questions-cavefish-passage"}]}</script>
+<footer class="site-footer"><div class="wrap">
+  <div class="fgrid">
+    <div>
+      <h5>Prishth Technosoft</h5>
+      <p>Educating &middot; Enlightening &middot; Empowering</p>
+      <p>India's platform for management, law, SSC, banking and railway exam preparation,
+         for students and coaching institutes alike.</p>
+      <a href="mailto:ravikant.choubey@prishth.in">ravikant.choubey@prishth.in</a>
+      <a href="tel:+919625237947">+91 96252 37947</a>
+    </div>
+    <div>
+      <h5>MBA Entrance</h5>
+      <a href="https://prishth.in/cat">CAT</a>
+      <a href="https://prishth.in/xat">XAT</a>
+      <a href="https://prishth.in/nmat">NMAT</a>
+      <a href="https://prishth.in/mah-mba-cet">MAH MBA CET</a>
+    </div>
+    <div>
+      <h5>Question Papers</h5>
+      <a href="https://prishth.in/cat-previous-year-paper">CAT Previous Papers</a>
+      <a href="https://prishth.in/xat-previous-year-paper">XAT Previous Papers</a>
+      <a href="https://prishth.in/nmat-official-paper">NMAT Sample Papers</a>
+      <a href="https://prishth.in/pyqs">All PYQs</a>
+    </div>
+    <div>
+      <h5>Company</h5>
+      <a href="https://prishth.in/">Home</a>
+      <a href="https://prishth.in/careers">Careers</a>
+      <a href="https://prishth.in/blog">Blog</a>
+      <a href="https://www.instagram.com/prishth.in/" rel="noopener">Instagram</a>
+      <a href="https://in.linkedin.com/company/prishth-technosoft" rel="noopener">LinkedIn</a>
+      <a href="mailto:ravikant.choubey@prishth.in">Contact</a>
+    </div>
+  </div>
+  <div class="fbot">
+    <span>&copy; 2026 Prishth Technosoft Pvt Ltd. All rights reserved.</span>
+    <span>Made in India</span>
+  </div>
+</div></footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var b=document.getElementById('navBtn'),n=document.getElementById('nav');
+  if(b&&n){
+    b.addEventListener('click',function(){
+      var o=n.classList.toggle('open');
+      b.setAttribute('aria-expanded',o);
+      b.textContent=o?'\u2715':'\u2630';
+    });
+    n.addEventListener('click',function(e){
+      if(e.target.tagName==='A'){n.classList.remove('open');b.textContent='\u2630';b.setAttribute('aria-expanded',false);}
+    });
+  }
+});
+</script>
+</body></html>
