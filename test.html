@@ -419,13 +419,25 @@ async function submitTest(auto){
   const detail=[];
   // build a lookup: section name -> {marks_correct, marks_wrong}
   const secMarks={};
-  if(isStrict && Array.isArray(test.sections)){
+  if(Array.isArray(test.sections)){
     test.sections.forEach(s=>{ secMarks[s.name]={mc:parseFloat(s.marks_correct), mw:parseFloat(s.marks_wrong)}; });
   }
+  function num(v){ const n=parseFloat(v); return isNaN(n)?null:n; }
   function marksFor(q){
-    // per-section marking if available, else test-level
-    if(secMarks[q.section||'']) return secMarks[q.section||''];
-    return {mc:parseFloat(test.marks_correct), mw:parseFloat(test.marks_wrong)};
+    // 1. the question's own marking wins
+    let mc=num(q.marks_correct), mw=num(q.marks_wrong);
+    // 2. otherwise the section's
+    const sm=secMarks[q.section||''];
+    if(mc===null && sm) mc=num(sm.mc);
+    if(mw===null && sm) mw=num(sm.mw);
+    // 3. otherwise the test's
+    if(mc===null) mc=num(test.marks_correct);
+    if(mw===null) mw=num(test.marks_wrong);
+    if(mc===null) mc=1;
+    if(mw===null) mw=0;
+    // TITA never carries negative marking
+    if(q.question_type==='TITA') mw=0;
+    return {mc:mc, mw:mw};
   }
   let totalMarks=0;
   questions.forEach((q,i)=>{

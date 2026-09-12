@@ -46,6 +46,18 @@ textarea{resize:vertical;min-height:70px}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .logout{font-size:13px;color:var(--steel);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'DM Sans',sans-serif}
 .count-badge{background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;font-family:'Sora',sans-serif}
+.marks-box{background:#F1FAF6;border:1px solid #C4E7D8;border-left:4px solid #2EA47C;
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:0 0 14px}
+.marks-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:10px}
+.mh-lab{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:#1F7A5A}
+.mh-note{font-size:12.5px;color:#5C6F84}
+.marks-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.marks-grid label{font-size:13px;font-weight:600;color:#16283C;margin-bottom:4px;display:block}
+.tita-lock{margin-top:9px;font-size:13px;color:#8A6100;background:#FFF6E2;
+  border-radius:6px;padding:8px 11px}
+.tita-lock.hidden{display:none}
+@media(max-width:560px){.marks-grid{grid-template-columns:1fr}}
 .passage-toggle{display:flex;align-items:center;gap:9px;margin:2px 0 12px;padding:11px 14px;
   background:#F4F7FB;border:1.5px solid #DDE6F0;border-radius:8px;cursor:pointer;user-select:none}
 .passage-toggle input{width:17px;height:17px;margin:0;cursor:pointer;flex:0 0 auto}
@@ -254,6 +266,26 @@ textarea{resize:vertical;min-height:70px}
       </div>
 
       <div id="secProgress"></div>
+
+      <div class="marks-box">
+        <div class="marks-head">
+          <span class="mh-lab">Marking for this question</span>
+          <span class="mh-note" id="marksNote">Stays the same for the next question until you change it</span>
+        </div>
+        <div class="marks-grid">
+          <div>
+            <label for="q_marks_correct">Marks for correct</label>
+            <input type="number" id="q_marks_correct" step="0.5" value="3"/>
+          </div>
+          <div>
+            <label for="q_marks_wrong">Marks for wrong (negative)</label>
+            <input type="number" id="q_marks_wrong" step="0.25" value="-1"/>
+          </div>
+        </div>
+        <div class="tita-lock hidden" id="titaLock">
+          TITA questions carry no negative marking, so this is fixed at 0.
+        </div>
+      </div>
 
       <div class="passage-toggle">
         <input type="checkbox" id="hasPassage">
@@ -807,6 +839,7 @@ document.querySelectorAll('#typeToggle button').forEach(b=>{
     b.classList.add('active'); qType=b.dataset.type;
     document.getElementById('mcqCard').classList.toggle('hidden',qType!=='MCQ');
     document.getElementById('titaCard').classList.toggle('hidden',qType!=='TITA');
+    applyTitaMarkLock();
   });
 });
 document.querySelectorAll('#optCountToggle button').forEach(b=>{
@@ -853,6 +886,23 @@ document.querySelectorAll('input[name="correct"]').forEach(r=>{
   });
 });
 
+// TITA can never carry negative marking
+function applyTitaMarkLock(){
+  const wrongEl=document.getElementById('q_marks_wrong');
+  const lock=document.getElementById('titaLock');
+  if(!wrongEl||!lock) return;
+  if(qType==='TITA'){
+    if(!wrongEl.dataset.prev) wrongEl.dataset.prev=wrongEl.value;
+    wrongEl.value=0; wrongEl.disabled=true; lock.classList.remove('hidden');
+  } else {
+    if(wrongEl.disabled){
+      wrongEl.value = wrongEl.dataset.prev!==undefined ? wrongEl.dataset.prev : wrongEl.value;
+      delete wrongEl.dataset.prev;
+    }
+    wrongEl.disabled=false; lock.classList.add('hidden');
+  }
+}
+
 function richVal(id){ const el=document.getElementById(id); return el?el.innerHTML.trim():''; }
 function richHasContent(id){ const el=document.getElementById(id); return el && (el.textContent.trim()||el.querySelector('img')); }
 
@@ -865,6 +915,8 @@ document.getElementById('saveBtn').addEventListener('click',async()=>{
     section:document.getElementById('section').value.trim()||null,
     difficulty:document.getElementById('difficulty').value,
     question_type:qType,
+    marks_correct: parseFloat(document.getElementById('q_marks_correct').value),
+    marks_wrong: (qType==='TITA') ? 0 : parseFloat(document.getElementById('q_marks_wrong').value),
     passage:(document.getElementById('hasPassage').checked && richHasContent('passage')) ? richVal('passage') : null,
     question:richVal('question'),
     explanation:richVal('explanation')||null
