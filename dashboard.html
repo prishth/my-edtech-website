@@ -32,7 +32,16 @@ h1{font-family:'Sora',sans-serif;font-size:28px;color:var(--navy);margin-bottom:
 .chip.q{background:#EAF2FB;color:var(--steel);border-color:#bcd6f0}
 .start-btn{margin-top:4px;background:var(--navy);color:#fff;text-align:center;padding:11px;border-radius:9px;text-decoration:none;font-family:'Sora',sans-serif;font-weight:600;font-size:14px;transition:.18s}
 .start-btn:hover{background:var(--steel)}
+.view-tabs{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:26px}
+.view-tabs a{padding:9px 18px;border-radius:9px;text-decoration:none;font-family:'Sora',sans-serif;
+  font-weight:600;font-size:13.5px;background:#fff;border:1.5px solid var(--border);color:var(--navy)}
+.view-tabs a:hover{border-color:var(--steel)}
+.view-tabs a.on{background:var(--navy);color:#fff;border-color:var(--navy)}
 .loading,.empty{text-align:center;color:var(--muted);padding:50px 20px}
+.empty h3{font-family:'Sora',sans-serif;color:var(--navy);font-size:17px;margin-bottom:6px}
+.empty p{max-width:420px;margin:0 auto 16px;font-size:14.5px}
+.empty .go{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;
+  padding:11px 22px;border-radius:9px;font-family:'Sora',sans-serif;font-weight:600;font-size:14px}
 .empty-icon{font-size:40px;margin-bottom:10px}
 .attempted-note{font-size:12px;color:var(--green);font-weight:600}
 </style>
@@ -54,8 +63,9 @@ h1{font-family:'Sora',sans-serif;font-size:28px;color:var(--navy);margin-bottom:
   </div>
 </nav>
 <div class="wrap">
-  <h1>Test Series</h1>
+  <h1 id="pageTitle">Test Series</h1>
   <p class="welcome" id="welcome">Loading your dashboard…</p>
+  <div class="view-tabs" id="viewTabs"></div>
   <div id="content"><div class="loading">Loading tests…</div></div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -65,15 +75,51 @@ async function init(){
   const {data:{session}}=await sb.auth.getSession();
   if(!session){ window.location.href='/login?next=dashboard'; return; }
   document.getElementById('userEmail').textContent=session.user.email;
-  document.getElementById('welcome').textContent='Choose a test to begin. All your attempts are saved.';
+
+  // which view are we showing?
+  const view=(new URLSearchParams(window.location.search).get('view')||'all').toLowerCase();
+  const TITLES={
+    all:      ['Test Series', 'Choose a test to begin. All your attempts are saved.'],
+    free:     ['Free Tests',  'Every one of these is free. No payment, nothing to unlock.'],
+    purchased:['My Purchases','Tests and study material you have bought.']
+  };
+  const meta=TITLES[view]||TITLES.all;
+  document.getElementById('pageTitle').textContent=meta[0];
+  document.getElementById('welcome').textContent=meta[1];
+  document.title=meta[0]+' | Prishth Test Series';
+
+  document.getElementById('viewTabs').innerHTML=
+    ['all','free','purchased'].map(function(v){
+      const label={all:'All Tests',free:'Free Tests',purchased:'My Purchases'}[v];
+      return '<a class="'+(v===view?'on':'')+'" href="/dashboard'+(v==='all'?'':'?view='+v)+'">'+label+'</a>';
+    }).join('');
   const [{data:tests},{data:questions},{data:attempts}]=await Promise.all([
     sb.from('tests').select('*').eq('is_published',true).order('exam'),
     sb.from('questions').select('test_id'),
     sb.from('attempts').select('test_id,score,total_marks')
   ]);
   const content=document.getElementById('content');
-  if(!tests||tests.length===0){
-    content.innerHTML='<div class="empty"><div class="empty-icon">&#128221;</div>No tests are available yet. Please check back soon.</div>';
+
+  // Paid purchases are not built yet, so "My Purchases" is honestly empty
+  // rather than pretending. This becomes a real lookup once payments exist.
+  if(view==='purchased'){
+    content.innerHTML='<div class="empty"><div class="empty-icon">&#128274;</div>'+
+      '<h3>Nothing purchased yet</h3>'+
+      '<p>Paid mock tests and study material are on the way. When you buy something '+
+      'it will appear here, ready to attempt.</p>'+
+      '<a class="go" href="/dashboard?view=free">Browse free tests &rarr;</a></div>';
+    return;
+  }
+
+  let visible=tests||[];
+  if(view==='free') visible=visible.filter(function(t){ return t.is_free===true; });
+
+  if(!visible.length){
+    const msg = view==='free'
+      ? '<h3>No free tests right now</h3><p>New free mocks are added regularly. Please check back soon.</p>'
+      : '<h3>No tests available yet</h3><p>Please check back soon.</p>';
+    content.innerHTML='<div class="empty"><div class="empty-icon">&#128221;</div>'+msg+
+      '<a class="go" href="/pyqs">Download free PYQs &rarr;</a></div>';
     return;
   }
   const qcount={};
@@ -81,7 +127,7 @@ async function init(){
   const bestAttempt={};
   (attempts||[]).forEach(a=>{ if(a.test_id && (!bestAttempt[a.test_id]||a.score>bestAttempt[a.test_id].score)) bestAttempt[a.test_id]=a; });
   const byExam={};
-  tests.forEach(t=>{ (byExam[t.exam]=byExam[t.exam]||[]).push(t); });
+  visible.forEach(t=>{ (byExam[t.exam]=byExam[t.exam]||[]).push(t); });
   let html='';
   Object.keys(byExam).forEach(exam=>{
     html+='<div class="exam-block"><div class="exam-head">'+exam+'</div><div class="tests-grid">';
@@ -107,7 +153,7 @@ async function init(){
 }
 init();
 document.getElementById('logoutBtn').addEventListener('click',async()=>{
-  await sb.auth.signOut(); window.location.href='/login';
+  await sb.auth.signOut(); window.location.href='/';
 });
 </script>
 </body>

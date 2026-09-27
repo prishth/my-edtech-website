@@ -201,7 +201,10 @@ async function handleLogin() {
 
   successMsg.textContent = 'Login successful! Redirecting...';
   successMsg.style.display = 'block';
-  setTimeout(() => { window.location.href = '/dashboard'; }, 800);
+  // Where to go after login: back where they came from, else the homepage.
+  const nextParam = new URLSearchParams(window.location.search).get('next');
+  const dest = nextParam === 'dashboard' ? '/dashboard' : '/';
+  setTimeout(() => { window.location.href = dest; }, 800);
 }
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
@@ -209,7 +212,10 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin
 
 // If already logged in, go to dashboard
 supabase.auth.getSession().then(( { data: { session } }) => {
-  if (session) window.location.href = '/dashboard';
+  if (session) {
+    const np = new URLSearchParams(window.location.search).get('next');
+    window.location.href = np === 'dashboard' ? '/dashboard' : '/';
+  }
 });
 </script>
 </body>

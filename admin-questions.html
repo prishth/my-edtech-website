@@ -180,7 +180,7 @@ textarea{resize:vertical;min-height:70px}
 
     <div class="card">
       <h2>Manage Existing Tests</h2>
-      <p class="hint" style="margin-bottom:10px">Click <b>Add Questions</b> to resume an unfinished paper. Click <b>Edit</b> to change marking/timing/sections. Click <b>Questions</b> to view, edit, delete, or reorder the questions in a paper.</p>
+      <p class="hint" style="margin-bottom:10px">Click <b>Add Questions</b> to keep adding to a paper. Click <b>Edit</b> to change timing and sections. Click <b>Review &amp; Edit</b> to go through the paper one question at a time, exactly as a student sees it, and change anything including the passage.</p>
       <div id="testsList"><p class="hint">Loading tests…</p></div>
     </div>
 
@@ -433,7 +433,7 @@ function renderTestsList(counts){
       <div class="hint" style="margin:4px 0">${nq} questions · ${t.duration_minutes} min · ${timing}</div>
       <div class="hint" style="margin-bottom:8px">Sections: ${secList}</div>
       <button class="btn" style="padding:8px 16px;font-size:13px" onclick="resumeTest(${t.id})">Add Questions</button>
-      <button class="btn" style="padding:8px 16px;font-size:13px;background:var(--steel);margin-left:6px" onclick="manageQuestions(${t.id})">Questions (${nq})</button>
+      <button class="btn" style="padding:8px 16px;font-size:13px;background:var(--steel);margin-left:6px" onclick="location.href='/edit-test?test=${t.id}'">Review &amp; Edit (${nq})</button>
       <button class="btn" style="padding:8px 16px;font-size:13px;margin-left:6px" onclick="editTest(${t.id})">Edit</button>
       ${pubBtn}
       <button class="btn" style="padding:8px 16px;font-size:13px;background:#B23636;margin-left:6px" onclick="deleteTest(${t.id},'${(t.test_name||'').replace(/'/g,"")}')">Delete</button>

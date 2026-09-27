@@ -12,6 +12,8 @@ Disallow: /result
 Disallow: /result.html
 Disallow: /admin-questions
 Disallow: /admin-questions.html
+Disallow: /edit-test
+Disallow: /edit-test.html
 Disallow: /reset-password
 Disallow: /reset-password.html
 
