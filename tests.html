@@ -65,6 +65,7 @@
   document.getElementById('icGrid').innerHTML=P.icon('grid');
   document.getElementById('icA1').innerHTML=P.icon('arrow','sm');
   const session=await P.nav('Tests');
+  if(!session){ location.href='/login?next=dashboard'; return; }
   const {tests,qc,error}=await P.load();
   let best={};
   if(session){
