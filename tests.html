@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Test Series | Prishth</title>
+<meta name="description" content="Full-length mocks and practice tests for CAT, XAT, SNAP, NMAT, CMAT, CLAT, IPMAT and more. Practice with purpose. Know where you stand."/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/app.css"/>
+</head>
+<body class="landing">
+<header id="nav"></header>
+
+<section class="hero"><div class="in">
+  <div class="txt">
+    <div class="eyebrow">Test Series</div>
+    <h1>Practice with purpose.<br/>Know where you stand.</h1>
+    <p>Take full-length mocks, previous year papers, sectionals and topic tests for your dream exam.</p>
+  </div>
+  <div class="books" aria-hidden="true"><i></i><i></i><i></i><span>Better Preparation. Bigger Dreams.</span></div>
+</div></section>
+
+<main class="wrap">
+  <div class="finder">
+    <label class="sbox"><span id="sIcon"></span><input id="q" placeholder="Search for an exam (e.g. CAT, XAT, SNAP...)" autocomplete="off"></label>
+  </div>
+  <div class="chips" id="chips"></div>
+
+  <div id="sPopular">
+    <div class="sec-h"><span id="icStar"></span><h2>Popular Exams</h2></div>
+    <p class="sec-sub">Explore test series for top exams</p>
+    <div class="tiles" id="popular"></div>
+  </div>
+
+  <div class="sec-h"><span id="icGift"></span><h2>Free Tests</h2><a class="more" href="/dashboard?view=free">View all free tests <span id="icA1"></span></a></div>
+  <p class="sec-sub">Try Prishth before you commit.</p>
+  <div class="grid" id="free"><div class="loading">Loading tests...</div></div>
+
+  <div class="sec-h"><span id="icGrid"></span><h2>All Exams</h2></div>
+  <p class="sec-sub">Every exam you need, in one place.</p>
+  <div class="finder" style="margin-bottom:14px">
+    <label style="font-size:13px;color:var(--ink2)">Sort by
+      <select id="sort" style="margin-left:6px;height:34px;border:1px solid var(--border);border-radius:8px;padding:0 8px;background:#fff;font:inherit">
+        <option value="pop">Most tests</option><option value="az">A to Z</option></select></label>
+    <label style="font-size:13px;color:var(--ink2)">Show
+      <select id="kind" style="margin-left:6px;height:34px;border:1px solid var(--border);border-radius:8px;padding:0 8px;background:#fff;font:inherit">
+        <option value="all">All</option><option value="free">Free only</option></select></label>
+  </div>
+  <div class="tiles" id="all"></div>
+
+  <div class="sec-h" id="resHead" style="display:none"><h2 id="resTitle">Search results</h2></div>
+  <div class="grid" id="results"></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/app.js"></script>
+<script>
+(async function(){
+  document.getElementById('sIcon').innerHTML=P.icon('search');
+  document.getElementById('icStar').innerHTML=P.icon('star');
+  document.getElementById('icGift').innerHTML=P.icon('gift');
+  document.getElementById('icGrid').innerHTML=P.icon('grid');
+  document.getElementById('icA1').innerHTML=P.icon('arrow','sm');
+  const session=await P.nav('Tests');
+  if(!session){ location.href='/login?next=dashboard'; return; }
+  const {tests,qc,error}=await P.load();
+  let best={};
+  if(session){
+    const {data}=await P.sb.from('attempts').select('test_id,score,total_marks');
+    (data||[]).forEach(a=>{ if(a.test_id&&(!best[a.test_id]||a.score>best[a.test_id].score)) best[a.test_id]=a; });
+  }
+  if(error){ document.getElementById('free').innerHTML='<div class="empty"><h3>Could not load tests</h3>Please refresh and try again.</div>'; return; }
+
+  const counts=P.examCounts(tests);
+  const exams=Object.keys(counts);
+  let group='All', query=(new URLSearchParams(location.search).get('q')||'').trim();
+  document.getElementById('q').value=query;
+
+  function tile(e){
+    const g=P.groupOf(e);
+    return '<a class="tile" href="/tests?q='+encodeURIComponent(e)+'"><span class="ic">'+P.icon(P.GROUP_ICON[g]||'book')+'</span><span><b>'+P.esc(e)+'</b><small>'+g+'</small><small>'+counts[e]+' test'+(counts[e]!==1?'s':'')+'</small></span><span class="go">'+P.icon('arrow','sm')+'</span></a>';
+  }
+  function draw(){
+    const q=document.getElementById('q').value.trim().toLowerCase();
+    const kind=document.getElementById('kind').value;
+    let list=exams.filter(e=>(group==='All'||P.groupOf(e)===group)&&(!q||e.toLowerCase().includes(q)));
+    document.getElementById('popular').innerHTML=exams.slice().sort((a,b)=>counts[b]-counts[a]).slice(0,7).map(tile).join('');
+    document.getElementById('sPopular').classList.toggle('hidden',!!q||group!=='All');
+    if(kind==='free') list=list.filter(e=>tests.some(t=>t.exam===e&&t.is_free));
+    list.sort(document.getElementById('sort').value==='az'?(a,b)=>a.localeCompare(b):(a,b)=>counts[b]-counts[a]);
+    document.getElementById('all').innerHTML=list.length?list.map(tile).join(''):'<div class="empty"><h3>No exams found</h3>Try a different search.</div>';
+
+    const hits=q?tests.filter(t=>((t.exam||'')+' '+(t.test_name||'')).toLowerCase().includes(q)&&(group==='All'||P.groupOf(t.exam)===group)):[];
+    document.getElementById('resHead').style.display=q?'flex':'none';
+    document.getElementById('resTitle').textContent='Tests matching "'+document.getElementById('q').value.trim()+'" ('+hits.length+')';
+    document.getElementById('results').innerHTML=hits.map(t=>P.card(t,qc,best[t.id])).join('');
+  }
+  const gs=['All'].concat(P.GROUPS.filter(g=>exams.some(e=>P.groupOf(e)===g)));
+  const chips=document.getElementById('chips');
+  function drawChips(){ chips.innerHTML=gs.map(g=>'<button class="chip '+(g===group?'on':'')+'" data-g="'+g+'">'+(g==='All'?'All Exams':g)+'</button>').join(''); }
+  chips.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b)return; group=b.dataset.g; drawChips(); draw(); });
+  ['q','sort','kind'].forEach(id=>document.getElementById(id).addEventListener('input',draw));
+  drawChips();
+
+  const free=tests.filter(t=>t.is_free).slice(0,6);
+  document.getElementById('free').innerHTML=free.length?free.map(t=>P.card(t,qc,best[t.id])).join(''):'<div class="empty"><h3>No free tests right now</h3>New free mocks are added regularly.</div>';
+  draw();
+})();
+</script>
+</body>
+</html>
