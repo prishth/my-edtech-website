@@ -8,43 +8,8 @@
 <link rel="icon" href="/favicon.ico" sizes="any"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-<style>
-:root{--navy:#1B3A5C;--steel:#2E6DA4;--bg:#F4F7FB;--border:#DDE6F0;--white:#FFFFFF;--gold:#E5A52A;--ink:#16283C;--muted:#5C6F84;--green:#2EA47C;--radius:12px}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-.topnav{background:var(--navy);color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
-.topnav .brand{font-family:'Sora',sans-serif;font-weight:700;font-size:20px;color:#fff;text-decoration:none}
-.topnav .right{display:flex;align-items:center;gap:16px;font-size:14px}
-.topnav .right a{color:#cfe0f0;text-decoration:none}
-.logout{background:var(--gold);color:var(--navy);border:none;padding:8px 16px;border-radius:8px;font-family:'Sora',sans-serif;font-weight:600;font-size:13px;cursor:pointer}
-.wrap{max-width:1080px;margin:0 auto;padding:30px 24px 60px}
-h1{font-family:'Sora',sans-serif;font-size:28px;color:var(--navy);margin-bottom:4px}
-.welcome{color:var(--muted);margin-bottom:28px}
-.exam-block{margin-bottom:32px}
-.exam-head{font-family:'Sora',sans-serif;font-size:19px;color:var(--navy);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--gold);display:inline-block}
-.tests-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-.test-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:0 2px 8px rgba(27,58,92,.05);display:flex;flex-direction:column;gap:12px}
-.test-card h3{font-family:'Sora',sans-serif;font-size:16px;color:var(--navy)}
-.test-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12.5px}
-.chip{background:var(--bg);border:1px solid var(--border);padding:4px 10px;border-radius:999px;color:var(--muted);font-weight:600}
-.chip.free{background:#E3F5EC;color:#1a7350;border-color:#2EA47C}
-.chip.q{background:#EAF2FB;color:var(--steel);border-color:#bcd6f0}
-.start-btn{margin-top:4px;background:var(--navy);color:#fff;text-align:center;padding:11px;border-radius:9px;text-decoration:none;font-family:'Sora',sans-serif;font-weight:600;font-size:14px;transition:.18s}
-.start-btn:hover{background:var(--steel)}
-.view-tabs{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:26px}
-.view-tabs a{padding:9px 18px;border-radius:9px;text-decoration:none;font-family:'Sora',sans-serif;
-  font-weight:600;font-size:13.5px;background:#fff;border:1.5px solid var(--border);color:var(--navy)}
-.view-tabs a:hover{border-color:var(--steel)}
-.view-tabs a.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-.loading,.empty{text-align:center;color:var(--muted);padding:50px 20px}
-.empty h3{font-family:'Sora',sans-serif;color:var(--navy);font-size:17px;margin-bottom:6px}
-.empty p{max-width:420px;margin:0 auto 16px;font-size:14.5px}
-.empty .go{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;
-  padding:11px 22px;border-radius:9px;font-family:'Sora',sans-serif;font-weight:600;font-size:14px}
-.empty-icon{font-size:40px;margin-bottom:10px}
-.attempted-note{font-size:12px;color:var(--green);font-weight:600}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/app.css"/>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -54,107 +19,132 @@ h1{font-family:'Sora',sans-serif;font-size:28px;color:var(--navy);margin-bottom:
 </script>
 </head>
 <body>
-<nav class="topnav">
-  <a href="/" class="brand">Prishth</a>
-  <div class="right">
-    <a href="/pyqs">PYQs</a>
-    <span id="userEmail"></span>
-    <button class="logout" id="logoutBtn">Log out</button>
+<header id="nav"></header>
+
+<section class="hero"><div class="in">
+  <div class="txt">
+    <div class="hi" id="hi">Welcome back</div>
+    <h1 id="h1">Better practice. Higher scores.</h1>
+    <p id="sub">Take full-length mocks, previous year papers, sectionals and topic tests for your dream exam.</p>
   </div>
-</nav>
-<div class="wrap">
-  <h1 id="pageTitle">Test Series</h1>
-  <p class="welcome" id="welcome">Loading your dashboard…</p>
-  <div class="view-tabs" id="viewTabs"></div>
-  <div id="content"><div class="loading">Loading tests…</div></div>
-</div>
+  <div class="quote">Consistent practice today builds the confidence of tomorrow.</div>
+  <div class="books" aria-hidden="true"><i></i><i></i><i></i><span>Better Prep. Bigger Dreams.</span></div>
+</div></section>
+
+<main class="wrap" id="main"><div class="loading">Loading your dashboard...</div></main>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/app.js"></script>
 <script>
-const sb=supabase.createClient("https://aqrxmcmmdazyslznilbl.supabase.co","sb_publishable_wRKj-veZ1_Ro-HSH8kXCFg_ifvjUD8L");
-async function init(){
-  const {data:{session}}=await sb.auth.getSession();
-  if(!session){ window.location.href='/login?next=dashboard'; return; }
-  document.getElementById('userEmail').textContent=session.user.email;
+(async function(){
+  const session=await P.nav('Tests');
+  if(!session){ location.href='/login?next=dashboard'; return; }
+  const view=(new URLSearchParams(location.search).get('view')||'').toLowerCase();
+  const email=session.user.email||'';
+  const raw=email.split('@')[0].split(/[._-]/)[0]||'there';
+  const name=raw.charAt(0).toUpperCase()+raw.slice(1);
+  document.getElementById('hi').textContent='Welcome back, '+name;
 
-  // which view are we showing?
-  const view=(new URLSearchParams(window.location.search).get('view')||'all').toLowerCase();
-  const TITLES={
-    all:      ['Test Series', 'Choose a test to begin. All your attempts are saved.'],
-    free:     ['Free Tests',  'Every one of these is free. No payment, nothing to unlock.'],
-    purchased:['My Purchases','Tests and study material you have bought.']
-  };
-  const meta=TITLES[view]||TITLES.all;
-  document.getElementById('pageTitle').textContent=meta[0];
-  document.getElementById('welcome').textContent=meta[1];
-  document.title=meta[0]+' | Prishth Test Series';
+  const [{tests,qc,error},att]=await Promise.all([P.load(),P.sb.from('attempts').select('*')]);
+  const attempts=att.data||[];
+  const main=document.getElementById('main');
+  if(error){ main.innerHTML='<div class="empty"><h3>Could not load tests</h3>Please refresh and try again.</div>'; return; }
 
-  document.getElementById('viewTabs').innerHTML=
-    ['all','free','purchased'].map(function(v){
-      const label={all:'All Tests',free:'Free Tests',purchased:'My Purchases'}[v];
-      return '<a class="'+(v===view?'on':'')+'" href="/dashboard'+(v==='all'?'':'?view='+v)+'">'+label+'</a>';
-    }).join('');
-  const [{data:tests},{data:questions},{data:attempts}]=await Promise.all([
-    sb.from('tests').select('*').eq('is_published',true).order('exam'),
-    sb.from('questions').select('test_id'),
-    sb.from('attempts').select('test_id,score,total_marks')
-  ]);
-  const content=document.getElementById('content');
+  const best={};
+  attempts.forEach(a=>{ if(a.test_id&&(!best[a.test_id]||a.score>best[a.test_id].score)) best[a.test_id]=a; });
 
-  // Paid purchases are not built yet, so "My Purchases" is honestly empty
-  // rather than pretending. This becomes a real lookup once payments exist.
-  if(view==='purchased'){
-    content.innerHTML='<div class="empty"><div class="empty-icon">&#128274;</div>'+
-      '<h3>Nothing purchased yet</h3>'+
-      '<p>Paid mock tests and study material are on the way. When you buy something '+
-      'it will appear here, ready to attempt.</p>'+
-      '<a class="go" href="/dashboard?view=free">Browse free tests &rarr;</a></div>';
+  /* ---- list views: free / purchased ---- */
+  if(view==='free'||view==='purchased'){
+    document.title=(view==='free'?'Free Tests':'My Purchases')+' | Prishth Test Series';
+    document.getElementById('h1').textContent=view==='free'?'Free Tests':'My Purchases';
+    document.getElementById('sub').textContent=view==='free'?'Every one of these is free. No payment, nothing to unlock.':'Tests and study material you have bought.';
+    if(view==='purchased'){
+      main.innerHTML='<div class="empty card"><h3>Nothing purchased yet</h3><p>Paid mock tests and study material are on the way. When you buy something it will appear here.</p><br/><a class="btn pri" href="/dashboard?view=free">Browse free tests</a></div>';
+      return;
+    }
+    const list=tests.filter(t=>t.is_free);
+    main.innerHTML='<div class="grid">'+(list.length?list.map(t=>P.card(t,qc,best[t.id])).join(''):'<div class="empty"><h3>No free tests right now</h3>Please check back soon.</div>')+'</div>';
     return;
   }
 
-  let visible=tests||[];
-  if(view==='free') visible=visible.filter(function(t){ return t.is_free===true; });
+  /* ---- numbers from real attempts ---- */
+  const pct=a=>a.total_marks>0?Math.round(a.score/a.total_marks*100):0;
+  const n=attempts.length;
+  const avg=n?Math.round(attempts.reduce((s,a)=>s+pct(a),0)/n):null;
+  const top=n?attempts.reduce((b,a)=>a.score>b.score?a:b,attempts[0]):null;
+  const last=n?attempts.slice().sort((a,b)=>String(b.created_at||b.id).localeCompare(String(a.created_at||a.id)))[0]:null;
 
-  if(!visible.length){
-    const msg = view==='free'
-      ? '<h3>No free tests right now</h3><p>New free mocks are added regularly. Please check back soon.</p>'
-      : '<h3>No tests available yet</h3><p>Please check back soon.</p>';
-    content.innerHTML='<div class="empty"><div class="empty-icon">&#128221;</div>'+msg+
-      '<a class="go" href="/pyqs">Download free PYQs &rarr;</a></div>';
-    return;
+  const counts=P.examCounts(tests), exams=Object.keys(counts);
+  let selExam=(last&&counts[last.exam]?last.exam:null)||exams.slice().sort((a,b)=>counts[b]-counts[a])[0]||null;
+  let tab='all';
+
+  const qa=[['chart','Free Tests','Full mocks, no payment','/dashboard?view=free'],
+            ['file','PYQs','Previous year papers','/pyqs'],
+            ['book','Study Material','Articles & guides','/blog'],
+            ['layers','My Purchases','Paid tests and material','/dashboard?view=purchased']];
+
+  function resumeHTML(){
+    if(!last) return '<div class="empty" style="padding:22px 8px"><h3>No attempts yet</h3>Start a free mock to see your progress here.<br/><br/><a class="btn pri sm" href="/dashboard?view=free">Start a free test</a></div>';
+    const p=pct(last), t=tests.find(x=>x.id===last.test_id);
+    return '<div class="resume"><div class="ring" style="--p:'+Math.max(0,Math.min(100,p))+'"><div>'+p+'%<small>score</small></div></div>'+
+      '<div style="flex:1"><h3>'+P.esc(last.exam||'')+' &middot; '+P.esc(last.test_name||'')+'</h3>'+
+      '<div class="m">Score '+last.score+' / '+last.total_marks+' &nbsp;|&nbsp; '+(last.correct_count!=null?last.correct_count+' correct, '+last.wrong_count+' wrong':'')+'</div>'+
+      (t?'<a class="btn teal sm" href="/test?id='+t.id+'">Re-attempt '+P.icon('arrow','sm')+'</a>':'')+'</div></div>';
   }
-  const qcount={};
-  (questions||[]).forEach(q=>{ if(q.test_id) qcount[q.test_id]=(qcount[q.test_id]||0)+1; });
-  const bestAttempt={};
-  (attempts||[]).forEach(a=>{ if(a.test_id && (!bestAttempt[a.test_id]||a.score>bestAttempt[a.test_id].score)) bestAttempt[a.test_id]=a; });
-  const byExam={};
-  visible.forEach(t=>{ (byExam[t.exam]=byExam[t.exam]||[]).push(t); });
-  let html='';
-  Object.keys(byExam).forEach(exam=>{
-    html+='<div class="exam-block"><div class="exam-head">'+exam+'</div><div class="tests-grid">';
-    byExam[exam].forEach(t=>{
-      const nq=qcount[t.id]||0;
-      const att=bestAttempt[t.id];
-      const negTxt = t.marks_wrong!=0 ? (t.marks_wrong+' wrong') : 'No negative';
-      html+='<div class="test-card"><h3>'+t.test_name+'</h3>'+
-        '<div class="test-meta">'+
-        '<span class="chip q">'+nq+' Question'+(nq!==1?'s':'')+'</span>'+
-        '<span class="chip">'+t.duration_minutes+' min</span>'+
-        '<span class="chip">+'+t.marks_correct+' / '+negTxt+'</span>'+
-        (t.is_free?'<span class="chip free">Free</span>':'<span class="chip">Paid</span>')+
-        '</div>'+
-        (att?'<span class="attempted-note">Best score: '+att.score+' / '+att.total_marks+'</span>':'')+
-        (nq>0?'<a class="start-btn" href="/test?id='+t.id+'">'+(att?'Re-attempt':'Start Test')+'</a>'
-             :'<span class="start-btn" style="background:#ccc;cursor:not-allowed">No questions yet</span>')+
-        '</div>';
-    });
-    html+='</div></div>';
-  });
-  content.innerHTML=html;
-}
-init();
-document.getElementById('logoutBtn').addEventListener('click',async()=>{
-  await sb.auth.signOut(); window.location.href='/';
-});
+  function examSection(){
+    if(!selExam) return '<div class="empty">No tests published yet.</div>';
+    const all=tests.filter(t=>t.exam===selExam);
+    const free=all.filter(t=>t.is_free), done=all.filter(t=>best[t.id]);
+    let list=tab==='free'?free:tab==='done'?done:all;
+    list=list.slice().sort((a,b)=>(best[a.id]?1:0)-(best[b.id]?1:0));
+    const sel='<select id="examSel" style="height:34px;border:1px solid var(--border);border-radius:8px;padding:0 8px;background:#fff;font:inherit;margin-left:auto">'+
+      exams.map(e=>'<option'+(e===selExam?' selected':'')+'>'+P.esc(e)+'</option>').join('')+'</select>';
+    return '<div class="ph"><span>'+P.icon('cap')+'</span><div><h2>My Exams</h2><div style="font-size:13px;color:var(--ink2)">Jump into your exam and explore test series, PYQs, mocks and more.</div></div>'+sel+'</div>'+
+      '<div class="card exam-box"><div class="exam-top"><div class="nm"><span class="ic">'+P.icon(P.GROUP_ICON[P.groupOf(selExam)])+'</span><div><b>'+P.esc(selExam)+'</b><small>'+P.groupOf(selExam)+'</small></div></div>'+
+      '<div class="st"><b>'+all.length+'</b><small>Tests</small></div><div class="st"><b>'+free.length+'</b><small>Free</small></div><div class="st"><b>'+done.length+'</b><small>Attempted</small></div>'+
+      '<a class="btn sec cta" href="/tests?q='+encodeURIComponent(selExam)+'">Explore '+P.esc(selExam)+' '+P.icon('arrow','sm')+'</a></div>'+
+      '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px"><div class="rec-h" style="margin:0">Recommended for you</div>'+
+      '<div class="tabs" id="tabs" style="margin-left:auto">'+[['all','All'],['free','Free'],['done','Attempted']].map(x=>'<button data-t="'+x[0]+'" class="'+(tab===x[0]?'on':'')+'">'+x[1]+'</button>').join('')+'</div></div>'+
+      '<div class="grid">'+(list.length?list.map(t=>P.card(t,qc,best[t.id])).join(''):'<div class="empty">Nothing here yet.</div>')+'</div></div>';
+  }
+  function groupsHTML(){
+    const gs=P.GROUPS.filter(g=>exams.some(e=>P.groupOf(e)===g));
+    return '<div class="sec-h"><span>'+P.icon('cap')+'</span><h2>Explore More Exams</h2><a class="more" href="/tests">View all exams '+P.icon('arrow','sm')+'</a></div><p class="sec-sub">Find the right test series for your goal.</p>'+
+      '<div class="groups">'+gs.map(g=>'<div class="group '+g.toLowerCase()+'"><h3>'+P.icon(P.GROUP_ICON[g])+g+'</h3><div class="mini">'+
+        exams.filter(e=>P.groupOf(e)===g).map(e=>'<a href="/tests?q='+encodeURIComponent(e)+'"><b>'+P.esc(e)+'</b><small>'+counts[e]+' test'+(counts[e]!==1?'s':'')+' '+P.icon('arrow','sm')+'</small></a>').join('')+
+        '</div></div>').join('')+'</div>';
+  }
+  function chipsHTML(){
+    return '<div class="finder"><label class="sbox">'+P.icon('search')+'<input id="q" placeholder="Search tests, exams or topics..." autocomplete="off"></label><div class="chips">'+
+      '<a class="chip on" style="display:flex;align-items:center" href="/dashboard">All Exams</a>'+exams.slice(0,7).map(e=>'<a class="chip" style="display:flex;align-items:center" href="/tests?q='+encodeURIComponent(e)+'">'+P.esc(e)+'</a>').join('')+'</div></div>';
+  }
+  function render(){
+    main.innerHTML=chipsHTML()+
+    '<div class="row3">'+
+      '<div class="card pad"><div class="ph"><span>'+P.icon('clock')+'</span><h2>'+(last?'Your last attempt':'Get started')+'</h2><a class="more" href="/dashboard?view=free">Free tests '+P.icon('arrow','sm')+'</a></div>'+resumeHTML()+'</div>'+
+      '<div class="card pad"><div class="ph"><span>'+P.icon('chart')+'</span><h2>Your Preparation</h2></div>'+
+        '<div class="card stats" style="box-shadow:none"><div><div class="l">Tests Attempted</div><div class="v">'+n+'</div></div>'+
+        '<div><div class="l">Average Score</div><div class="v">'+(avg==null?'-':avg+'%')+'</div></div>'+
+        '<div><div class="l">Best Score</div><div class="v">'+(top?top.score+'/'+top.total_marks:'-')+'</div>'+(top?'<div class="n">'+P.esc(top.exam||'')+' &middot; '+P.esc(top.test_name||'')+'</div>':'')+'</div></div></div>'+
+      '<div class="card qa"><div style="padding:16px 16px 6px" class="ph"><h2>Quick Actions</h2></div>'+qa.map(a=>'<a href="'+a[3]+'"><span class="ic">'+P.icon(a[0])+'</span><span><b>'+a[1]+'</b><small>'+a[2]+'</small></span><span class="ar">'+P.icon('arrow','sm')+'</span></a>').join('')+'</div>'+
+    '</div>'+
+    '<div id="examSec" style="margin-top:30px">'+examSection()+'</div>'+groupsHTML();
+    bind();
+  }
+  function bind(){
+    const q=document.getElementById('q');
+    q.addEventListener('keydown',e=>{ if(e.key==='Enter'&&q.value.trim()) location.href='/tests?q='+encodeURIComponent(q.value.trim()); });
+    wire();
+  }
+  function wire(){
+    const sel=document.getElementById('examSel');
+    if(sel) sel.addEventListener('change',()=>{ selExam=sel.value; tab='all'; redraw(); });
+    const tabs=document.getElementById('tabs');
+    if(tabs) tabs.addEventListener('click',e=>{ const b=e.target.closest('button'); if(b){ tab=b.dataset.t; redraw(); } });
+  }
+  function redraw(){ document.getElementById('examSec').innerHTML=examSection(); wire(); }
+  render();
+})();
 </script>
 </body>
 </html>
