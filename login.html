@@ -75,7 +75,7 @@
     <script>
     (function(){
       try{
-        if(new URLSearchParams(window.location.search).get('next')==='dashboard'){
+        if(new URLSearchParams(window.location.search).get('next')){
           document.getElementById('gateNote').style.display='block';
         }
       }catch(e){}
@@ -201,21 +201,29 @@ async function handleLogin() {
 
   successMsg.textContent = 'Login successful! Redirecting...';
   successMsg.style.display = 'block';
-  // Where to go after login: back where they came from, else the homepage.
-  const nextParam = new URLSearchParams(window.location.search).get('next');
-  const dest = nextParam === 'dashboard' ? '/dashboard' : '/';
-  setTimeout(() => { window.location.href = dest; }, 800);
+  setTimeout(() => { window.location.href = safeNext(); }, 800);
+}
+
+// Where to go after login: the "next" page if it is a safe internal path, else the dashboard.
+function safeNext(){
+  const raw = new URLSearchParams(window.location.search).get('next');
+  if(!raw) return '/dashboard';
+  // decode once, strip any leading slashes, allow only known internal pages
+  let p = decodeURIComponent(raw).replace(/^\/+/, '');
+  // block anything that looks external or has a scheme
+  if(/^https?:|:\/\/|^\/\//i.test(p)) return '/dashboard';
+  const allowed = ['dashboard','test','pyqs','cat-previous-year-paper'];
+  const base = p.split('?')[0].split('/')[0];
+  if(allowed.indexOf(base) === -1) return '/dashboard';
+  return '/' + p;
 }
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
 
 
-// If already logged in, go to dashboard
+// If already logged in, go straight to the intended page
 supabase.auth.getSession().then(( { data: { session } }) => {
-  if (session) {
-    const np = new URLSearchParams(window.location.search).get('next');
-    window.location.href = np === 'dashboard' ? '/dashboard' : '/';
-  }
+  if (session) { window.location.href = safeNext(); }
 });
 </script>
 </body>

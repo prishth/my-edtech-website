@@ -160,7 +160,10 @@ async function handleSignup() {
   successMsg.style.display = 'block';
   btn.textContent = 'Account Created!';
 
-  setTimeout(() => { window.location.href = '/login'; }, 3000);
+  // carry the "next" destination through to login so they land where they intended
+  var nx = new URLSearchParams(window.location.search).get('next');
+  var loginUrl = nx ? ('/login?next=' + encodeURIComponent(nx)) : '/login';
+  setTimeout(() => { window.location.href = loginUrl; }, 3000);
 }
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSignup(); });

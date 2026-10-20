@@ -59,7 +59,9 @@ h1{font-family:'Sora',sans-serif;font-size:28px;color:var(--navy);margin-bottom:
   <div class="right">
     <a href="/pyqs">PYQs</a>
     <span id="userEmail"></span>
-    <button class="logout" id="logoutBtn">Log out</button>
+    <button class="logout" id="logoutBtn" style="display:none">Log out</button>
+    <a id="loginLink" href="/login?next=dashboard" style="display:none;color:#cfe0f0;text-decoration:none;font-weight:600">Log in</a>
+    <a id="signupLink" href="/signup?next=dashboard" class="logout" style="display:none;text-decoration:none">Sign Up Free</a>
   </div>
 </nav>
 <div class="wrap">
@@ -73,8 +75,15 @@ h1{font-family:'Sora',sans-serif;font-size:28px;color:var(--navy);margin-bottom:
 const sb=supabase.createClient("https://aqrxmcmmdazyslznilbl.supabase.co","sb_publishable_wRKj-veZ1_Ro-HSH8kXCFg_ifvjUD8L");
 async function init(){
   const {data:{session}}=await sb.auth.getSession();
-  if(!session){ window.location.href='/login?next=dashboard'; return; }
-  document.getElementById('userEmail').textContent=session.user.email;
+  const loggedIn = !!session;
+  // Top bar adapts to login state (browsing is open to everyone)
+  if(loggedIn){
+    document.getElementById('userEmail').textContent=session.user.email;
+    document.getElementById('logoutBtn').style.display='inline-block';
+  } else {
+    document.getElementById('loginLink').style.display='inline-block';
+    document.getElementById('signupLink').style.display='inline-block';
+  }
 
   // which view are we showing?
   const view=(new URLSearchParams(window.location.search).get('view')||'all').toLowerCase();
@@ -93,22 +102,35 @@ async function init(){
       const label={all:'All Tests',free:'Free Tests',purchased:'My Purchases'}[v];
       return '<a class="'+(v===view?'on':'')+'" href="/dashboard'+(v==='all'?'':'?view='+v)+'">'+label+'</a>';
     }).join('');
-  const [{data:tests},{data:questions},{data:attempts}]=await Promise.all([
-    sb.from('tests').select('*').eq('is_published',true).order('exam'),
-    sb.from('questions').select('test_id'),
-    sb.from('attempts').select('test_id,score,total_marks')
-  ]);
   const content=document.getElementById('content');
 
-  // Paid purchases are not built yet, so "My Purchases" is honestly empty
-  // rather than pretending. This becomes a real lookup once payments exist.
+  // "My Purchases" is personal, so it needs login.
   if(view==='purchased'){
+    if(!loggedIn){
+      content.innerHTML='<div class="empty"><div class="empty-icon">&#128274;</div>'+
+        '<h3>Please log in to see your purchases</h3>'+
+        '<p>Your purchased tests and study material appear here after you log in.</p>'+
+        '<a class="go" href="/login?next=dashboard%3Fview%3Dpurchased">Log in &rarr;</a></div>';
+      return;
+    }
+    // Paid purchases are not built yet, so this is honestly empty for now.
     content.innerHTML='<div class="empty"><div class="empty-icon">&#128274;</div>'+
       '<h3>Nothing purchased yet</h3>'+
       '<p>Paid mock tests and study material are on the way. When you buy something '+
       'it will appear here, ready to attempt.</p>'+
       '<a class="go" href="/dashboard?view=free">Browse free tests &rarr;</a></div>';
     return;
+  }
+
+  // Load tests + question counts for EVERYONE. Attempts (best scores) only if logged in.
+  const [{data:tests},{data:questions}]=await Promise.all([
+    sb.from('tests').select('*').eq('is_published',true).order('exam'),
+    sb.from('questions').select('test_id')
+  ]);
+  let attempts=[];
+  if(loggedIn){
+    const r=await sb.from('attempts').select('test_id,score,total_marks');
+    attempts=r.data||[];
   }
 
   let visible=tests||[];
@@ -143,7 +165,7 @@ async function init(){
         (t.is_free?'<span class="chip free">Free</span>':'<span class="chip">Paid</span>')+
         '</div>'+
         (att?'<span class="attempted-note">Best score: '+att.score+' / '+att.total_marks+'</span>':'')+
-        (nq>0?'<a class="start-btn" href="/test?id='+t.id+'">'+(att?'Re-attempt':'Start Test')+'</a>'
+        (nq>0?'<a class="start-btn" href="'+(loggedIn?('/test?id='+t.id):('/login?next=test%3Fid%3D'+t.id))+'">'+(loggedIn?(att?'Re-attempt':'Start Test'):'Log in to Attempt')+'</a>'
              :'<span class="start-btn" style="background:#ccc;cursor:not-allowed">No questions yet</span>')+
         '</div>';
     });
